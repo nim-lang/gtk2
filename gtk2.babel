@@ -1,7 +1,7 @@
 [Package]
 name: "gtk2"
-version: "VER"
-author: "FOO"
+version: "1.0"
+author: "Dominik Picheta"
 description: "Wrapper for gtk2, a feature rich toolkit for creating graphical user interfaces "
 license: "MIT"
 
