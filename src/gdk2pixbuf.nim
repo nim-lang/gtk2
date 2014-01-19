@@ -20,8 +20,10 @@ else:
     pixbuflib = "libgdk_pixbuf-2.0.so"
 type 
   PPixbuf* = pointer
-  PPixbufAnimation* = pointer
-  PPixbufAnimationIter* = pointer
+  TPixbufAnimation = object
+  PPixbufAnimation* = ptr TPixbufAnimation
+  TPixbufAnimationIter = object
+  PPixbufAnimationIter* = ptr TPixbufAnimationIter
   PPixbufAlphaMode* = ptr TPixbufAlphaMode
   TPixbufAlphaMode* = enum 
     PIXBUF_ALPHA_BILEVEL, PIXBUF_ALPHA_FULL

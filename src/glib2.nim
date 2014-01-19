@@ -2188,7 +2188,8 @@ proc g_thread_pool_get_num_unused_threads*(): guint{.cdecl, dynlib: gliblib,
 proc g_thread_pool_stop_unused_threads*(){.cdecl, dynlib: gliblib, 
     importc: "g_thread_pool_stop_unused_threads".}
 type 
-  PGTimer* = pointer
+  TGTimer = object
+  PGTimer* = ptr TGTimer
 
 const 
   G_USEC_PER_SEC* = 1000000
@@ -2375,8 +2376,8 @@ type
     str*: cstring
     len*: gsize
     allocated_len*: gsize
-
-  PGStringChunk* = pointer
+  TGStringChunk* = object
+  PGStringChunk* = ptr TGStringChunk
 
 proc g_string_chunk_new*(size: gsize): PGStringChunk{.cdecl, dynlib: gliblib, 
     importc: "g_string_chunk_new".}
@@ -2843,7 +2844,8 @@ proc prev_sibling*(node: PGNode): PGNode
 proc next_sibling*(node: PGNode): PGNode
 proc first_child*(node: PGNode): PGNode
 type 
-  PGTree* = pointer
+  TGTree = object
+  PGTree* = ptr TGTree
   TGTraverseFunc* = proc (key: gpointer, value: gpointer, data: gpointer): gboolean{.
       cdecl.}
 
@@ -2882,7 +2884,8 @@ proc height*(tree: PGTree): gint{.cdecl, dynlib: gliblib,
 proc nnodes*(tree: PGTree): gint{.cdecl, dynlib: gliblib, 
     importc: "g_tree_nnodes".}
 type 
-  PGPatternSpec* = pointer
+  TGPatternSpec = object
+  PGPatternSpec* = ptr TGPatternSpec
 
 proc g_pattern_spec_new*(pattern: cstring): PGPatternSpec{.cdecl, 
     dynlib: gliblib, importc: "g_pattern_spec_new".}
@@ -2936,7 +2939,8 @@ proc pop_head_link*(queue: PGQueue): PGList{.cdecl, dynlib: gliblib,
 proc pop_tail_link*(queue: PGQueue): PGList{.cdecl, dynlib: gliblib, 
     importc: "g_queue_pop_tail_link".}
 type 
-  PGRand* = pointer
+  TGRand = object
+  PGRand* = ptr TGRand
 
 proc g_rand_new*(seed: guint32): PGRand{.cdecl, dynlib: gliblib, 
     importc: "g_rand_new_with_seed".}
@@ -2968,7 +2972,8 @@ type
   TGTuples*{.final.} = object 
     len*: guint
 
-  PGRelation* = pointer
+  TGRelation = object
+  PGRelation* = ptr TGRelation
 
 proc g_relation_new*(fields: gint): PGRelation{.cdecl, dynlib: gliblib, 
     importc: "g_relation_new".}

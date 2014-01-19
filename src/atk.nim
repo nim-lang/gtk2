@@ -22,7 +22,8 @@ type
   PSelection* = pointer
   PStreamableContent* = pointer
   PTable* = pointer
-  PText* = pointer
+  TText = object
+  PText* = ptr TText
   PValue* = pointer
   PRelationSet* = ptr TRelationSet
   PStateSet* = ptr TStateSet

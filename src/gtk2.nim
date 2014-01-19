@@ -109,13 +109,17 @@ type
   TSortType* = int32
   PStyle* = ptr TStyle
   PPGtkTreeModel* = ptr PTreeModel
-  PTreeModel* = pointer
-  PTreePath* = pointer
+  TTreeModel = object
+  PTreeModel* = ptr TTreeModel
+  TTreePath = object
+  PTreePath* = ptr TTreePath
   PTreeIter* = ptr TTreeIter
   PSelectionData* = ptr TSelectionData
   PTextTagTable* = ptr TTextTagTable
-  PTextBTreeNode* = pointer
-  PTextBTree* = pointer
+  TTextBTreeNode = object
+  PTextBTreeNode* = ptr TTextBTreeNode
+  TTextBTree = object
+  PTextBTree* = ptr TTextBTree
   PTextLine* = ptr TTextLine
   PTreeViewColumn* = ptr TTreeViewColumn
   PTreeView* = ptr TTreeView
@@ -1660,7 +1664,8 @@ type
     origin*: cstring
     value*: TGValue
 
-  PIconSource* = pointer
+  TIconSource = object
+  PIconSource* = ptr TIconSource
   TRcPropertyParser* = proc (pspec: PGParamSpec, rc_string: PGString, 
                              property_value: PGValue): gboolean{.cdecl.}
   TStyle* = object of TGObject
@@ -3442,6 +3447,8 @@ type
   PVSeparatorClass* = ptr TVSeparatorClass
   TVSeparatorClass* = object of TSeparatorClass
 
+converter toTreeModel*(x: PListStore): PTreeModel = cast[PTreeModel](x)
+
 const 
   IN_DESTRUCTION* = 1 shl 0
   FLOATING* = 1 shl 1
@@ -3920,7 +3927,8 @@ proc border_width*(a: PContainer): guint
 proc need_resize*(a: PContainer): guint
 proc set_need_resize*(a: PContainer, `need_resize`: guint)
 proc resize_mode*(a: PContainer): guint
-proc set_resize_mode*(a: PContainer, `resize_mode`: guint)
+when false:
+  proc set_resize_mode*(a: PContainer, `resize_mode`: guint)
 proc reallocate_redraws*(a: PContainer): guint
 proc set_reallocate_redraws*(a: PContainer, `reallocate_redraws`: guint)
 proc has_focus_chain*(a: PContainer): guint
@@ -6439,7 +6447,7 @@ proc IS_HANDLE_BOX*(obj: pointer): bool
 proc IS_HANDLE_BOX_CLASS*(klass: pointer): bool
 proc HANDLE_BOX_GET_CLASS*(obj: pointer): PHandleBoxClass
 proc handle_position*(a: PHandleBox): guint
-proc set_handle_position*(a: PHandleBox, `handle_position`: guint)
+
 proc float_window_mapped*(a: PHandleBox): guint
 proc set_float_window_mapped*(a: PHandleBox, `float_window_mapped`: guint)
 proc child_detached*(a: PHandleBox): guint
@@ -6449,7 +6457,7 @@ proc set_in_drag*(a: PHandleBox, `in_drag`: guint)
 proc shrink_on_detach*(a: PHandleBox): guint
 proc set_shrink_on_detach*(a: PHandleBox, `shrink_on_detach`: guint)
 proc snap_edge*(a: PHandleBox): gint
-proc set_snap_edge*(a: PHandleBox, `snap_edge`: gint)
+
 proc handle_box_get_type*(): TType{.cdecl, dynlib: lib, 
                                     importc: "gtk_handle_box_get_type".}
 proc handle_box_new*(): PHandleBox{.cdecl, dynlib: lib, 
@@ -6468,24 +6476,24 @@ proc set_snap_edge*(handle_box: PHandleBox, edge: TPositionType){.
 proc get_snap_edge*(handle_box: PHandleBox): TPositionType{.cdecl, 
     dynlib: lib, importc: "gtk_handle_box_get_snap_edge".}
 const 
-  bm_TGtkPaned_position_set* = 0x0001'i16
-  bp_TGtkPaned_position_set* = 0'i16
-  bm_TGtkPaned_in_drag* = 0x0002'i16
-  bp_TGtkPaned_in_drag* = 1'i16
-  bm_TGtkPaned_child1_shrink* = 0x0004'i16
-  bp_TGtkPaned_child1_shrink* = 2'i16
-  bm_TGtkPaned_child1_resize* = 0x0008'i16
-  bp_TGtkPaned_child1_resize* = 3'i16
-  bm_TGtkPaned_child2_shrink* = 0x0010'i16
-  bp_TGtkPaned_child2_shrink* = 4'i16
-  bm_TGtkPaned_child2_resize* = 0x0020'i16
-  bp_TGtkPaned_child2_resize* = 5'i16
-  bm_TGtkPaned_orientation* = 0x0040'i16
-  bp_TGtkPaned_orientation* = 6'i16
-  bm_TGtkPaned_in_recursion* = 0x0080'i16
-  bp_TGtkPaned_in_recursion* = 7'i16
-  bm_TGtkPaned_handle_prelit* = 0x0100'i16
-  bp_TGtkPaned_handle_prelit* = 8'i16
+  bm_TGtkPaned_position_set = 0x0001'i16
+  bp_TGtkPaned_position_set = 0'i16
+  bm_TGtkPaned_in_drag = 0x0002'i16
+  bp_TGtkPaned_in_drag = 1'i16
+  bm_TGtkPaned_child1_shrink = 0x0004'i16
+  bp_TGtkPaned_child1_shrink = 2'i16
+  bm_TGtkPaned_child1_resize = 0x0008'i16
+  bp_TGtkPaned_child1_resize = 3'i16
+  bm_TGtkPaned_child2_shrink = 0x0010'i16
+  bp_TGtkPaned_child2_shrink = 4'i16
+  bm_TGtkPaned_child2_resize = 0x0020'i16
+  bp_TGtkPaned_child2_resize = 5'i16
+  bm_TGtkPaned_orientation = 0x0040'i16
+  bp_TGtkPaned_orientation = 6'i16
+  bm_TGtkPaned_in_recursion = 0x0080'i16
+  bp_TGtkPaned_in_recursion = 7'i16
+  bm_TGtkPaned_handle_prelit = 0x0100'i16
+  bp_TGtkPaned_handle_prelit = 8'i16
 
 proc TYPE_PANED*(): GType
 proc PANED*(obj: pointer): PPaned
@@ -6921,7 +6929,7 @@ proc SCALE_GET_CLASS*(obj: pointer): PScaleClass
 proc draw_value*(a: PScale): guint
 proc set_draw_value*(a: PScale, `draw_value`: guint)
 proc value_pos*(a: PScale): guint
-proc set_value_pos*(a: PScale, `value_pos`: guint)
+
 proc scale_get_type*(): TType{.cdecl, dynlib: lib, importc: "gtk_scale_get_type".}
 proc set_digits*(scale: PScale, digits: gint){.cdecl, dynlib: lib, 
     importc: "gtk_scale_set_digits".}
@@ -7308,7 +7316,7 @@ proc IS_LIST*(obj: pointer): bool
 proc IS_LIST_CLASS*(klass: pointer): bool
 proc LIST_GET_CLASS*(obj: pointer): PListClass
 proc selection_mode*(a: PList): guint
-proc set_selection_mode*(a: PList, `selection_mode`: guint)
+
 proc drag_selection*(a: PList): guint
 proc set_drag_selection*(a: PList, `drag_selection`: guint)
 proc add_mode*(a: PList): guint
@@ -7743,7 +7751,7 @@ proc tab_pos*(a: PNotebook): guint
 proc scrollable*(a: PNotebook): guint
 proc set_scrollable*(a: PNotebook, `scrollable`: guint)
 proc in_child*(a: PNotebook): guint
-proc set_in_child*(a: PNotebook, `in_child`: guint)
+
 proc click_child*(a: PNotebook): guint
 proc set_click_child*(a: PNotebook, `click_child`: guint)
 proc button*(a: PNotebook): guint
@@ -8313,7 +8321,7 @@ proc IS_SPIN_BUTTON*(obj: pointer): bool
 proc IS_SPIN_BUTTON_CLASS*(klass: pointer): bool
 proc SPIN_BUTTON_GET_CLASS*(obj: pointer): PSpinButtonClass
 proc in_child*(a: PSpinButton): guint
-proc set_in_child*(a: PSpinButton, `in_child`: guint)
+
 proc click_child*(a: PSpinButton): guint
 proc set_click_child*(a: PSpinButton, `click_child`: guint)
 proc button*(a: PSpinButton): guint
@@ -8323,7 +8331,6 @@ proc set_need_timer*(a: PSpinButton, `need_timer`: guint)
 proc timer_calls*(a: PSpinButton): guint
 proc set_timer_calls*(a: PSpinButton, `timer_calls`: guint)
 proc digits*(a: PSpinButton): guint
-proc set_digits*(a: PSpinButton, `digits`: guint)
 proc numeric*(a: PSpinButton): guint
 proc set_numeric*(a: PSpinButton, `numeric`: guint)
 proc wrap*(a: PSpinButton): guint
@@ -9536,7 +9543,7 @@ const
 proc cursor_visible*(a: PTextLayout): guint
 proc set_cursor_visible*(a: PTextLayout, `cursor_visible`: guint)
 proc cursor_direction*(a: PTextLayout): gint
-proc set_cursor_direction*(a: PTextLayout, `cursor_direction`: gint)
+
 const 
   bm_TGtkTextCursorDisplay_is_strong* = 0x0001'i16
   bp_TGtkTextCursorDisplay_is_strong* = 0'i16
@@ -10019,7 +10026,7 @@ proc IS_ROOT_TREE*(obj: pointer): bool
 proc TREE_ROOT_TREE*(obj: pointer): PTree
 proc TREE_SELECTION_OLD*(obj: pointer): PGList
 proc selection_mode*(a: PTree): guint
-proc set_selection_mode*(a: PTree, `selection_mode`: guint)
+
 proc view_mode*(a: PTree): guint
 proc set_view_mode*(a: PTree, `view_mode`: guint)
 proc view_line*(a: PTree): guint
@@ -10874,11 +10881,12 @@ proc OBJECT_SET_FLAGS*(obj: pointer, flag: guint32) =
 proc OBJECT_UNSET_FLAGS*(obj: pointer, flag: guint32) = 
   gtk2.`OBJECT`(obj).flags = gtk2.`OBJECT`(obj).flags and not (flag)
 
-proc object_data_try_key*(`string`: cstring): TGQuark = 
-  result = g_quark_try_string(`string`)
+when false:
+  proc object_data_try_key*(`string`: cstring): TGQuark = 
+    result = g_quark_try_string(`string`)
 
-proc object_data_force_id*(`string`: cstring): TGQuark = 
-  result = g_quark_from_string(`string`)
+  proc object_data_force_id*(`string`: cstring): TGQuark = 
+    result = g_quark_from_string(`string`)
 
 proc CLASS_NAME*(`class`: pointer): cstring = 
   result = g_type_name(G_TYPE_FROM_CLASS(`class`))
@@ -11261,10 +11269,11 @@ proc resize_mode*(a: PContainer): guint =
   result = (a.Container_flag0 and bm_TGtkContainer_resize_mode) shr
       bp_TGtkContainer_resize_mode
 
-proc set_resize_mode*(a: PContainer, `resize_mode`: guint) = 
-  a.Containerflag0 = a.Containerflag0 or
-      ((`resize_mode` shl bp_TGtkContainer_resize_mode) and
-      bm_TGtkContainer_resize_mode)
+when false:
+  proc set_resize_mode*(a: PContainer, `resize_mode`: guint) = 
+    a.Containerflag0 = a.Containerflag0 or
+        ((`resize_mode` shl bp_TGtkContainer_resize_mode) and
+        bm_TGtkContainer_resize_mode)
 
 proc reallocate_redraws*(a: PContainer): guint = 
   result = (a.Containerflag0 and bm_TGtkContainer_reallocate_redraws) shr
@@ -13263,10 +13272,11 @@ proc handle_position*(a: PHandleBox): guint =
   result = (a.HandleBoxflag0 and bm_TGtkHandleBox_handle_position) shr
       bp_TGtkHandleBox_handle_position
 
-proc set_handle_position*(a: PHandleBox, `handle_position`: guint) = 
-  a.HandleBoxflag0 = a.HandleBoxflag0 or
-      (int16(`handle_position` shl bp_TGtkHandleBox_handle_position) and
-      bm_TGtkHandleBox_handle_position)
+when false:
+  proc set_handle_position*(a: PHandleBox, `handle_position`: guint) = 
+    a.HandleBoxflag0 = a.HandleBoxflag0 or
+        (int16(`handle_position` shl bp_TGtkHandleBox_handle_position) and
+        bm_TGtkHandleBox_handle_position)
 
 proc float_window_mapped*(a: PHandleBox): guint = 
   result = (a.HandleBoxflag0 and bm_TGtkHandleBox_float_window_mapped) shr
@@ -13308,10 +13318,11 @@ proc snap_edge*(a: PHandleBox): gint =
   result = (a.HandleBoxflag0 and bm_TGtkHandleBox_snap_edge) shr
       bp_TGtkHandleBox_snap_edge
 
-proc set_snap_edge*(a: PHandleBox, `snap_edge`: gint) = 
-  a.HandleBoxflag0 = a.HandleBoxflag0 or
-      (int16(`snap_edge` shl bp_TGtkHandleBox_snap_edge) and
-      bm_TGtkHandleBox_snap_edge)
+when false:
+  proc set_snap_edge*(a: PHandleBox, `snap_edge`: gint) = 
+    a.HandleBoxflag0 = a.HandleBoxflag0 or
+        (int16(`snap_edge` shl bp_TGtkHandleBox_snap_edge) and
+        bm_TGtkHandleBox_snap_edge)
 
 proc TYPE_PANED*(): GType = 
   result = paned_get_type()
@@ -13700,10 +13711,11 @@ proc value_pos*(a: PScale): guint =
   result = (a.Scaleflag0 and bm_TGtkScale_value_pos) shr
       bp_TGtkScale_value_pos
 
-proc set_value_pos*(a: PScale, `value_pos`: guint) = 
-  a.Scaleflag0 = a.Scaleflag0 or
-      (int16(`value_pos` shl bp_TGtkScale_value_pos) and
-      bm_TGtkScale_value_pos)
+when false:
+  proc set_value_pos*(a: PScale, `value_pos`: guint) = 
+    a.Scaleflag0 = a.Scaleflag0 or
+        (int16(`value_pos` shl bp_TGtkScale_value_pos) and
+        bm_TGtkScale_value_pos)
 
 proc TYPE_HSCALE*(): GType = 
   result = hscale_get_type()
@@ -14002,10 +14014,11 @@ proc selection_mode*(a: PList): guint =
   result = (a.Listflag0 and bm_TGtkList_selection_mode) shr
       bp_TGtkList_selection_mode
 
-proc set_selection_mode*(a: PList, `selection_mode`: guint) = 
-  a.Listflag0 = a.Listflag0 or
-      (int16(`selection_mode` shl bp_TGtkList_selection_mode) and
-      bm_TGtkList_selection_mode)
+when false:
+  proc set_selection_mode*(a: PList, `selection_mode`: guint) = 
+    a.Listflag0 = a.Listflag0 or
+        (int16(`selection_mode` shl bp_TGtkList_selection_mode) and
+        bm_TGtkList_selection_mode)
 
 proc drag_selection*(a: PList): guint = 
   result = (a.Listflag0 and bm_TGtkList_drag_selection) shr
@@ -14252,10 +14265,11 @@ proc in_child*(a: PNotebook): guint =
   result = (a.Notebookflag0 and bm_TGtkNotebook_in_child) shr
       bp_TGtkNotebook_in_child
 
-proc set_in_child*(a: PNotebook, `in_child`: guint) = 
-  a.Notebookflag0 = a.Notebookflag0 or
-      (int16(`in_child` shl bp_TGtkNotebook_in_child) and
-      bm_TGtkNotebook_in_child)
+when false:
+  proc set_in_child*(a: PNotebook, `in_child`: guint) = 
+    a.Notebookflag0 = a.Notebookflag0 or
+        (int16(`in_child` shl bp_TGtkNotebook_in_child) and
+        bm_TGtkNotebook_in_child)
 
 proc click_child*(a: PNotebook): guint = 
   result = (a.Notebookflag0 and bm_TGtkNotebook_click_child) shr
@@ -14874,10 +14888,11 @@ proc in_child*(a: PSpinButton): guint =
   result = (a.SpinButtonflag0 and bm_TGtkSpinButton_in_child) shr
       bp_TGtkSpinButton_in_child
 
-proc set_in_child*(a: PSpinButton, `in_child`: guint) = 
-  a.SpinButtonflag0 = a.SpinButtonflag0 or
-      ((`in_child` shl bp_TGtkSpinButton_in_child) and
-      bm_TGtkSpinButton_in_child)
+when false:
+  proc set_in_child*(a: PSpinButton, `in_child`: guint) = 
+    a.SpinButtonflag0 = a.SpinButtonflag0 or
+        ((`in_child` shl bp_TGtkSpinButton_in_child) and
+        bm_TGtkSpinButton_in_child)
 
 proc click_child*(a: PSpinButton): guint = 
   result = (a.SpinButtonflag0 and bm_TGtkSpinButton_click_child) shr
@@ -14918,9 +14933,10 @@ proc digits*(a: PSpinButton): guint =
   result = (a.SpinButtonflag0 and bm_TGtkSpinButton_digits) shr
       bp_TGtkSpinButton_digits
 
-proc set_digits*(a: PSpinButton, `digits`: guint) = 
-  a.SpinButtonflag0 = a.SpinButtonflag0 or
-      ((`digits` shl bp_TGtkSpinButton_digits) and bm_TGtkSpinButton_digits)
+when false:
+  proc set_digits*(a: PSpinButton, `digits`: guint) = 
+    a.SpinButtonflag0 = a.SpinButtonflag0 or
+        ((`digits` shl bp_TGtkSpinButton_digits) and bm_TGtkSpinButton_digits)
 
 proc numeric*(a: PSpinButton): guint = 
   result = (a.SpinButtonflag0 and bm_TGtkSpinButton_numeric) shr
@@ -15718,10 +15734,11 @@ proc cursor_direction*(a: PTextLayout): gint =
   result = (a.TextLayoutflag0 and bm_TGtkTextLayout_cursor_direction) shr
       bp_TGtkTextLayout_cursor_direction
 
-proc set_cursor_direction*(a: PTextLayout, `cursor_direction`: gint) = 
-  a.TextLayoutflag0 = a.TextLayoutflag0 or
-      (int16(`cursor_direction` shl bp_TGtkTextLayout_cursor_direction) and
-      bm_TGtkTextLayout_cursor_direction)
+when false:
+  proc set_cursor_direction*(a: PTextLayout, `cursor_direction`: gint) = 
+    a.TextLayoutflag0 = a.TextLayoutflag0 or
+        (int16(`cursor_direction` shl bp_TGtkTextLayout_cursor_direction) and
+        bm_TGtkTextLayout_cursor_direction)
 
 proc is_strong*(a: PTextCursorDisplay): guint = 
   result = (a.flag0 and bm_TGtkTextCursorDisplay_is_strong) shr
@@ -15990,10 +16007,11 @@ proc selection_mode*(a: PTree): guint =
   result = (a.Treeflag0 and bm_TGtkTree_selection_mode) shr
       bp_TGtkTree_selection_mode
 
-proc set_selection_mode*(a: PTree, `selection_mode`: guint) = 
-  a.Treeflag0 = a.Treeflag0 or
-      (int16(`selection_mode` shl bp_TGtkTree_selection_mode) and
-      bm_TGtkTree_selection_mode)
+when false:
+  proc set_selection_mode*(a: PTree, `selection_mode`: guint) = 
+    a.Treeflag0 = a.Treeflag0 or
+        (int16(`selection_mode` shl bp_TGtkTree_selection_mode) and
+        bm_TGtkTree_selection_mode)
 
 proc view_mode*(a: PTree): guint = 
   result = (a.Treeflag0 and bm_TGtkTree_view_mode) shr bp_TGtkTree_view_mode
