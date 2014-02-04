@@ -3664,7 +3664,7 @@ proc rgb_get_cmap*(): PColormap =
   result = nil                #gdk_rgb_get_colormap()
   
 proc TYPE_DISPLAY*(): GType = 
-  nil
+  discard
   #result = nil
   
 proc DISPLAY_OBJECT*(anObject: pointer): PDisplay = 

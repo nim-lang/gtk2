@@ -11151,16 +11151,16 @@ proc set_y_set*(a: PWidgetAuxInfo, `y_set`: guint) =
       bm_TGtkWidgetAuxInfo_y_set)
 
 proc widget_set_visual*(widget, visual: pointer) = 
-  if (Widget != nil) and (visual != nil): nil
+  if (Widget != nil) and (visual != nil): discard
   
 proc widget_push_visual*(visual: pointer) = 
-  if (visual != nil): nil
+  if (visual != nil): discard
   
 proc widget_pop_visual*() = 
-  nil
+  discard
 
 proc widget_set_default_visual*(visual: pointer) = 
-  if (visual != nil): nil
+  if (visual != nil): discard
   
 proc widget_set_rc_style*(widget: pointer) = 
   set_style(cast[PWidget](widget), nil)
@@ -13422,10 +13422,10 @@ proc set_handle_prelit*(a: PPaned, `handle_prelit`: guint) =
       bm_TGtkPaned_handle_prelit)
 
 proc paned_gutter_size*(p: pointer, s: gint) = 
-  if (p != nil) and (s != 0'i32): nil
+  if (p != nil) and (s != 0'i32): discard
   
 proc paned_set_gutter_size*(p: pointer, s: gint) = 
-  if (p != nil) and (s != 0'i32): nil
+  if (p != nil) and (s != 0'i32): discard
   
 proc TYPE_HBUTTON_BOX*(): GType = 
   result = hbutton_box_get_type()
