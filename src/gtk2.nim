@@ -4456,6 +4456,8 @@ proc set_value*(adjustment: PAdjustment, value: gdouble){.cdecl,
     dynlib: lib, importc: "gtk_adjustment_set_value".}
 proc get_upper*(adjustment: PAdjustment): gdouble{.cdecl, 
     dynlib: lib, importc: "gtk_adjustment_get_upper".}
+proc set_upper*(adjustment: PAdjustment, val: gdouble){.cdecl,
+    dynlib: lib, importc: "gtk_adjustment_set_upper".}
 proc get_page_size*(adjustment: PAdjustment): gdouble{.cdecl, 
     dynlib: lib, importc: "gtk_adjustment_get_page_size".}
 proc TYPE_ALIGNMENT*(): GType
