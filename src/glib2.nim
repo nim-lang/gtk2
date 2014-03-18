@@ -4543,3 +4543,6 @@ proc g_source_remove*(tag: guint): gboolean {.
 
 proc g_signal_emit_by_name*(instance: gpointer, detailed_signal: cstring) {.
   cdecl, varargs, dynlib: gobjectlib, importc.}
+
+proc g_object_new*(object_type: GType, first_property_name: cstring): PGObject {.
+  cdecl, varargs, dynlib: gobjectlib, importc.}
