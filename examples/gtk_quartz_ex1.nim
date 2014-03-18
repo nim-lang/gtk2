@@ -1,4 +1,7 @@
-import 
+# This example shows how to use the GTK-Quartz Mac integration.
+# Only compiles on OSX, obviously. Use -d:gtk_quartz when compiling.
+
+import
   glib2, gtk2, gtkmacintegration, os
 
 proc destroy(widget: pWidget, data: pgpointer) {.cdecl.} =

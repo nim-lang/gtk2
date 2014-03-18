@@ -7,7 +7,7 @@ export gbool, toBool
 when defined(win32): 
   const 
     lib = "libgtk-win32-2.0-0.dll"
-elif defined(macosx_quartz):
+elif defined(gtk_quartz):
   const
     lib = "libgtk-quartz-2.0.0.dylib"
 elif defined(macosx): 

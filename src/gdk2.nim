@@ -5,7 +5,7 @@ import
 when defined(win32): 
   const 
     lib = "libgdk-win32-2.0-0.dll"
-elif defined(macosx_quartz):
+elif defined(gtk_quartz):
   const
     lib = "libgdk-quartz-2.0.dylib"
 elif defined(macosx): 
