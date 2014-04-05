@@ -7116,6 +7116,8 @@ proc image_new_from_pixbuf*(pixbuf: gdk2pixbuf.PPixbuf): PImage{.cdecl, dynlib: 
     importc: "gtk_image_new_from_pixbuf".}
 proc image_new_from_stock*(stock_id: cstring, size: TIconSize): PImage{.cdecl, 
     dynlib: lib, importc: "gtk_image_new_from_stock".}
+proc image_new_from_icon_name*(filename: cstring, size: TIconSize): PImage{.cdecl, 
+    dynlib: lib, importc: "gtk_image_new_from_icon_name".}
 proc image_new_from_icon_set*(icon_set: PIconSet, size: TIconSize): PImage{.
     cdecl, dynlib: lib, importc: "gtk_image_new_from_icon_set".}
 proc image_new_from_animation*(animation: gdk2pixbuf.PPixbufAnimation): PImage{.cdecl, 
