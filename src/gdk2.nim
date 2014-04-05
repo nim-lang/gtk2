@@ -809,6 +809,8 @@ proc copy*(color: PColor): PColor{.cdecl, dynlib: lib,
 proc free*(color: PColor){.cdecl, dynlib: lib, importc: "gdk_color_free".}
 proc color_parse*(spec: cstring, color: PColor): gint{.cdecl, dynlib: lib, 
     importc: "gdk_color_parse".}
+proc to_string*(color: PColor): cstring{.cdecl, dynlib: lib, 
+    importc: "gdk_color_to_string".}
 proc hash*(colora: PColor): guint{.cdecl, dynlib: lib, 
     importc: "gdk_color_hash".}
 proc equal*(colora: PColor, colorb: PColor): gboolean{.cdecl, dynlib: lib, 
