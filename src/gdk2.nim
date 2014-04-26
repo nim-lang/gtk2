@@ -991,13 +991,13 @@ proc point*(drawable: PDrawable, gc: PGC, x: gint, y: gint){.cdecl,
     dynlib: lib, importc: "gdk_draw_point".}
 proc line*(drawable: PDrawable, gc: PGC, x1: gint, y1: gint, x2: gint, 
                 y2: gint){.cdecl, dynlib: lib, importc: "gdk_draw_line".}
-proc rectangle*(drawable: PDrawable, gc: PGC, filled: gint, x: gint, 
+proc rectangle*(drawable: PDrawable, gc: PGC, filled: bool, x: gint, 
                      y: gint, width: gint, height: gint){.cdecl, dynlib: lib, 
     importc: "gdk_draw_rectangle".}
-proc arc*(drawable: PDrawable, gc: PGC, filled: gint, x: gint, y: gint, 
+proc arc*(drawable: PDrawable, gc: PGC, filled: bool, x: gint, y: gint, 
                width: gint, height: gint, angle1: gint, angle2: gint){.cdecl, 
     dynlib: lib, importc: "gdk_draw_arc".}
-proc polygon*(drawable: PDrawable, gc: PGC, filled: gint, points: PPoint, 
+proc polygon*(drawable: PDrawable, gc: PGC, filled: bool, points: PPoint, 
                    npoints: gint){.cdecl, dynlib: lib, 
                                    importc: "gdk_draw_polygon".}
 proc drawable*(drawable: PDrawable, gc: PGC, src: PDrawable, xsrc: gint, 
