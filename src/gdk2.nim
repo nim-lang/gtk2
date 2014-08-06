@@ -2952,7 +2952,7 @@ proc set_sm_client_id*(display: PDisplay, sm_client_id: cstring){.cdecl,
 proc set_default_display*(display: PDisplay){.cdecl, dynlib: lib, 
     importc: "gdk_set_default_display".}
 proc get_default_display*(): PDisplay{.cdecl, dynlib: lib, 
-                                       importc: "gdk_get_default_display".}
+                                       importc: "gdk_display_get_default".}
 proc TYPE_SCREEN*(): GType
 proc SCREEN*(anObject: Pointer): PScreen
 proc SCREEN_CLASS*(klass: Pointer): PScreenClass
@@ -3005,7 +3005,7 @@ proc get_monitor_at_window*(screen: PScreen, window: PWindow): gint{.
 proc broadcast_client_message*(screen: PScreen, event: PEvent){.cdecl, 
     dynlib: lib, importc: "gdk_screen_broadcast_client_message".}
 proc get_default_screen*(): PScreen{.cdecl, dynlib: lib, 
-                                     importc: "gdk_get_default_screen".}
+                                     importc: "gdk_screen_get_default".}
 proc get_setting*(screen: PScreen, name: cstring, value: PGValue): gboolean{.
     cdecl, dynlib: lib, importc: "gdk_screen_get_setting".}
 proc SELECTION_PRIMARY*(): TAtom
