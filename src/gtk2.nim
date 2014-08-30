@@ -6134,6 +6134,10 @@ proc set_width_chars*(entry: PEntry, n_chars: gint){.cdecl, dynlib: lib,
     importc: "gtk_entry_set_width_chars".}
 proc get_width_chars*(entry: PEntry): gint{.cdecl, dynlib: lib, 
     importc: "gtk_entry_get_width_chars".}
+proc set_width_chars*(entry: PLabel, n_chars: gint){.cdecl, dynlib: lib, 
+    importc: "gtk_label_set_width_chars".}
+proc get_width_chars*(entry: PLabel): gint{.cdecl, dynlib: lib, 
+    importc: "gtk_label_get_width_chars".}
 proc set_text*(entry: PEntry, text: cstring){.cdecl, dynlib: lib, 
     importc: "gtk_entry_set_text".}
 proc get_text*(entry: PEntry): cstring{.cdecl, dynlib: lib, 
