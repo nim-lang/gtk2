@@ -10,6 +10,8 @@ proc destroy(widget: pWidget, data: pgpointer){.cdecl.} =
   main_quit()
 
 nimrod_init()
+### This is where the settings are happening for the boxes within the window ###
+
 var window = window_new(WINDOW_TOPLEVEL) # Box to divide window in 2 halves:
 var totalbox = vbox_new(true, 10)
 show(totalbox)   # A box for each half of the screen:
@@ -19,6 +21,8 @@ var vbox = vbox_new(true, 5)
 show(vbox)       # Put boxes in their halves
 pack_start(totalbox, hbox, true, true, 0)
 pack_start(totalbox, vbox, true, true, 0) # Now fill boxes with buttons.
+
+### This is where the settings part ends ###
 
 pack_start(hbox, newbutton("Button 1"), false, false, 0)
 pack_start(hbox, newbutton("Button 2"), false, false, 0)
