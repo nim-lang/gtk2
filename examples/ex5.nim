@@ -5,6 +5,7 @@ import
 proc destroy(widget: pWidget, data: pgpointer){.cdecl.} = 
   main_quit()
 
+# This function is used to close the window when clicking on the "Click me" button.
 proc widgetDestroy(w: PWidget) {.cdecl.} = 
   destroy(w)
 
