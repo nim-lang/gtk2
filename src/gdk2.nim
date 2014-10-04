@@ -746,7 +746,7 @@ type
     max_aspect*: gdouble
     win_gravity*: TGravity
 
-  PpointerHooks* = ptr TpointerHooks
+  PPointerHooks* = ptr TpointerHooks
   TpointerHooks*{.final, pure.} = object 
     get_pointer*: proc (window: PWindow, x: Pgint, y: Pgint, mask: PModifierType): PWindow{.
         cdecl.}
@@ -3343,7 +3343,7 @@ proc window_constrain_size*(geometry: PGeometry, flags: guint, width: gint,
 proc get_internal_paint_info*(window: PWindow, e: var PDrawable, 
                                      x_offset: Pgint, y_offset: Pgint){.cdecl, 
     dynlib: lib, importc: "gdk_window_get_internal_paint_info".}
-proc set_pointer_hooks*(new_hooks: PpointerHooks): PpointerHooks{.cdecl, 
+proc set_pointer_hooks*(new_hooks: PPointerHooks): PPointerHooks{.cdecl, 
     dynlib: lib, importc: "gdk_set_pointer_hooks".}
 proc get_default_root_window*(): PWindow{.cdecl, dynlib: lib, 
     importc: "gdk_get_default_root_window".}
