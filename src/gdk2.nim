@@ -746,8 +746,8 @@ type
     max_aspect*: gdouble
     win_gravity*: TGravity
 
-  PPointerHooks* = ptr TPointerHooks
-  TPointerHooks*{.final, pure.} = object 
+  PpointerHooks* = ptr TpointerHooks
+  TpointerHooks*{.final, pure.} = object 
     get_pointer*: proc (window: PWindow, x: Pgint, y: Pgint, mask: PModifierType): PWindow{.
         cdecl.}
     window_at_pointer*: proc (screen: PScreen, win_x: Pgint, win_y: Pgint): PWindow{.
@@ -920,11 +920,11 @@ const
   ACTION_ASK* = 1 shl 5
 
 proc TYPE_DRAG_CONTEXT*(): GType
-proc DRAG_CONTEXT*(anObject: Pointer): PDragContext
-proc DRAG_CONTEXT_CLASS*(klass: Pointer): PDragContextClass
-proc IS_DRAG_CONTEXT*(anObject: Pointer): bool
-proc IS_DRAG_CONTEXT_CLASS*(klass: Pointer): bool
-proc DRAG_CONTEXT_GET_CLASS*(obj: Pointer): PDragContextClass
+proc DRAG_CONTEXT*(anObject: pointer): PDragContext
+proc DRAG_CONTEXT_CLASS*(klass: pointer): PDragContextClass
+proc IS_DRAG_CONTEXT*(anObject: pointer): bool
+proc IS_DRAG_CONTEXT_CLASS*(klass: pointer): bool
+proc DRAG_CONTEXT_GET_CLASS*(obj: pointer): PDragContextClass
 proc drag_context_get_type*(): GType{.cdecl, dynlib: lib, 
                                       importc: "gdk_drag_context_get_type".}
 proc drag_context_new*(): PDragContext{.cdecl, dynlib: lib, 
@@ -966,11 +966,11 @@ proc EMPTY_REGION*(pReg: PRegion): bool
 proc REGION_NOT_EMPTY*(pReg: PRegion): bool
 proc region_INBOX*(r: TRegionBox, x, y: gint): bool
 proc TYPE_DRAWABLE*(): GType
-proc DRAWABLE*(anObject: Pointer): PDrawable
-proc DRAWABLE_CLASS*(klass: Pointer): PDrawableClass
-proc IS_DRAWABLE*(anObject: Pointer): bool
-proc IS_DRAWABLE_CLASS*(klass: Pointer): bool
-proc DRAWABLE_GET_CLASS*(obj: Pointer): PDrawableClass
+proc DRAWABLE*(anObject: pointer): PDrawable
+proc DRAWABLE_CLASS*(klass: pointer): PDrawableClass
+proc IS_DRAWABLE*(anObject: pointer): bool
+proc IS_DRAWABLE_CLASS*(klass: pointer): bool
+proc DRAWABLE_GET_CLASS*(obj: pointer): PDrawableClass
 proc drawable_get_type*(): GType{.cdecl, dynlib: lib, 
                                   importc: "gdk_drawable_get_type".}
 proc get_size*(drawable: PDrawable, width: Pgint, height: Pgint){.
@@ -1212,11 +1212,11 @@ const
   INCLUDE_INFERIORS* = 1
 
 proc TYPE_GC*(): GType
-proc GC*(anObject: Pointer): PGC
-proc GC_CLASS*(klass: Pointer): PGCClass
-proc IS_GC*(anObject: Pointer): bool
-proc IS_GC_CLASS*(klass: Pointer): bool
-proc GC_GET_CLASS*(obj: Pointer): PGCClass
+proc GC*(anObject: pointer): PGC
+proc GC_CLASS*(klass: pointer): PGCClass
+proc IS_GC*(anObject: pointer): bool
+proc IS_GC_CLASS*(klass: pointer): bool
+proc GC_GET_CLASS*(obj: pointer): PGCClass
 proc gc_get_type*(): GType{.cdecl, dynlib: lib, importc: "gdk_gc_get_type".}
 proc gc_new*(drawable: PDrawable): PGC{.cdecl, dynlib: lib, 
                                         importc: "gdk_gc_new".}
@@ -1273,11 +1273,11 @@ proc set_rgb_bg_color*(gc: PGC, color: PColor){.cdecl, dynlib: lib,
 proc get_screen*(gc: PGC): PScreen{.cdecl, dynlib: lib, 
                                        importc: "gdk_gc_get_screen".}
 proc TYPE_IMAGE*(): GType
-proc IMAGE*(anObject: Pointer): PImage
-proc IMAGE_CLASS*(klass: Pointer): PImageClass
-proc IS_IMAGE*(anObject: Pointer): bool
-proc IS_IMAGE_CLASS*(klass: Pointer): bool
-proc IMAGE_GET_CLASS*(obj: Pointer): PImageClass
+proc IMAGE*(anObject: pointer): PImage
+proc IMAGE_CLASS*(klass: pointer): PImageClass
+proc IS_IMAGE*(anObject: pointer): bool
+proc IS_IMAGE_CLASS*(klass: pointer): bool
+proc IMAGE_GET_CLASS*(obj: pointer): PImageClass
 proc image_get_type*(): GType{.cdecl, dynlib: lib, importc: "gdk_image_get_type".}
 proc image_new*(`type`: TImageType, visual: PVisual, width: gint, height: gint): PImage{.
     cdecl, dynlib: lib, importc: "gdk_image_new".}
@@ -1300,11 +1300,11 @@ const
   AXIS_LAST* = 7
 
 proc TYPE_DEVICE*(): GType
-proc DEVICE*(anObject: Pointer): PDevice
-proc DEVICE_CLASS*(klass: Pointer): PDeviceClass
-proc IS_DEVICE*(anObject: Pointer): bool
-proc IS_DEVICE_CLASS*(klass: Pointer): bool
-proc DEVICE_GET_CLASS*(obj: Pointer): PDeviceClass
+proc DEVICE*(anObject: pointer): PDevice
+proc DEVICE_CLASS*(klass: pointer): PDeviceClass
+proc IS_DEVICE*(anObject: pointer): bool
+proc IS_DEVICE_CLASS*(klass: pointer): bool
+proc DEVICE_GET_CLASS*(obj: pointer): PDeviceClass
 proc device_get_type*(): GType{.cdecl, dynlib: lib, 
                                 importc: "gdk_device_get_type".}
 proc set_source*(device: PDevice, source: TInputSource){.cdecl, 
@@ -1333,11 +1333,11 @@ proc input_set_extension_events*(window: PWindow, mask: gint,
 proc device_get_core_pointer*(): PDevice{.cdecl, dynlib: lib, 
     importc: "gdk_device_get_core_pointer".}
 proc TYPE_KEYMAP*(): GType
-proc KEYMAP*(anObject: Pointer): PKeymap
-proc KEYMAP_CLASS*(klass: Pointer): PKeymapClass
-proc IS_KEYMAP*(anObject: Pointer): bool
-proc IS_KEYMAP_CLASS*(klass: Pointer): bool
-proc KEYMAP_GET_CLASS*(obj: Pointer): PKeymapClass
+proc KEYMAP*(anObject: pointer): PKeymap
+proc KEYMAP_CLASS*(klass: pointer): PKeymapClass
+proc IS_KEYMAP*(anObject: pointer): bool
+proc IS_KEYMAP_CLASS*(klass: pointer): bool
+proc KEYMAP_GET_CLASS*(obj: pointer): PKeymapClass
 proc keymap_get_type*(): GType{.cdecl, dynlib: lib, 
                                 importc: "gdk_keymap_get_type".}
 proc keymap_get_for_display*(display: PDisplay): PKeymap{.cdecl, dynlib: lib, 
@@ -1620,36 +1620,36 @@ const
   KEY_Overlay1_Enable* = 0x0000FE78
   KEY_Overlay2_Enable* = 0x0000FE79
   KEY_AudibleBell_Enable* = 0x0000FE7A
-  KEY_Pointer_Left* = 0x0000FEE0
-  KEY_Pointer_Right* = 0x0000FEE1
-  KEY_Pointer_Up* = 0x0000FEE2
-  KEY_Pointer_Down* = 0x0000FEE3
-  KEY_Pointer_UpLeft* = 0x0000FEE4
-  KEY_Pointer_UpRight* = 0x0000FEE5
-  KEY_Pointer_DownLeft* = 0x0000FEE6
-  KEY_Pointer_DownRight* = 0x0000FEE7
-  KEY_Pointer_Button_Dflt* = 0x0000FEE8
-  KEY_Pointer_Button1* = 0x0000FEE9
-  KEY_Pointer_Button2* = 0x0000FEEA
-  KEY_Pointer_Button3* = 0x0000FEEB
-  KEY_Pointer_Button4* = 0x0000FEEC
-  KEY_Pointer_Button5* = 0x0000FEED
-  KEY_Pointer_DblClick_Dflt* = 0x0000FEEE
-  KEY_Pointer_DblClick1* = 0x0000FEEF
-  KEY_Pointer_DblClick2* = 0x0000FEF0
-  KEY_Pointer_DblClick3* = 0x0000FEF1
-  KEY_Pointer_DblClick4* = 0x0000FEF2
-  KEY_Pointer_DblClick5* = 0x0000FEF3
-  KEY_Pointer_Drag_Dflt* = 0x0000FEF4
-  KEY_Pointer_Drag1* = 0x0000FEF5
-  KEY_Pointer_Drag2* = 0x0000FEF6
-  KEY_Pointer_Drag3* = 0x0000FEF7
-  KEY_Pointer_Drag4* = 0x0000FEF8
-  KEY_Pointer_Drag5* = 0x0000FEFD
-  KEY_Pointer_EnableKeys* = 0x0000FEF9
-  KEY_Pointer_Accelerate* = 0x0000FEFA
-  KEY_Pointer_DfltBtnNext* = 0x0000FEFB
-  KEY_Pointer_DfltBtnPrev* = 0x0000FEFC
+  KEY_pointer_Left* = 0x0000FEE0
+  KEY_pointer_Right* = 0x0000FEE1
+  KEY_pointer_Up* = 0x0000FEE2
+  KEY_pointer_Down* = 0x0000FEE3
+  KEY_pointer_UpLeft* = 0x0000FEE4
+  KEY_pointer_UpRight* = 0x0000FEE5
+  KEY_pointer_DownLeft* = 0x0000FEE6
+  KEY_pointer_DownRight* = 0x0000FEE7
+  KEY_pointer_Button_Dflt* = 0x0000FEE8
+  KEY_pointer_Button1* = 0x0000FEE9
+  KEY_pointer_Button2* = 0x0000FEEA
+  KEY_pointer_Button3* = 0x0000FEEB
+  KEY_pointer_Button4* = 0x0000FEEC
+  KEY_pointer_Button5* = 0x0000FEED
+  KEY_pointer_DblClick_Dflt* = 0x0000FEEE
+  KEY_pointer_DblClick1* = 0x0000FEEF
+  KEY_pointer_DblClick2* = 0x0000FEF0
+  KEY_pointer_DblClick3* = 0x0000FEF1
+  KEY_pointer_DblClick4* = 0x0000FEF2
+  KEY_pointer_DblClick5* = 0x0000FEF3
+  KEY_pointer_Drag_Dflt* = 0x0000FEF4
+  KEY_pointer_Drag1* = 0x0000FEF5
+  KEY_pointer_Drag2* = 0x0000FEF6
+  KEY_pointer_Drag3* = 0x0000FEF7
+  KEY_pointer_Drag4* = 0x0000FEF8
+  KEY_pointer_Drag5* = 0x0000FEFD
+  KEY_pointer_EnableKeys* = 0x0000FEF9
+  KEY_pointer_Accelerate* = 0x0000FEFA
+  KEY_pointer_DfltBtnNext* = 0x0000FEFB
+  KEY_pointer_DfltBtnPrev* = 0x0000FEFC
   KEY_3270_Duplicate* = 0x0000FD01
   KEY_3270_FieldMark* = 0x0000FD02
   KEY_3270_Right2* = 0x0000FD03
@@ -2760,12 +2760,12 @@ proc get_from_image*(dest: PPixbuf, src: PImage, cmap: PColormap,
                             dest_y: int32, width: int32, height: int32): PPixbuf{.
     cdecl, dynlib: lib, importc: "gdk_pixbuf_get_from_image".}
 proc TYPE_PIXMAP*(): GType
-proc PIXMAP*(anObject: Pointer): PPixmap
-proc PIXMAP_CLASS*(klass: Pointer): PPixmapObjectClass
-proc IS_PIXMAP*(anObject: Pointer): bool
-proc IS_PIXMAP_CLASS*(klass: Pointer): bool
-proc PIXMAP_GET_CLASS*(obj: Pointer): PPixmapObjectClass
-proc PIXMAP_OBJECT*(anObject: Pointer): PPixmapObject
+proc PIXMAP*(anObject: pointer): PPixmap
+proc PIXMAP_CLASS*(klass: pointer): PPixmapObjectClass
+proc IS_PIXMAP*(anObject: pointer): bool
+proc IS_PIXMAP_CLASS*(klass: pointer): bool
+proc PIXMAP_GET_CLASS*(obj: pointer): PPixmapObjectClass
+proc PIXMAP_OBJECT*(anObject: pointer): PPixmapObject
 proc pixmap_get_type*(): GType{.cdecl, dynlib: lib, 
                                 importc: "gdk_pixmap_get_type".}
 proc pixmap_new*(window: PWindow, width: gint, height: gint, depth: gint): PPixmap{.
@@ -2954,11 +2954,11 @@ proc set_default_display*(display: PDisplay){.cdecl, dynlib: lib,
 proc get_default_display*(): PDisplay{.cdecl, dynlib: lib, 
                                        importc: "gdk_display_get_default".}
 proc TYPE_SCREEN*(): GType
-proc SCREEN*(anObject: Pointer): PScreen
-proc SCREEN_CLASS*(klass: Pointer): PScreenClass
-proc IS_SCREEN*(anObject: Pointer): bool
-proc IS_SCREEN_CLASS*(klass: Pointer): bool
-proc SCREEN_GET_CLASS*(obj: Pointer): PScreenClass
+proc SCREEN*(anObject: pointer): PScreen
+proc SCREEN_CLASS*(klass: pointer): PScreenClass
+proc IS_SCREEN*(anObject: pointer): bool
+proc IS_SCREEN_CLASS*(klass: pointer): bool
+proc SCREEN_GET_CLASS*(obj: pointer): PScreenClass
 proc get_default_colormap*(screen: PScreen): PColormap{.cdecl, 
     dynlib: lib, importc: "gdk_screen_get_default_colormap".}
 proc set_default_colormap*(screen: PScreen, colormap: PColormap){.cdecl, 
@@ -3072,16 +3072,16 @@ const
   GRAB_NOT_VIEWABLE* = 3
   GRAB_FROZEN* = 4
 
-proc ATOM_TO_POINTER*(atom: TAtom): Pointer
-proc POINTER_TO_ATOM*(p: Pointer): TAtom
+proc ATOM_TO_POINTER*(atom: TAtom): pointer
+proc POINTER_TO_ATOM*(p: pointer): TAtom
 proc `MAKE_ATOM`*(val: guint): TAtom
 proc NONE*(): TAtom
 proc TYPE_VISUAL*(): GType
-proc VISUAL*(anObject: Pointer): PVisual
-proc VISUAL_CLASS*(klass: Pointer): PVisualClass
-proc IS_VISUAL*(anObject: Pointer): bool
-proc IS_VISUAL_CLASS*(klass: Pointer): bool
-proc VISUAL_GET_CLASS*(obj: Pointer): PVisualClass
+proc VISUAL*(anObject: pointer): PVisual
+proc VISUAL_CLASS*(klass: pointer): PVisualClass
+proc IS_VISUAL*(anObject: pointer): bool
+proc IS_VISUAL_CLASS*(klass: pointer): bool
+proc VISUAL_GET_CLASS*(obj: pointer): PVisualClass
 proc visual_get_type*(): GType{.cdecl, dynlib: lib, 
                                 importc: "gdk_visual_get_type".}
 const 
@@ -3127,12 +3127,12 @@ const
   GRAVITY_STATIC* = 10
 
 proc TYPE_WINDOW*(): GType
-proc WINDOW*(anObject: Pointer): PWindow
-proc WINDOW_CLASS*(klass: Pointer): PWindowObjectClass
-proc IS_WINDOW*(anObject: Pointer): bool
-proc IS_WINDOW_CLASS*(klass: Pointer): bool
-proc WINDOW_GET_CLASS*(obj: Pointer): PWindowObjectClass
-proc WINDOW_OBJECT*(anObject: Pointer): PWindowObject
+proc WINDOW*(anObject: pointer): PWindow
+proc WINDOW_CLASS*(klass: pointer): PWindowObjectClass
+proc IS_WINDOW*(anObject: pointer): bool
+proc IS_WINDOW_CLASS*(klass: pointer): bool
+proc WINDOW_GET_CLASS*(obj: pointer): PWindowObjectClass
+proc WINDOW_OBJECT*(anObject: pointer): PWindowObject
 const 
   bm_TWindowObject_guffaw_gravity* = 0x0001'i16
   bp_TWindowObject_guffaw_gravity* = 0'i16
@@ -3343,7 +3343,7 @@ proc window_constrain_size*(geometry: PGeometry, flags: guint, width: gint,
 proc get_internal_paint_info*(window: PWindow, e: var PDrawable, 
                                      x_offset: Pgint, y_offset: Pgint){.cdecl, 
     dynlib: lib, importc: "gdk_window_get_internal_paint_info".}
-proc set_pointer_hooks*(new_hooks: PPointerHooks): PPointerHooks{.cdecl, 
+proc set_pointer_hooks*(new_hooks: PpointerHooks): PpointerHooks{.cdecl, 
     dynlib: lib, importc: "gdk_set_pointer_hooks".}
 proc get_default_root_window*(): PWindow{.cdecl, dynlib: lib, 
     importc: "gdk_get_default_root_window".}
@@ -3456,21 +3456,21 @@ proc TYPE_CURSOR*(): GType =
 proc TYPE_DRAG_CONTEXT*(): GType = 
   result = drag_context_get_type()
 
-proc DRAG_CONTEXT*(anObject: Pointer): PDragContext = 
+proc DRAG_CONTEXT*(anObject: pointer): PDragContext = 
   result = cast[PDragContext](G_TYPE_CHECK_INSTANCE_CAST(anObject, 
       TYPE_DRAG_CONTEXT()))
 
-proc DRAG_CONTEXT_CLASS*(klass: Pointer): PDragContextClass = 
+proc DRAG_CONTEXT_CLASS*(klass: pointer): PDragContextClass = 
   result = cast[PDragContextClass](G_TYPE_CHECK_CLASS_CAST(klass, 
       TYPE_DRAG_CONTEXT()))
 
-proc IS_DRAG_CONTEXT*(anObject: Pointer): bool = 
+proc IS_DRAG_CONTEXT*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_DRAG_CONTEXT())
 
-proc IS_DRAG_CONTEXT_CLASS*(klass: Pointer): bool = 
+proc IS_DRAG_CONTEXT_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_DRAG_CONTEXT())
 
-proc DRAG_CONTEXT_GET_CLASS*(obj: Pointer): PDragContextClass = 
+proc DRAG_CONTEXT_GET_CLASS*(obj: pointer): PDragContextClass = 
   result = cast[PDragContextClass](G_TYPE_INSTANCE_GET_CLASS(obj, 
       TYPE_DRAG_CONTEXT()))
 
@@ -3523,19 +3523,19 @@ proc region_INBOX*(r: TRegionBox, x, y: gint): bool =
 proc TYPE_DRAWABLE*(): GType = 
   result = drawable_get_type()
 
-proc DRAWABLE*(anObject: Pointer): PDrawable = 
+proc DRAWABLE*(anObject: pointer): PDrawable = 
   result = cast[PDrawable](G_TYPE_CHECK_INSTANCE_CAST(anObject, TYPE_DRAWABLE()))
 
-proc DRAWABLE_CLASS*(klass: Pointer): PDrawableClass = 
+proc DRAWABLE_CLASS*(klass: pointer): PDrawableClass = 
   result = cast[PDrawableClass](G_TYPE_CHECK_CLASS_CAST(klass, TYPE_DRAWABLE()))
 
-proc IS_DRAWABLE*(anObject: Pointer): bool = 
+proc IS_DRAWABLE*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_DRAWABLE())
 
-proc IS_DRAWABLE_CLASS*(klass: Pointer): bool = 
+proc IS_DRAWABLE_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_DRAWABLE())
 
-proc DRAWABLE_GET_CLASS*(obj: Pointer): PDrawableClass = 
+proc DRAWABLE_GET_CLASS*(obj: pointer): PDrawableClass = 
   result = cast[PDrawableClass](G_TYPE_INSTANCE_GET_CLASS(obj, TYPE_DRAWABLE()))
 
 proc pixmap*(drawable: PDrawable, gc: PGC, src: PDrawable, xsrc: gint, 
@@ -3557,19 +3557,19 @@ proc TYPE_FONT*(): GType =
 proc TYPE_GC*(): GType = 
   result = gc_get_type()
 
-proc GC*(anObject: Pointer): PGC = 
+proc GC*(anObject: pointer): PGC = 
   result = cast[PGC](G_TYPE_CHECK_INSTANCE_CAST(anObject, TYPE_GC()))
 
-proc GC_CLASS*(klass: Pointer): PGCClass = 
+proc GC_CLASS*(klass: pointer): PGCClass = 
   result = cast[PGCClass](G_TYPE_CHECK_CLASS_CAST(klass, TYPE_GC()))
 
-proc IS_GC*(anObject: Pointer): bool = 
+proc IS_GC*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_GC())
 
-proc IS_GC_CLASS*(klass: Pointer): bool = 
+proc IS_GC_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_GC())
 
-proc GC_GET_CLASS*(obj: Pointer): PGCClass = 
+proc GC_GET_CLASS*(obj: pointer): PGCClass = 
   result = cast[PGCClass](G_TYPE_INSTANCE_GET_CLASS(obj, TYPE_GC()))
 
 proc destroy*(gc: PGC) = 
@@ -3578,19 +3578,19 @@ proc destroy*(gc: PGC) =
 proc TYPE_IMAGE*(): GType = 
   result = image_get_type()
 
-proc IMAGE*(anObject: Pointer): PImage = 
+proc IMAGE*(anObject: pointer): PImage = 
   result = cast[PImage](G_TYPE_CHECK_INSTANCE_CAST(anObject, TYPE_IMAGE()))
 
-proc IMAGE_CLASS*(klass: Pointer): PImageClass = 
+proc IMAGE_CLASS*(klass: pointer): PImageClass = 
   result = cast[PImageClass](G_TYPE_CHECK_CLASS_CAST(klass, TYPE_IMAGE()))
 
-proc IS_IMAGE*(anObject: Pointer): bool = 
+proc IS_IMAGE*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_IMAGE())
 
-proc IS_IMAGE_CLASS*(klass: Pointer): bool = 
+proc IS_IMAGE_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_IMAGE())
 
-proc IMAGE_GET_CLASS*(obj: Pointer): PImageClass = 
+proc IMAGE_GET_CLASS*(obj: pointer): PImageClass = 
   result = cast[PImageClass](G_TYPE_INSTANCE_GET_CLASS(obj, TYPE_IMAGE()))
 
 proc destroy*(image: PImage) = 
@@ -3599,58 +3599,58 @@ proc destroy*(image: PImage) =
 proc TYPE_DEVICE*(): GType = 
   result = device_get_type()
 
-proc DEVICE*(anObject: Pointer): PDevice = 
+proc DEVICE*(anObject: pointer): PDevice = 
   result = cast[PDevice](G_TYPE_CHECK_INSTANCE_CAST(anObject, TYPE_DEVICE()))
 
-proc DEVICE_CLASS*(klass: Pointer): PDeviceClass = 
+proc DEVICE_CLASS*(klass: pointer): PDeviceClass = 
   result = cast[PDeviceClass](G_TYPE_CHECK_CLASS_CAST(klass, TYPE_DEVICE()))
 
-proc IS_DEVICE*(anObject: Pointer): bool = 
+proc IS_DEVICE*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_DEVICE())
 
-proc IS_DEVICE_CLASS*(klass: Pointer): bool = 
+proc IS_DEVICE_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_DEVICE())
 
-proc DEVICE_GET_CLASS*(obj: Pointer): PDeviceClass = 
+proc DEVICE_GET_CLASS*(obj: pointer): PDeviceClass = 
   result = cast[PDeviceClass](G_TYPE_INSTANCE_GET_CLASS(obj, TYPE_DEVICE()))
 
 proc TYPE_KEYMAP*(): GType = 
   result = keymap_get_type()
 
-proc KEYMAP*(anObject: Pointer): PKeymap = 
+proc KEYMAP*(anObject: pointer): PKeymap = 
   result = cast[PKeymap](G_TYPE_CHECK_INSTANCE_CAST(anObject, TYPE_KEYMAP()))
 
-proc KEYMAP_CLASS*(klass: Pointer): PKeymapClass = 
+proc KEYMAP_CLASS*(klass: pointer): PKeymapClass = 
   result = cast[PKeymapClass](G_TYPE_CHECK_CLASS_CAST(klass, TYPE_KEYMAP()))
 
-proc IS_KEYMAP*(anObject: Pointer): bool = 
+proc IS_KEYMAP*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_KEYMAP())
 
-proc IS_KEYMAP_CLASS*(klass: Pointer): bool = 
+proc IS_KEYMAP_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_KEYMAP())
 
-proc KEYMAP_GET_CLASS*(obj: Pointer): PKeymapClass = 
+proc KEYMAP_GET_CLASS*(obj: pointer): PKeymapClass = 
   result = cast[PKeymapClass](G_TYPE_INSTANCE_GET_CLASS(obj, TYPE_KEYMAP()))
 
 proc TYPE_PIXMAP*(): GType = 
   result = pixmap_get_type()
 
-proc PIXMAP*(anObject: Pointer): PPixmap = 
+proc PIXMAP*(anObject: pointer): PPixmap = 
   result = cast[PPixmap](G_TYPE_CHECK_INSTANCE_CAST(anObject, TYPE_PIXMAP()))
 
-proc PIXMAP_CLASS*(klass: Pointer): PPixmapObjectClass = 
+proc PIXMAP_CLASS*(klass: pointer): PPixmapObjectClass = 
   result = cast[PPixmapObjectClass](G_TYPE_CHECK_CLASS_CAST(klass, TYPE_PIXMAP()))
 
-proc IS_PIXMAP*(anObject: Pointer): bool = 
+proc IS_PIXMAP*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_PIXMAP())
 
-proc IS_PIXMAP_CLASS*(klass: Pointer): bool = 
+proc IS_PIXMAP_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_PIXMAP())
 
-proc PIXMAP_GET_CLASS*(obj: Pointer): PPixmapObjectClass = 
+proc PIXMAP_GET_CLASS*(obj: pointer): PPixmapObjectClass = 
   result = cast[PPixmapObjectClass](G_TYPE_INSTANCE_GET_CLASS(obj, TYPE_PIXMAP()))
 
-proc PIXMAP_OBJECT*(anObject: Pointer): PPixmapObject = 
+proc PIXMAP_OBJECT*(anObject: pointer): PPixmapObject = 
   result = cast[PPixmapObject](PIXMAP(anObject))
 
 proc bitmap_ref*(drawable: PDrawable): PDrawable = 
@@ -3690,19 +3690,19 @@ proc DISPLAY_GET_CLASS*(obj: pointer): PDisplayClass =
 proc TYPE_SCREEN*(): GType = 
   nil
 
-proc SCREEN*(anObject: Pointer): PScreen = 
+proc SCREEN*(anObject: pointer): PScreen = 
   result = cast[PScreen](G_TYPE_CHECK_INSTANCE_CAST(anObject, TYPE_SCREEN()))
 
-proc SCREEN_CLASS*(klass: Pointer): PScreenClass = 
+proc SCREEN_CLASS*(klass: pointer): PScreenClass = 
   result = cast[PScreenClass](G_TYPE_CHECK_CLASS_CAST(klass, TYPE_SCREEN()))
 
-proc IS_SCREEN*(anObject: Pointer): bool = 
+proc IS_SCREEN*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_SCREEN())
 
-proc IS_SCREEN_CLASS*(klass: Pointer): bool = 
+proc IS_SCREEN_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_SCREEN())
 
-proc SCREEN_GET_CLASS*(obj: Pointer): PScreenClass = 
+proc SCREEN_GET_CLASS*(obj: pointer): PScreenClass = 
   result = cast[PScreenClass](G_TYPE_INSTANCE_GET_CLASS(obj, TYPE_SCREEN()))
 
 proc SELECTION_PRIMARY*(): TAtom = 
@@ -3754,9 +3754,9 @@ proc SELECTION_TYPE_STRING*(): TAtom =
   result = `MAKE_ATOM`(31)
 
 proc ATOM_TO_POINTER*(atom: TAtom): pointer = 
-  result = cast[Pointer](atom)
+  result = cast[pointer](atom)
 
-proc POINTER_TO_ATOM*(p: Pointer): TAtom = 
+proc POINTER_TO_ATOM*(p: pointer): TAtom = 
   result = cast[TAtom](p)
 
 proc `MAKE_ATOM`*(val: guint): TAtom = 
@@ -3768,19 +3768,19 @@ proc NONE*(): TAtom =
 proc TYPE_VISUAL*(): GType = 
   result = visual_get_type()
 
-proc VISUAL*(anObject: Pointer): PVisual = 
+proc VISUAL*(anObject: pointer): PVisual = 
   result = cast[PVisual](G_TYPE_CHECK_INSTANCE_CAST(anObject, TYPE_VISUAL()))
 
-proc VISUAL_CLASS*(klass: Pointer): PVisualClass = 
+proc VISUAL_CLASS*(klass: pointer): PVisualClass = 
   result = cast[PVisualClass](G_TYPE_CHECK_CLASS_CAST(klass, TYPE_VISUAL()))
 
-proc IS_VISUAL*(anObject: Pointer): bool = 
+proc IS_VISUAL*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_VISUAL())
 
-proc IS_VISUAL_CLASS*(klass: Pointer): bool = 
+proc IS_VISUAL_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_VISUAL())
 
-proc VISUAL_GET_CLASS*(obj: Pointer): PVisualClass = 
+proc VISUAL_GET_CLASS*(obj: pointer): PVisualClass = 
   result = cast[PVisualClass](G_TYPE_INSTANCE_GET_CLASS(obj, TYPE_VISUAL()))
 
 proc reference*(v: PVisual) = 
@@ -3792,22 +3792,22 @@ proc unref*(v: PVisual) =
 proc TYPE_WINDOW*(): GType = 
   result = window_object_get_type()
 
-proc WINDOW*(anObject: Pointer): PWindow = 
+proc WINDOW*(anObject: pointer): PWindow = 
   result = cast[PWindow](G_TYPE_CHECK_INSTANCE_CAST(anObject, TYPE_WINDOW()))
 
-proc WINDOW_CLASS*(klass: Pointer): PWindowObjectClass = 
+proc WINDOW_CLASS*(klass: pointer): PWindowObjectClass = 
   result = cast[PWindowObjectClass](G_TYPE_CHECK_CLASS_CAST(klass, TYPE_WINDOW()))
 
-proc IS_WINDOW*(anObject: Pointer): bool = 
+proc IS_WINDOW*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_WINDOW())
 
-proc IS_WINDOW_CLASS*(klass: Pointer): bool = 
+proc IS_WINDOW_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_WINDOW())
 
-proc WINDOW_GET_CLASS*(obj: Pointer): PWindowObjectClass = 
+proc WINDOW_GET_CLASS*(obj: pointer): PWindowObjectClass = 
   result = cast[PWindowObjectClass](G_TYPE_INSTANCE_GET_CLASS(obj, TYPE_WINDOW()))
 
-proc WINDOW_OBJECT*(anObject: Pointer): PWindowObject = 
+proc WINDOW_OBJECT*(anObject: pointer): PWindowObject = 
   result = cast[PWindowObject](WINDOW(anObject))
 
 proc WindowObject_guffaw_gravity*(a: PWindowObject): guint = 

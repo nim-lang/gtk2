@@ -612,8 +612,8 @@ proc get_approximate_digit_width*(metrics: PFontMetrics): int32{.
     cdecl, dynlib: lib, 
     importc: "pango_font_metrics_get_approximate_digit_width".}
 proc TYPE_FONT_FAMILY*(): GType
-proc FONT_FAMILY*(anObject: Pointer): PFontFamily
-proc IS_FONT_FAMILY*(anObject: Pointer): bool
+proc FONT_FAMILY*(anObject: pointer): PFontFamily
+proc IS_FONT_FAMILY*(anObject: pointer): bool
 proc font_family_get_type*(): GType{.cdecl, dynlib: lib, 
                                      importc: "pango_font_family_get_type".}
 proc list_faces*(family: PFontFamily, 
@@ -1058,14 +1058,14 @@ proc FONT_FAMILY*(anObject: pointer): PFontFamily =
   result = cast[PFontFamily](G_TYPE_CHECK_INSTANCE_CAST(anObject, 
       TYPE_FONT_FAMILY()))
 
-proc IS_FONT_FAMILY*(anObject: Pointer): bool = 
+proc IS_FONT_FAMILY*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_FONT_FAMILY())
 
-proc FONT_FAMILY_CLASS*(klass: Pointer): PFontFamilyClass = 
+proc FONT_FAMILY_CLASS*(klass: pointer): PFontFamilyClass = 
   result = cast[PFontFamilyClass](G_TYPE_CHECK_CLASS_CAST(klass, 
       TYPE_FONT_FAMILY()))
 
-proc IS_FONT_FAMILY_CLASS*(klass: Pointer): bool = 
+proc IS_FONT_FAMILY_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_FONT_FAMILY())
 
 proc GET_CLASS*(obj: PFontFamily): PFontFamilyClass = 
@@ -1075,34 +1075,34 @@ proc GET_CLASS*(obj: PFontFamily): PFontFamilyClass =
 proc TYPE_FONT_FACE*(): GType = 
   result = font_face_get_type()
 
-proc FONT_FACE*(anObject: Pointer): PFontFace = 
+proc FONT_FACE*(anObject: pointer): PFontFace = 
   result = cast[PFontFace](G_TYPE_CHECK_INSTANCE_CAST(anObject, TYPE_FONT_FACE()))
 
-proc IS_FONT_FACE*(anObject: Pointer): bool = 
+proc IS_FONT_FACE*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_FONT_FACE())
 
-proc FONT_FACE_CLASS*(klass: Pointer): PFontFaceClass = 
+proc FONT_FACE_CLASS*(klass: pointer): PFontFaceClass = 
   result = cast[PFontFaceClass](G_TYPE_CHECK_CLASS_CAST(klass, TYPE_FONT_FACE()))
 
-proc IS_FONT_FACE_CLASS*(klass: Pointer): bool = 
+proc IS_FONT_FACE_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_FONT_FACE())
 
-proc FONT_FACE_GET_CLASS*(obj: Pointer): PFontFaceClass = 
+proc FONT_FACE_GET_CLASS*(obj: pointer): PFontFaceClass = 
   result = cast[PFontFaceClass](G_TYPE_INSTANCE_GET_CLASS(obj, TYPE_FONT_FACE()))
 
 proc TYPE_FONT*(): GType = 
   result = font_get_type()
 
-proc FONT*(anObject: Pointer): PFont = 
+proc FONT*(anObject: pointer): PFont = 
   result = cast[PFont](G_TYPE_CHECK_INSTANCE_CAST(anObject, TYPE_FONT()))
 
-proc IS_FONT*(anObject: Pointer): bool = 
+proc IS_FONT*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_FONT())
 
-proc FONT_CLASS*(klass: Pointer): PFontClass = 
+proc FONT_CLASS*(klass: pointer): PFontClass = 
   result = cast[PFontClass](G_TYPE_CHECK_CLASS_CAST(klass, TYPE_FONT()))
 
-proc IS_FONT_CLASS*(klass: Pointer): bool = 
+proc IS_FONT_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_FONT())
 
 proc GET_CLASS*(obj: PFont): PFontClass = 

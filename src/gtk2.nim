@@ -10844,16 +10844,16 @@ proc vseparator_new*(): PVSeparator{.cdecl, dynlib: lib,
 proc TYPE_OBJECT*(): GType = 
   result = gtk2.object_get_type()
 
-proc CHECK_CAST*(instance: Pointer, g_type: GType): PGTypeInstance = 
+proc CHECK_CAST*(instance: pointer, g_type: GType): PGTypeInstance = 
   result = G_TYPE_CHECK_INSTANCE_CAST(instance, g_type)
 
-proc CHECK_CLASS_CAST*(g_class: pointer, g_type: GType): Pointer = 
+proc CHECK_CLASS_CAST*(g_class: pointer, g_type: GType): pointer = 
   result = G_TYPE_CHECK_CLASS_CAST(g_class, g_type)
 
-proc CHECK_GET_CLASS*(instance: Pointer, g_type: GType): PGTypeClass = 
+proc CHECK_GET_CLASS*(instance: pointer, g_type: GType): PGTypeClass = 
   result = G_TYPE_INSTANCE_GET_CLASS(instance, g_type)
 
-proc CHECK_TYPE*(instance: Pointer, g_type: GType): bool = 
+proc CHECK_TYPE*(instance: pointer, g_type: GType): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(instance, g_type)
 
 proc CHECK_CLASS_TYPE*(g_class: pointer, g_type: GType): bool = 
@@ -10985,7 +10985,7 @@ proc VALUE_OBJECT*(a: TArg): PObject =
   var a = a
   Result = cast[ptr PObject](addr(a.d))[] 
 
-proc VALUE_POINTER*(a: TArg): GPointer = 
+proc VALUE_POINTER*(a: TArg): Gpointer = 
   var a = a
   Result = cast[ptr gpointer](addr(a.d))[] 
 
