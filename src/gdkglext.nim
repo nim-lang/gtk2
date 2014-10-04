@@ -59,7 +59,7 @@ type
                      glcontext: PGLContext): gboolean{.cdecl.}
     gl_end*: proc (gldrawable: PGLDrawable){.cdecl.}
     get_gl_config*: proc (gldrawable: PGLDrawable): PGLConfig{.cdecl.}
-    get_size*: proc (gldrawable: PGLDrawable, width, height: PGInt){.cdecl.}
+    get_size*: proc (gldrawable: PGLDrawable, width, height: Pgint){.cdecl.}
 
   TGLPixmap* = object of TGObject
     drawable*: PDrawable

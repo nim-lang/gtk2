@@ -41,11 +41,11 @@ type
   PDrawable* = ptr TDrawable
   TDrawable* = object of TGObject
   PWindow* = ptr TWindow
-  TWindow* = TDrawable
+  TWindow* = object of TDrawable
   PPixmap* = ptr TPixmap
-  TPixmap* = TDrawable
+  TPixmap* = object of TDrawable
   PBitmap* = ptr TBitmap
-  TBitmap* = TDrawable
+  TBitmap* = object of TDrawable
   PFontType* = ptr TFontType
   TFontType* = enum 
     FONT_FONT, FONT_FONTSET
