@@ -388,7 +388,7 @@ proc g_type_interface_get_plugin*(instance_type: GType,
     cdecl, dynlib: gobjectlib, importc: "g_type_interface_get_plugin".}
 proc g_type_fundamental_next*(): GType{.cdecl, dynlib: gobjectlib, 
                                         importc: "g_type_fundamental_next".}
-proc g_type_fundamental*(type_id: GType): GType{.cdecl, dynlib: gobjectlib, 
+proc G_TYPE_FUNDAMENTAL*(type_id: GType): GType{.cdecl, dynlib: gobjectlib, 
     importc: "g_type_fundamental".}
 proc g_type_create_instance*(theType: GType): PGTypeInstance{.cdecl, 
     dynlib: gobjectlib, importc: "g_type_create_instance".}
