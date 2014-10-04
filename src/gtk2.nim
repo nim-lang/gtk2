@@ -192,7 +192,7 @@ type
   TWidgetHelpType* = enum 
     WIDGET_HELP_TOOLTIP, WIDGET_HELP_WHATS_THIS
   PAllocation* = ptr TAllocation
-  TAllocation* = Gdk2.TRectangle
+  TAllocation* = gdk2.TRectangle
   TCallback* = proc (widget: PWidget, data: gpointer){.cdecl.}
   PRequisition* = ptr TRequisition
   TRequisition*{.final, pure.} = object 
@@ -207,7 +207,7 @@ type
     style*: PStyle
     requisition*: TRequisition
     allocation*: TAllocation
-    window*: Gdk2.PWindow
+    window*: gdk2.PWindow
     parent*: PWidget
 
   PWidgetClass* = ptr TWidgetClass
@@ -239,7 +239,7 @@ type
         cdecl.}
     grab_focus*: proc (widget: PWidget){.cdecl.}
     focus*: proc (widget: PWidget, direction: TDirectionType): gboolean{.cdecl.}
-    event*: proc (widget: PWidget, event: Gdk2.PEvent): gboolean{.cdecl.}
+    event*: proc (widget: PWidget, event: gdk2.PEvent): gboolean{.cdecl.}
     button_press_event*: proc (widget: PWidget, event: PEventButton): gboolean{.
         cdecl.}
     button_release_event*: proc (widget: PWidget, event: PEventButton): gboolean{.
@@ -7055,7 +7055,7 @@ proc render_icon*(icon_set: PIconSet, style: PStyle,
 proc add_source*(icon_set: PIconSet, source: PIconSource){.cdecl, 
     dynlib: lib, importc: "gtk_icon_set_add_source".}
 proc get_sizes*(icon_set: PIconSet, sizes: PPGtkIconSize, 
-                         n_sizes: pgint){.cdecl, dynlib: lib, 
+                         n_sizes: Pgint){.cdecl, dynlib: lib, 
     importc: "gtk_icon_set_get_sizes".}
 proc icon_source_get_type*(): GType{.cdecl, dynlib: lib, 
                                      importc: "gtk_icon_source_get_type".}
@@ -8686,7 +8686,7 @@ proc backward_delete*(text: PText, nchars: guint): gboolean{.cdecl,
 proc forward_delete*(text: PText, nchars: guint): gboolean{.cdecl, 
     dynlib: lib, importc: "gtk_text_forward_delete".}
 proc INDEX_WCHAR*(t: PText, index: guint): guint32
-proc INDEX_UCHAR*(t: PText, index: guint): GUChar
+proc INDEX_UCHAR*(t: PText, index: guint): guchar
 const 
   TEXT_SEARCH_VISIBLE_ONLY* = 0
   TEXT_SEARCH_TEXT_ONLY* = 1
@@ -11003,31 +11003,31 @@ proc RETLOC_UCHAR*(a: TArg): Pguchar =
 
 proc RETLOC_BOOL*(a: TArg): Pgboolean = 
   var a = a
-  result = cast[ptr pgboolean](addr(a.d))[] 
+  result = cast[ptr Pgboolean](addr(a.d))[] 
 
 proc RETLOC_INT*(a: TArg): Pgint = 
   var a = a
-  result = cast[ptr pgint](addr(a.d))[] 
+  result = cast[ptr Pgint](addr(a.d))[] 
 
 proc RETLOC_UINT*(a: TArg): Pguint = 
   var a = a
-  result = cast[ptr pguint](addr(a.d))[] 
+  result = cast[ptr Pguint](addr(a.d))[] 
 
 proc RETLOC_LONG*(a: TArg): Pglong = 
   var a = a
-  result = cast[ptr pglong](addr(a.d))[] 
+  result = cast[ptr Pglong](addr(a.d))[] 
 
 proc RETLOC_ULONG*(a: TArg): Pgulong = 
   var a = a
-  result = cast[ptr pgulong](addr(a.d))[] 
+  result = cast[ptr Pgulong](addr(a.d))[] 
 
 proc RETLOC_FLOAT*(a: TArg): Pgfloat = 
   var a = a
-  result = cast[ptr pgfloat](addr(a.d))[] 
+  result = cast[ptr Pgfloat](addr(a.d))[] 
 
 proc RETLOC_DOUBLE*(a: TArg): Pgdouble = 
   var a = a
-  result = cast[ptr pgdouble](addr(a.d))[] 
+  result = cast[ptr Pgdouble](addr(a.d))[] 
 
 proc RETLOC_STRING*(a: TArg): Ppgchar = 
   var a = a
@@ -11039,7 +11039,7 @@ proc RETLOC_ENUM*(a: TArg): Pgint =
 
 proc RETLOC_FLAGS*(a: TArg): Pguint = 
   var a = a
-  result = cast[ptr pguint](addr(a.d))[] 
+  result = cast[ptr Pguint](addr(a.d))[] 
 
 proc RETLOC_BOXED*(a: TArg): Pgpointer = 
   var a = a
@@ -11047,7 +11047,7 @@ proc RETLOC_BOXED*(a: TArg): Pgpointer =
 
 proc RETLOC_OBJECT*(a: TArg): PPGtkObject = 
   var a = a
-  result = cast[ptr ppgtkobject](addr(a.d))[] 
+  result = cast[ptr PPGtkObject](addr(a.d))[] 
 
 proc RETLOC_POINTER*(a: TArg): Pgpointer = 
   var a = a
@@ -11162,7 +11162,7 @@ proc set_y_set*(a: PWidgetAuxInfo, `y_set`: guint) =
       bm_TGtkWidgetAuxInfo_y_set)
 
 proc widget_set_visual*(widget, visual: pointer) = 
-  if (Widget != nil) and (visual != nil): discard
+  if (widget != nil) and (visual != nil): discard
   
 proc widget_push_visual*(visual: pointer) = 
   if (visual != nil): discard
@@ -15200,7 +15200,7 @@ proc set_use_wchar*(a: PText, `use_wchar`: gboolean) =
 proc INDEX_WCHAR*(t: PText, index: guint): guint32 = 
   nil
 
-proc INDEX_UCHAR*(t: PText, index: guint): GUChar = 
+proc INDEX_UCHAR*(t: PText, index: guint): guchar = 
   nil
 
 proc TYPE_TEXT_ITER*(): GType = 
@@ -16661,7 +16661,7 @@ proc set_valist*(tree_store: PTreeStore, iter: PTreeIter){.varargs,
 proc iter_is_valid*(tree_store: PTreeStore, iter: PTreeIter): gboolean{.
     cdecl, importc: "gtk_tree_store_iter_is_valid", dynlib: lib.}
 proc reorder*(tree_store: PTreeStore, parent: PTreeIter, 
-                         new_order: pgint){.cdecl, 
+                         new_order: Pgint){.cdecl, 
     importc: "gtk_tree_store_reorder", dynlib: lib.}
 proc swap*(tree_store: PTreeStore, a: PTreeIter, b: PTreeIter){.
     cdecl, importc: "gtk_tree_store_swap", dynlib: lib.}
