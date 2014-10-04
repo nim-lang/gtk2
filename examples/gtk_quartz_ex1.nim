@@ -55,12 +55,12 @@ vbox.pack_end(hbox, false, false, 10)
 window = window_new(WINDOW_TOPLEVEL)
 PContainer(window).add(vbox)
 discard signal_connect_object(button_attention_info, "clicked", 
-                              SIGNAL_FUNC(macosx_quartz_ex1.do_info_attention_request), 
+                              SIGNAL_FUNC(gtk_quartz_ex1.do_info_attention_request), 
                               window)
 discard signal_connect_object(button_attention_critical, "clicked", 
-                              SIGNAL_FUNC(macosx_quartz_ex1.do_critical_attention_request), 
+                              SIGNAL_FUNC(gtk_quartz_ex1.do_critical_attention_request), 
                               window)
 discard signal_connect(window, "destroy",
-                       SIGNAL_FUNC(macosx_quartz_ex1.destroy), nil)
+                       SIGNAL_FUNC(gtk_quartz_ex1.destroy), nil)
 window.show_all()
 main()
