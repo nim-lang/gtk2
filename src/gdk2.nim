@@ -618,13 +618,13 @@ type
     attr*: TAttribute
     embossed*: gboolean
 
-  PPixmaPObject* = ptr TPixmaPObject
-  TPixmaPObject* = object of TDrawable
+  PPixmapObject* = ptr TPixmapObject
+  TPixmapObject* = object of TDrawable
     impl*: PDrawable
     depth*: gint
 
-  PPixmaPObjectClass* = ptr TPixmaPObjectClass
-  TPixmaPObjectClass* = object of TDrawableClass
+  PPixmapObjectClass* = ptr TPixmapObjectClass
+  TPixmapObjectClass* = object of TDrawableClass
   PPropMode* = ptr TPropMode
   TPropMode* = enum 
     PROP_MODE_REPLACE, PROP_MODE_PREPEND, PROP_MODE_APPEND
@@ -2761,11 +2761,11 @@ proc get_from_image*(dest: PPixbuf, src: PImage, cmap: PColormap,
     cdecl, dynlib: lib, importc: "gdk_pixbuf_get_from_image".}
 proc TYPE_PIXMAP*(): GType
 proc PIXMAP*(anObject: pointer): PPixmap
-proc PIXMAP_CLASS*(klass: pointer): PPixmaPObjectClass
+proc PIXMAP_CLASS*(klass: pointer): PPixmapObjectClass
 proc IS_PIXMAP*(anObject: pointer): bool
 proc IS_PIXMAP_CLASS*(klass: pointer): bool
-proc PIXMAP_GET_CLASS*(obj: pointer): PPixmaPObjectClass
-proc PIXMAP_OBJECT*(anObject: pointer): PPixmaPObject
+proc PIXMAP_GET_CLASS*(obj: pointer): PPixmapObjectClass
+proc PIXMAP_OBJECT*(anObject: pointer): PPixmapObject
 proc pixmap_get_type*(): GType{.cdecl, dynlib: lib, 
                                 importc: "gdk_pixmap_get_type".}
 proc pixmap_new*(window: PWindow, width: gint, height: gint, depth: gint): PPixmap{.
@@ -3638,8 +3638,8 @@ proc TYPE_PIXMAP*(): GType =
 proc PIXMAP*(anObject: pointer): PPixmap = 
   result = cast[PPixmap](G_TYPE_CHECK_INSTANCE_CAST(anObject, TYPE_PIXMAP()))
 
-proc PIXMAP_CLASS*(klass: pointer): PPixmaPObjectClass = 
-  result = cast[PPixmaPObjectClass](G_TYPE_CHECK_CLASS_CAST(klass, TYPE_PIXMAP()))
+proc PIXMAP_CLASS*(klass: pointer): PPixmapObjectClass = 
+  result = cast[PPixmapObjectClass](G_TYPE_CHECK_CLASS_CAST(klass, TYPE_PIXMAP()))
 
 proc IS_PIXMAP*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_PIXMAP())
@@ -3647,11 +3647,11 @@ proc IS_PIXMAP*(anObject: pointer): bool =
 proc IS_PIXMAP_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_PIXMAP())
 
-proc PIXMAP_GET_CLASS*(obj: pointer): PPixmaPObjectClass = 
-  result = cast[PPixmaPObjectClass](G_TYPE_INSTANCE_GET_CLASS(obj, TYPE_PIXMAP()))
+proc PIXMAP_GET_CLASS*(obj: pointer): PPixmapObjectClass = 
+  result = cast[PPixmapObjectClass](G_TYPE_INSTANCE_GET_CLASS(obj, TYPE_PIXMAP()))
 
-proc PIXMAP_OBJECT*(anObject: pointer): PPixmaPObject = 
-  result = cast[PPixmaPObject](PIXMAP(anObject))
+proc PIXMAP_OBJECT*(anObject: pointer): PPixmapObject = 
+  result = cast[PPixmapObject](PIXMAP(anObject))
 
 proc bitmap_ref*(drawable: PDrawable): PDrawable = 
   result = DRAWABLE(g_object_ref(G_OBJECT(drawable)))
