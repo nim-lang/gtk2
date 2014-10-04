@@ -1236,9 +1236,9 @@ const
   G_HAVE_GINT64* = 1
   G_GINT64_FORMAT* = "I64i"
   G_GUINT64_FORMAT* = "I64u"
-  GLIB_SIZEOF_VOID_P* = SizeOf(pointer)
-  GLIB_SIZEOF_LONG* = SizeOf(int32)
-  GLIB_SIZEOF_SIZE_T* = SizeOf(int32)
+  GLIB_SIZEOF_VOID_P* = sizeof(pointer)
+  GLIB_SIZEOF_LONG* = sizeof(int32)
+  GLIB_SIZEOF_SIZE_T* = sizeof(int32)
 
 type 
   PGSystemThread* = ptr TGSystemThread
@@ -3488,7 +3488,7 @@ when false:
 
   proc g_ptr_array_index*(parray: PGPtrArray, index: guint): gpointer = 
     result = cast[PGpointer](cast[int](parray []. pdata) +
-        index * SizeOf(Gpointer))[] 
+        index * sizeof(Gpointer))[] 
 
   proc G_THREAD_ERROR*(): TGQuark = 
     result = g_thread_error_quark()
