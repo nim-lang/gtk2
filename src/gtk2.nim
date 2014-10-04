@@ -2445,7 +2445,7 @@ type
   TScrolledWindow* = object of TBin
     hscrollbar*: PWidget
     vscrollbar*: PWidget
-    ScrolledWindow_flag0*: guint16
+    Scrolledwindow_flag0*: guint16
     shadow_type*: guint16
 
   PScrolledWindowClass* = ptr TScrolledWindowClass
@@ -11180,12 +11180,12 @@ proc widget_restore_default_style*(widget: pointer) =
   set_style(cast[PWidget](widget), nil)
 
 proc SET_FLAGS*(wid: PWidget, flags: TWidgetFlags): TWidgetFlags = 
-  cast[pObject](wid).flags = cast[pObject](wid).flags or (flags)
-  result = cast[pObject](wid).flags
+  cast[PObject](wid).flags = cast[PObject](wid).flags or (flags)
+  result = cast[PObject](wid).flags
 
 proc UNSET_FLAGS*(wid: PWidget, flags: TWidgetFlags): TWidgetFlags = 
-  cast[pObject](wid).flags = cast[pObject](wid).flags and (not (flags))
-  result = cast[pObject](wid).flags
+  cast[PObject](wid).flags = cast[PObject](wid).flags and (not (flags))
+  result = cast[PObject](wid).flags
 
 proc TYPE_MISC*(): GType = 
   result = misc_get_type()
@@ -11345,153 +11345,153 @@ proc WINDOW_GET_CLASS*(obj: pointer): PWindowClass =
   result = cast[PWindowClass](CHECK_GET_CLASS(obj, gtk2.TYPE_WINDOW()))
 
 proc allow_shrink*(a: gtk2.PWindow): guint = 
-  result = (a.Window_flag0 and bm_TGtkWindow_allow_shrink) shr
+  result = (a.window_flag0 and bm_TGtkWindow_allow_shrink) shr
       bp_TGtkWindow_allow_shrink
 
 proc set_allow_shrink*(a: gtk2.PWindow, `allow_shrink`: guint) = 
-  a.Window_flag0 = a.Window_flag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`allow_shrink` shl bp_TGtkWindow_allow_shrink) and
       bm_TGtkWindow_allow_shrink)
 
 proc allow_grow*(a: gtk2.PWindow): guint = 
-  result = (a.Window_flag0 and bm_TGtkWindow_allow_grow) shr
+  result = (a.window_flag0 and bm_TGtkWindow_allow_grow) shr
       bp_TGtkWindow_allow_grow
 
 proc set_allow_grow*(a: gtk2.PWindow, `allow_grow`: guint) = 
-  a.Window_flag0 = a.Window_flag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`allow_grow` shl bp_TGtkWindow_allow_grow) and
       bm_TGtkWindow_allow_grow)
 
 proc configure_notify_received*(a: gtk2.PWindow): guint = 
-  result = (a.Window_flag0 and bm_TGtkWindow_configure_notify_received) shr
+  result = (a.window_flag0 and bm_TGtkWindow_configure_notify_received) shr
       bp_TGtkWindow_configure_notify_received
 
 proc set_configure_notify_received*(a: gtk2.PWindow, 
                                     `configure_notify_received`: guint) = 
-  a.Window_flag0 = a.Window_flag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`configure_notify_received` shl
       bp_TGtkWindow_configure_notify_received) and
       bm_TGtkWindow_configure_notify_received)
 
 proc need_default_position*(a: gtk2.PWindow): guint = 
-  result = (a.Window_flag0 and bm_TGtkWindow_need_default_position) shr
+  result = (a.window_flag0 and bm_TGtkWindow_need_default_position) shr
       bp_TGtkWindow_need_default_position
 
 proc set_need_default_position*(a: gtk2.PWindow, `need_default_position`: guint) = 
-  a.Window_flag0 = a.Window_flag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`need_default_position` shl bp_TGtkWindow_need_default_position) and
       bm_TGtkWindow_need_default_position)
 
 proc need_default_size*(a: gtk2.PWindow): guint = 
-  result = (a.Window_flag0 and bm_TGtkWindow_need_default_size) shr
+  result = (a.window_flag0 and bm_TGtkWindow_need_default_size) shr
       bp_TGtkWindow_need_default_size
 
 proc set_need_default_size*(a: gtk2.PWindow, `need_default_size`: guint) = 
-  a.Window_flag0 = a.Window_flag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`need_default_size` shl bp_TGtkWindow_need_default_size) and
       bm_TGtkWindow_need_default_size)
 
 proc position*(a: gtk2.PWindow): guint = 
-  result = (a.Window_flag0 and bm_TGtkWindow_position) shr
+  result = (a.window_flag0 and bm_TGtkWindow_position) shr
       bp_TGtkWindow_position
 
 proc get_type*(a: gtk2.PWindow): guint = 
-  result = (a.Window_flag0 and bm_TGtkWindow_type) shr bp_TGtkWindow_type
+  result = (a.window_flag0 and bm_TGtkWindow_type) shr bp_TGtkWindow_type
 
 proc set_type*(a: gtk2.PWindow, `type`: guint) = 
-  a.Window_flag0 = a.Window_flag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`type` shl bp_TGtkWindow_type) and bm_TGtkWindow_type)
 
 proc has_user_ref_count*(a: gtk2.PWindow): guint = 
-  result = (a.Window_flag0 and bm_TGtkWindow_has_user_ref_count) shr
+  result = (a.window_flag0 and bm_TGtkWindow_has_user_ref_count) shr
       bp_TGtkWindow_has_user_ref_count
 
 proc set_has_user_ref_count*(a: gtk2.PWindow, `has_user_ref_count`: guint) = 
-  a.Window_flag0 = a.Window_flag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`has_user_ref_count` shl bp_TGtkWindow_has_user_ref_count) and
       bm_TGtkWindow_has_user_ref_count)
 
 proc has_focus*(a: gtk2.PWindow): guint = 
-  result = (a.Window_flag0 and bm_TGtkWindow_has_focus) shr
+  result = (a.window_flag0 and bm_TGtkWindow_has_focus) shr
       bp_TGtkWindow_has_focus
 
 proc set_has_focus*(a: gtk2.PWindow, `has_focus`: guint) = 
-  a.Window_flag0 = a.Window_flag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`has_focus` shl bp_TGtkWindow_has_focus) and bm_TGtkWindow_has_focus)
 
 proc modal*(a: gtk2.PWindow): guint = 
-  result = (a.Window_flag0 and bm_TGtkWindow_modal) shr bp_TGtkWindow_modal
+  result = (a.window_flag0 and bm_TGtkWindow_modal) shr bp_TGtkWindow_modal
 
 proc set_modal*(a: gtk2.PWindow, `modal`: guint) = 
-  a.Window_flag0 = a.Window_flag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`modal` shl bp_TGtkWindow_modal) and bm_TGtkWindow_modal)
 
 proc destroy_with_parent*(a: gtk2.PWindow): guint = 
-  result = (a.Window_flag0 and bm_TGtkWindow_destroy_with_parent) shr
+  result = (a.window_flag0 and bm_TGtkWindow_destroy_with_parent) shr
       bp_TGtkWindow_destroy_with_parent
 
 proc set_destroy_with_parent*(a: gtk2.PWindow, `destroy_with_parent`: guint) = 
-  a.Windowflag0 = a.Windowflag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`destroy_with_parent` shl bp_TGtkWindow_destroy_with_parent) and
       bm_TGtkWindow_destroy_with_parent)
 
 proc has_frame*(a: gtk2.PWindow): guint = 
-  result = (a.Windowflag0 and bm_TGtkWindow_has_frame) shr
+  result = (a.window_flag0 and bm_TGtkWindow_has_frame) shr
       bp_TGtkWindow_has_frame
 
 proc set_has_frame*(a: gtk2.PWindow, `has_frame`: guint) = 
-  a.Windowflag0 = a.Windowflag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`has_frame` shl bp_TGtkWindow_has_frame) and bm_TGtkWindow_has_frame)
 
 proc iconify_initially*(a: gtk2.PWindow): guint = 
-  result = (a.Windowflag0 and bm_TGtkWindow_iconify_initially) shr
+  result = (a.window_flag0 and bm_TGtkWindow_iconify_initially) shr
       bp_TGtkWindow_iconify_initially
 
 proc set_iconify_initially*(a: gtk2.PWindow, `iconify_initially`: guint) = 
-  a.Windowflag0 = a.Windowflag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`iconify_initially` shl bp_TGtkWindow_iconify_initially) and
       bm_TGtkWindow_iconify_initially)
 
 proc stick_initially*(a: gtk2.PWindow): guint = 
-  result = (a.Windowflag0 and bm_TGtkWindow_stick_initially) shr
+  result = (a.window_flag0 and bm_TGtkWindow_stick_initially) shr
       bp_TGtkWindow_stick_initially
 
 proc set_stick_initially*(a: gtk2.PWindow, `stick_initially`: guint) = 
-  a.Windowflag0 = a.Windowflag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`stick_initially` shl bp_TGtkWindow_stick_initially) and
       bm_TGtkWindow_stick_initially)
 
 proc maximize_initially*(a: gtk2.PWindow): guint = 
-  result = (a.Windowflag0 and bm_TGtkWindow_maximize_initially) shr
+  result = (a.window_flag0 and bm_TGtkWindow_maximize_initially) shr
       bp_TGtkWindow_maximize_initially
 
 proc set_maximize_initially*(a: gtk2.PWindow, `maximize_initially`: guint) = 
-  a.Windowflag0 = a.Windowflag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`maximize_initially` shl bp_TGtkWindow_maximize_initially) and
       bm_TGtkWindow_maximize_initially)
 
 proc decorated*(a: gtk2.PWindow): guint = 
-  result = (a.Windowflag0 and bm_TGtkWindow_decorated) shr
+  result = (a.window_flag0 and bm_TGtkWindow_decorated) shr
       bp_TGtkWindow_decorated
 
 proc set_decorated*(a: gtk2.PWindow, `decorated`: guint) = 
-  a.Windowflag0 = a.Windowflag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`decorated` shl bp_TGtkWindow_decorated) and bm_TGtkWindow_decorated)
 
 proc type_hint*(a: gtk2.PWindow): guint = 
-  result = (a.Windowflag0 and bm_TGtkWindow_type_hint) shr
+  result = (a.window_flag0 and bm_TGtkWindow_type_hint) shr
       bp_TGtkWindow_type_hint
 
 proc set_type_hint*(a: gtk2.PWindow, `type_hint`: guint) = 
-  a.Windowflag0 = a.Windowflag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`type_hint` shl bp_TGtkWindow_type_hint) and bm_TGtkWindow_type_hint)
 
 proc gravity*(a: gtk2.PWindow): guint = 
-  result = (a.Windowflag0 and bm_TGtkWindow_gravity) shr
+  result = (a.window_flag0 and bm_TGtkWindow_gravity) shr
       bp_TGtkWindow_gravity
 
 proc set_gravity*(a: gtk2.PWindow, `gravity`: guint) = 
-  a.Windowflag0 = a.Windowflag0 or
+  a.window_flag0 = a.window_flag0 or
       ((`gravity` shl bp_TGtkWindow_gravity) and bm_TGtkWindow_gravity)
 
 proc TYPE_WINDOW_GROUP*(): GType = 
@@ -11753,10 +11753,10 @@ proc BOX_GET_CLASS*(obj: pointer): PBoxClass =
   result = cast[PBoxClass](CHECK_GET_CLASS(obj, TYPE_BOX()))
 
 proc homogeneous*(a: PBox): guint = 
-  result = (a.Boxflag0 and bm_TGtkBox_homogeneous) shr bp_TGtkBox_homogeneous
+  result = (a.box_flag0 and bm_TGtkBox_homogeneous) shr bp_TGtkBox_homogeneous
 
 proc set_homogeneous*(a: PBox, `homogeneous`: guint) = 
-  a.Boxflag0 = a.Boxflag0 or
+  a.box_flag0 = a.box_flag0 or
       (int16(`homogeneous` shl bp_TGtkBox_homogeneous) and
       bm_TGtkBox_homogeneous)
 
@@ -11833,68 +11833,68 @@ proc BUTTON_GET_CLASS*(obj: pointer): PButtonClass =
   result = cast[PButtonClass](CHECK_GET_CLASS(obj, TYPE_BUTTON()))
 
 proc constructed*(a: PButton): guint = 
-  result = (a.Buttonflag0 and bm_TGtkButton_constructed) shr
+  result = (a.button_flag0 and bm_TGtkButton_constructed) shr
       bp_TGtkButton_constructed
 
 proc set_constructed*(a: PButton, `constructed`: guint) = 
-  a.Buttonflag0 = a.Buttonflag0 or
+  a.button_flag0 = a.button_flag0 or
       (int16(`constructed` shl bp_TGtkButton_constructed) and
       bm_TGtkButton_constructed)
 
 proc in_button*(a: PButton): guint = 
-  result = (a.Buttonflag0 and bm_TGtkButton_in_button) shr
+  result = (a.button_flag0 and bm_TGtkButton_in_button) shr
       bp_TGtkButton_in_button
 
 proc set_in_button*(a: PButton, `in_button`: guint) = 
-  a.Buttonflag0 = a.Buttonflag0 or
+  a.button_flag0 = a.button_flag0 or
       (int16(`in_button` shl bp_TGtkButton_in_button) and
       bm_TGtkButton_in_button)
 
 proc button_down*(a: PButton): guint = 
-  result = (a.Buttonflag0 and bm_TGtkButton_button_down) shr
+  result = (a.button_flag0 and bm_TGtkButton_button_down) shr
       bp_TGtkButton_button_down
 
 proc set_button_down*(a: PButton, `button_down`: guint) = 
-  a.Buttonflag0 = a.Buttonflag0 or
+  a.button_flag0 = a.button_flag0 or
       (int16(`button_down` shl bp_TGtkButton_button_down) and
       bm_TGtkButton_button_down)
 
 proc relief*(a: PButton): guint = 
-  result = (a.Buttonflag0 and bm_TGtkButton_relief) shr bp_TGtkButton_relief
+  result = (a.button_flag0 and bm_TGtkButton_relief) shr bp_TGtkButton_relief
 
 proc use_underline*(a: PButton): guint = 
-  result = (a.Buttonflag0 and bm_TGtkButton_use_underline) shr
+  result = (a.button_flag0 and bm_TGtkButton_use_underline) shr
       bp_TGtkButton_use_underline
 
 proc set_use_underline*(a: PButton, `use_underline`: guint) = 
-  a.Buttonflag0 = a.Buttonflag0 or
+  a.button_flag0 = a.button_flag0 or
       (int16(`use_underline` shl bp_TGtkButton_use_underline) and
       bm_TGtkButton_use_underline)
 
 proc use_stock*(a: PButton): guint = 
-  result = (a.Buttonflag0 and bm_TGtkButton_use_stock) shr
+  result = (a.button_flag0 and bm_TGtkButton_use_stock) shr
       bp_TGtkButton_use_stock
 
 proc set_use_stock*(a: PButton, `use_stock`: guint) = 
-  a.Buttonflag0 = a.Buttonflag0 or
+  a.button_flag0 = a.button_flag0 or
       (int16(`use_stock` shl bp_TGtkButton_use_stock) and
       bm_TGtkButton_use_stock)
 
 proc depressed*(a: PButton): guint = 
-  result = (a.Buttonflag0 and bm_TGtkButton_depressed) shr
+  result = (a.button_flag0 and bm_TGtkButton_depressed) shr
       bp_TGtkButton_depressed
 
 proc set_depressed*(a: PButton, `depressed`: guint) = 
-  a.Buttonflag0 = a.Buttonflag0 or
+  a.button_flag0 = a.button_flag0 or
       (int16(`depressed` shl bp_TGtkButton_depressed) and
       bm_TGtkButton_depressed)
 
 proc depress_on_activate*(a: PButton): guint = 
-  result = (a.Buttonflag0 and bm_TGtkButton_depress_on_activate) shr
+  result = (a.button_flag0 and bm_TGtkButton_depress_on_activate) shr
       bp_TGtkButton_depress_on_activate
 
 proc set_depress_on_activate*(a: PButton, `depress_on_activate`: guint) = 
-  a.Buttonflag0 = a.Buttonflag0 or
+  a.button_flag0 = a.button_flag0 or
       (int16(`depress_on_activate` shl bp_TGtkButton_depress_on_activate) and
       bm_TGtkButton_depress_on_activate)
 
@@ -12296,29 +12296,29 @@ proc TOGGLE_BUTTON_GET_CLASS*(obj: pointer): PToggleButtonClass =
   result = cast[PToggleButtonClass](CHECK_GET_CLASS(obj, TYPE_TOGGLE_BUTTON()))
 
 proc active*(a: PToggleButton): guint = 
-  result = (a.ToggleButtonflag0 and bm_TGtkToggleButton_active) shr
+  result = (a.Togglebutton_flag0 and bm_TGtkToggleButton_active) shr
       bp_TGtkToggleButton_active
 
 proc set_active*(a: PToggleButton, `active`: guint) = 
-  a.ToggleButtonflag0 = a.ToggleButtonflag0 or
+  a.Togglebutton_flag0 = a.Togglebutton_flag0 or
       (int16(`active` shl bp_TGtkToggleButton_active) and
       bm_TGtkToggleButton_active)
 
 proc draw_indicator*(a: PToggleButton): guint = 
-  result = (a.ToggleButtonflag0 and bm_TGtkToggleButton_draw_indicator) shr
+  result = (a.Togglebutton_flag0 and bm_TGtkToggleButton_draw_indicator) shr
       bp_TGtkToggleButton_draw_indicator
 
 proc set_draw_indicator*(a: PToggleButton, `draw_indicator`: guint) = 
-  a.ToggleButtonflag0 = a.ToggleButtonflag0 or
+  a.Togglebutton_flag0 = a.Togglebutton_flag0 or
       (int16(`draw_indicator` shl bp_TGtkToggleButton_draw_indicator) and
       bm_TGtkToggleButton_draw_indicator)
 
 proc inconsistent*(a: PToggleButton): guint = 
-  result = (a.ToggleButtonflag0 and bm_TGtkToggleButton_inconsistent) shr
+  result = (a.Togglebutton_flag0 and bm_TGtkToggleButton_inconsistent) shr
       bp_TGtkToggleButton_inconsistent
 
 proc set_inconsistent*(a: PToggleButton, `inconsistent`: guint) = 
-  a.ToggleButtonflag0 = a.ToggleButtonflag0 or
+  a.Togglebutton_flag0 = a.Togglebutton_flag0 or
       (int16(`inconsistent` shl bp_TGtkToggleButton_inconsistent) and
       bm_TGtkToggleButton_inconsistent)
 
@@ -13280,58 +13280,58 @@ proc HANDLE_BOX_GET_CLASS*(obj: pointer): PHandleBoxClass =
   result = cast[PHandleBoxClass](CHECK_GET_CLASS(obj, TYPE_HANDLE_BOX()))
 
 proc handle_position*(a: PHandleBox): guint = 
-  result = (a.HandleBoxflag0 and bm_TGtkHandleBox_handle_position) shr
+  result = (a.Handlebox_flag0 and bm_TGtkHandleBox_handle_position) shr
       bp_TGtkHandleBox_handle_position
 
 when false:
   proc set_handle_position*(a: PHandleBox, `handle_position`: guint) = 
-    a.HandleBoxflag0 = a.HandleBoxflag0 or
+    a.Handlebox_flag0 = a.Handlebox_flag0 or
         (int16(`handle_position` shl bp_TGtkHandleBox_handle_position) and
         bm_TGtkHandleBox_handle_position)
 
 proc float_window_mapped*(a: PHandleBox): guint = 
-  result = (a.HandleBoxflag0 and bm_TGtkHandleBox_float_window_mapped) shr
+  result = (a.Handlebox_flag0 and bm_TGtkHandleBox_float_window_mapped) shr
       bp_TGtkHandleBox_float_window_mapped
 
 proc set_float_window_mapped*(a: PHandleBox, `float_window_mapped`: guint) = 
-  a.HandleBoxflag0 = a.HandleBoxflag0 or
+  a.Handlebox_flag0 = a.Handlebox_flag0 or
       (int16(`float_window_mapped` shl bp_TGtkHandleBox_float_window_mapped) and
       bm_TGtkHandleBox_float_window_mapped)
 
 proc child_detached*(a: PHandleBox): guint = 
-  result = (a.HandleBoxflag0 and bm_TGtkHandleBox_child_detached) shr
+  result = (a.Handlebox_flag0 and bm_TGtkHandleBox_child_detached) shr
       bp_TGtkHandleBox_child_detached
 
 proc set_child_detached*(a: PHandleBox, `child_detached`: guint) = 
-  a.HandleBoxflag0 = a.HandleBoxflag0 or
+  a.Handlebox_flag0 = a.Handlebox_flag0 or
       (int16(`child_detached` shl bp_TGtkHandleBox_child_detached) and
       bm_TGtkHandleBox_child_detached)
 
 proc in_drag*(a: PHandleBox): guint = 
-  result = (a.HandleBoxflag0 and bm_TGtkHandleBox_in_drag) shr
+  result = (a.Handlebox_flag0 and bm_TGtkHandleBox_in_drag) shr
       bp_TGtkHandleBox_in_drag
 
 proc set_in_drag*(a: PHandleBox, `in_drag`: guint) = 
-  a.HandleBoxflag0 = a.HandleBoxflag0 or
+  a.Handlebox_flag0 = a.Handlebox_flag0 or
       (int16(`in_drag` shl bp_TGtkHandleBox_in_drag) and
       bm_TGtkHandleBox_in_drag)
 
 proc shrink_on_detach*(a: PHandleBox): guint = 
-  result = (a.HandleBoxflag0 and bm_TGtkHandleBox_shrink_on_detach) shr
+  result = (a.Handlebox_flag0 and bm_TGtkHandleBox_shrink_on_detach) shr
       bp_TGtkHandleBox_shrink_on_detach
 
 proc set_shrink_on_detach*(a: PHandleBox, `shrink_on_detach`: guint) = 
-  a.HandleBoxflag0 = a.HandleBoxflag0 or
+  a.Handlebox_flag0 = a.Handlebox_flag0 or
       (int16(`shrink_on_detach` shl bp_TGtkHandleBox_shrink_on_detach) and
       bm_TGtkHandleBox_shrink_on_detach)
 
 proc snap_edge*(a: PHandleBox): gint = 
-  result = (a.HandleBoxflag0 and bm_TGtkHandleBox_snap_edge) shr
+  result = (a.Handlebox_flag0 and bm_TGtkHandleBox_snap_edge) shr
       bp_TGtkHandleBox_snap_edge
 
 when false:
   proc set_snap_edge*(a: PHandleBox, `snap_edge`: gint) = 
-    a.HandleBoxflag0 = a.HandleBoxflag0 or
+    a.Handlebox_flag0 = a.Handlebox_flag0 or
         (int16(`snap_edge` shl bp_TGtkHandleBox_snap_edge) and
         bm_TGtkHandleBox_snap_edge)
 
@@ -14615,60 +14615,60 @@ proc SCROLLED_WINDOW_GET_CLASS*(obj: pointer): PScrolledWindowClass =
       TYPE_SCROLLED_WINDOW()))
 
 proc hscrollbar_policy*(a: PScrolledWindow): guint = 
-  result = (a.ScrolledWindowflag0 and bm_TGtkScrolledWindow_hscrollbar_policy) shr
+  result = (a.Scrolledwindow_flag0 and bm_TGtkScrolledWindow_hscrollbar_policy) shr
       bp_TGtkScrolledWindow_hscrollbar_policy
 
 proc set_hscrollbar_policy*(a: PScrolledWindow, `hscrollbar_policy`: guint) = 
-  a.ScrolledWindowflag0 = a.ScrolledWindowflag0 or
+  a.Scrolledwindow_flag0 = a.Scrolledwindow_flag0 or
       (int16(`hscrollbar_policy` shl bp_TGtkScrolledWindow_hscrollbar_policy) and
       bm_TGtkScrolledWindow_hscrollbar_policy)
 
 proc vscrollbar_policy*(a: PScrolledWindow): guint = 
-  result = (a.ScrolledWindowflag0 and bm_TGtkScrolledWindow_vscrollbar_policy) shr
+  result = (a.Scrolledwindow_flag0 and bm_TGtkScrolledWindow_vscrollbar_policy) shr
       bp_TGtkScrolledWindow_vscrollbar_policy
 
 proc set_vscrollbar_policy*(a: PScrolledWindow, `vscrollbar_policy`: guint) = 
-  a.ScrolledWindowflag0 = a.ScrolledWindowflag0 or
+  a.Scrolledwindow_flag0 = a.Scrolledwindow_flag0 or
       (int16(`vscrollbar_policy` shl bp_TGtkScrolledWindow_vscrollbar_policy) and
       bm_TGtkScrolledWindow_vscrollbar_policy)
 
 proc hscrollbar_visible*(a: PScrolledWindow): guint = 
-  result = (a.ScrolledWindowflag0 and
+  result = (a.Scrolledwindow_flag0 and
       bm_TGtkScrolledWindow_hscrollbar_visible) shr
       bp_TGtkScrolledWindow_hscrollbar_visible
 
 proc set_hscrollbar_visible*(a: PScrolledWindow, `hscrollbar_visible`: guint) = 
-  a.ScrolledWindowflag0 = a.ScrolledWindowflag0 or
+  a.Scrolledwindow_flag0 = a.Scrolledwindow_flag0 or
       (int16(`hscrollbar_visible` shl
       bp_TGtkScrolledWindow_hscrollbar_visible) and
       bm_TGtkScrolledWindow_hscrollbar_visible)
 
 proc vscrollbar_visible*(a: PScrolledWindow): guint = 
-  result = (a.ScrolledWindowflag0 and
+  result = (a.Scrolledwindow_flag0 and
       bm_TGtkScrolledWindow_vscrollbar_visible) shr
       bp_TGtkScrolledWindow_vscrollbar_visible
 
 proc set_vscrollbar_visible*(a: PScrolledWindow, `vscrollbar_visible`: guint) = 
-  a.ScrolledWindowflag0 = a.ScrolledWindowflag0 or
+  a.Scrolledwindow_flag0 = a.Scrolledwindow_flag0 or
       int16((`vscrollbar_visible` shl
       bp_TGtkScrolledWindow_vscrollbar_visible) and
       bm_TGtkScrolledWindow_vscrollbar_visible)
 
 proc window_placement*(a: PScrolledWindow): guint = 
-  result = (a.ScrolledWindowflag0 and bm_TGtkScrolledWindow_window_placement) shr
+  result = (a.Scrolledwindow_flag0 and bm_TGtkScrolledWindow_window_placement) shr
       bp_TGtkScrolledWindow_window_placement
 
 proc set_window_placement*(a: PScrolledWindow, `window_placement`: guint) = 
-  a.ScrolledWindowflag0 = a.ScrolledWindowflag0 or
+  a.Scrolledwindow_flag0 = a.Scrolledwindow_flag0 or
       (int16(`window_placement` shl bp_TGtkScrolledWindow_window_placement) and
       bm_TGtkScrolledWindow_window_placement)
 
 proc focus_out*(a: PScrolledWindow): guint = 
-  result = (a.ScrolledWindowflag0 and bm_TGtkScrolledWindow_focus_out) shr
+  result = (a.Scrolledwindow_flag0 and bm_TGtkScrolledWindow_focus_out) shr
       bp_TGtkScrolledWindow_focus_out
 
 proc set_focus_out*(a: PScrolledWindow, `focus_out`: guint) = 
-  a.ScrolledWindowflag0 = a.ScrolledWindowflag0 or
+  a.Scrolledwindow_flag0 = a.Scrolledwindow_flag0 or
       (int16(`focus_out` shl bp_TGtkScrolledWindow_focus_out) and
       bm_TGtkScrolledWindow_focus_out)
 
@@ -14770,7 +14770,7 @@ proc signal_handler_pending_by_func*(anObject: PObject, signal_id: guint,
                                      may_be_blocked: gboolean, 
                                      fun: TSignalFunc, 
                                      data: gpointer): gboolean = 
-  var T: TGSignalMatchType
+  var t: TGSignalMatchType
   t = cast[TGSignalMatchType](G_SIGNAL_MATCH_ID or G_SIGNAL_MATCH_FUNC or
       G_SIGNAL_MATCH_DATA)
   if not may_be_blocked: 
@@ -14896,82 +14896,82 @@ proc SPIN_BUTTON_GET_CLASS*(obj: pointer): PSpinButtonClass =
   result = cast[PSpinButtonClass](CHECK_GET_CLASS(obj, TYPE_SPIN_BUTTON()))
 
 proc in_child*(a: PSpinButton): guint = 
-  result = (a.SpinButtonflag0 and bm_TGtkSpinButton_in_child) shr
+  result = (a.Spinbutton_flag0 and bm_TGtkSpinButton_in_child) shr
       bp_TGtkSpinButton_in_child
 
 when false:
   proc set_in_child*(a: PSpinButton, `in_child`: guint) = 
-    a.SpinButtonflag0 = a.SpinButtonflag0 or
+    a.Spinbutton_flag0 = a.Spinbutton_flag0 or
         ((`in_child` shl bp_TGtkSpinButton_in_child) and
         bm_TGtkSpinButton_in_child)
 
 proc click_child*(a: PSpinButton): guint = 
-  result = (a.SpinButtonflag0 and bm_TGtkSpinButton_click_child) shr
+  result = (a.Spinbutton_flag0 and bm_TGtkSpinButton_click_child) shr
       bp_TGtkSpinButton_click_child
 
 proc set_click_child*(a: PSpinButton, `click_child`: guint) = 
-  a.SpinButtonflag0 = a.SpinButtonflag0 or
+  a.Spinbutton_flag0 = a.Spinbutton_flag0 or
       ((`click_child` shl bp_TGtkSpinButton_click_child) and
       bm_TGtkSpinButton_click_child)
 
 proc button*(a: PSpinButton): guint = 
-  result = (a.SpinButtonflag0 and bm_TGtkSpinButton_button) shr
+  result = (a.Spinbutton_flag0 and bm_TGtkSpinButton_button) shr
       bp_TGtkSpinButton_button
 
 proc set_button*(a: PSpinButton, `button`: guint) = 
-  a.SpinButtonflag0 = a.SpinButtonflag0 or
+  a.Spinbutton_flag0 = a.Spinbutton_flag0 or
       ((`button` shl bp_TGtkSpinButton_button) and bm_TGtkSpinButton_button)
 
 proc need_timer*(a: PSpinButton): guint = 
-  result = (a.SpinButtonflag0 and bm_TGtkSpinButton_need_timer) shr
+  result = (a.Spinbutton_flag0 and bm_TGtkSpinButton_need_timer) shr
       bp_TGtkSpinButton_need_timer
 
 proc set_need_timer*(a: PSpinButton, `need_timer`: guint) = 
-  a.SpinButtonflag0 = a.SpinButtonflag0 or
+  a.Spinbutton_flag0 = a.Spinbutton_flag0 or
       ((`need_timer` shl bp_TGtkSpinButton_need_timer) and
       bm_TGtkSpinButton_need_timer)
 
 proc timer_calls*(a: PSpinButton): guint = 
-  result = (a.SpinButtonflag0 and bm_TGtkSpinButton_timer_calls) shr
+  result = (a.Spinbutton_flag0 and bm_TGtkSpinButton_timer_calls) shr
       bp_TGtkSpinButton_timer_calls
 
 proc set_timer_calls*(a: PSpinButton, `timer_calls`: guint) = 
-  a.SpinButtonflag0 = a.SpinButtonflag0 or
+  a.Spinbutton_flag0 = a.Spinbutton_flag0 or
       ((`timer_calls` shl bp_TGtkSpinButton_timer_calls) and
       bm_TGtkSpinButton_timer_calls)
 
 proc digits*(a: PSpinButton): guint = 
-  result = (a.SpinButtonflag0 and bm_TGtkSpinButton_digits) shr
+  result = (a.Spinbutton_flag0 and bm_TGtkSpinButton_digits) shr
       bp_TGtkSpinButton_digits
 
 when false:
   proc set_digits*(a: PSpinButton, `digits`: guint) = 
-    a.SpinButtonflag0 = a.SpinButtonflag0 or
+    a.Spinbutton_flag0 = a.Spinbutton_flag0 or
         ((`digits` shl bp_TGtkSpinButton_digits) and bm_TGtkSpinButton_digits)
 
 proc numeric*(a: PSpinButton): guint = 
-  result = (a.SpinButtonflag0 and bm_TGtkSpinButton_numeric) shr
+  result = (a.Spinbutton_flag0 and bm_TGtkSpinButton_numeric) shr
       bp_TGtkSpinButton_numeric
 
 proc set_numeric*(a: PSpinButton, `numeric`: guint) = 
-  a.SpinButtonflag0 = a.SpinButtonflag0 or
+  a.Spinbutton_flag0 = a.Spinbutton_flag0 or
       ((`numeric` shl bp_TGtkSpinButton_numeric) and
       bm_TGtkSpinButton_numeric)
 
 proc wrap*(a: PSpinButton): guint = 
-  result = (a.SpinButtonflag0 and bm_TGtkSpinButton_wrap) shr
+  result = (a.Spinbutton_flag0 and bm_TGtkSpinButton_wrap) shr
       bp_TGtkSpinButton_wrap
 
 proc set_wrap*(a: PSpinButton, `wrap`: guint) = 
-  a.SpinButtonflag0 = a.SpinButtonflag0 or
+  a.Spinbutton_flag0 = a.Spinbutton_flag0 or
       ((`wrap` shl bp_TGtkSpinButton_wrap) and bm_TGtkSpinButton_wrap)
 
 proc snap_to_ticks*(a: PSpinButton): guint = 
-  result = (a.SpinButtonflag0 and bm_TGtkSpinButton_snap_to_ticks) shr
+  result = (a.Spinbutton_flag0 and bm_TGtkSpinButton_snap_to_ticks) shr
       bp_TGtkSpinButton_snap_to_ticks
 
 proc set_snap_to_ticks*(a: PSpinButton, `snap_to_ticks`: guint) = 
-  a.SpinButtonflag0 = a.SpinButtonflag0 or
+  a.Spinbutton_flag0 = a.Spinbutton_flag0 or
       ((`snap_to_ticks` shl bp_TGtkSpinButton_snap_to_ticks) and
       bm_TGtkSpinButton_snap_to_ticks)
 
