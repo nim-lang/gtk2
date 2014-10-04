@@ -14,7 +14,7 @@ var
 
 nimrod_init()
 var window = window_new(gtk2.WINDOW_TOPLEVEL)
-var stackbox = vbox_new(TRUE, 10)
+var stackbox = vbox_new(true, 10)
 var button1 = button_new("Move mouse over button")
 var buttonstyle = copy(get_style(Button1))
 ButtonStyle.bg[STATE_PRELIGHT].pixel = 0
@@ -34,8 +34,8 @@ proc ChangeLabel(P: PWidget, Event: gdk2.PEventCrossing,
 
 
 add(button2, ALAbel)
-pack_start(stackbox, button1, TRUE, TRUE, 0)
-pack_start(stackbox, button2, TRUE, TRUE, 0)
+pack_start(stackbox, button1, true, true, 0)
+pack_start(stackbox, button2, true, true, 0)
 set_border_width(Window, 5)
 add(window, stackbox)
 discard signal_connect(window, "destroy", 
