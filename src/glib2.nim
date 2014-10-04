@@ -4051,10 +4051,10 @@ proc TGScannerConfig_set_scope_0_fallback*(a: PGScannerConfig,
       bm_TGScannerConfig_scope_0_fallback)
 
 proc freeze_symbol_table*(scanner: PGScanner) = 
-  if Scanner == nil: discard
+  if scanner == nil: discard
   
 proc thaw_symbol_table*(scanner: PGScanner) = 
-  if Scanner == nil: discard
+  if scanner == nil: discard
   
 proc G_SHELL_ERROR*(): TGQuark = 
   result = g_shell_error_quark()
