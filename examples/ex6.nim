@@ -4,9 +4,9 @@ import
 
 type 
   TButtonSignalState = object 
-    Obj: gtk2.PObject
-    SignalID: int32
-    Disable: bool
+    obj: gtk2.Pobject
+    signalID: int32
+    disable: bool
 
   PButtonSignalState = ptr TButtonSignalState
 
@@ -17,32 +17,32 @@ proc destroy(widget: PWidget, data: Pgpointer){.cdecl.} =
 proc widgetDestroy(w: PWidget) {.cdecl.} = destroy(w)
 
 proc disablesignal(widget: PWidget, data: Pgpointer){.cdecl.} = 
-  var s = cast[PButtonSignalState](Data)
-  if s.Disable: 
-    signal_handler_block(s.Obj, s.SignalID)
+  var s = cast[PButtonSignalState](data)
+  if s.disable: 
+    signal_handler_block(s.obj, s.signalID)
   else: 
-    signal_handler_unblock(s.Obj, s.SignalID)
+    signal_handler_unblock(s.obj, s.signalID)
   s.disable = not s.disable
 
 var 
-  QuitState: TButtonSignalState
+  quitState: TButtonSignalState
 
 nimrod_init()
 var window = window_new(WINDOW_TOPLEVEL)
 var quitbutton = button_new("Quit program")
 var disablebutton = button_new("Disable button")
-var windowbox = vbox_new(TRUE, 10)
+var windowbox = vbox_new(true, 10)
 pack_start(windowbox, disablebutton, true, false, 0)
 pack_start(windowbox, quitbutton, true, false, 0)
-set_border_width(Window, 10)
+set_border_width(window, 10)
 add(window, windowbox)
 discard signal_connect(window, "destroy", SIGNAL_FUNC(ex6.destroy), nil)
-QuitState.Obj = QuitButton
-quitState.SignalID = signal_connect_object(QuitState.Obj, "clicked", 
+quitState.obj = quitbutton
+quitState.signalID = signal_connect_object(quitState.obj, "clicked", 
                        SIGNAL_FUNC(widgetDestroy), window).int32
-QuitState.Disable = true
+quitState.disable = true
 discard signal_connect(disablebutton, "clicked", 
-                   SIGNAL_FUNC(disablesignal), addr(QuitState))
+                   SIGNAL_FUNC(disablesignal), addr(quitState))
 show(quitbutton)
 show(disablebutton)
 show(windowbox)
