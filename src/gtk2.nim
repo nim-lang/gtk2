@@ -16556,7 +16556,7 @@ proc VSEPARATOR_GET_CLASS*(obj: pointer): PVSeparatorClass =
 type 
   Tcelllayout {.pure, final.} = object
 
-  PCellLayout* = tcelllayout
+  PCellLayout* = TCellLayout
   PPGtkCellLayout* = ptr PCellLayout
   PSignalRunType* = ptr TSignalRunType
   TSignalRunType* = int32
