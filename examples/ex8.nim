@@ -2,7 +2,7 @@
 import 
   glib2, gtk2
 
-proc destroy(widget: pWidget, data: pgpointer){.cdecl.} = 
+proc destroy(widget: PWidget, data: Pgpointer){.cdecl.} = 
   main_quit()
 
 nimrod_init()

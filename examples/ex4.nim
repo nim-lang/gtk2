@@ -3,10 +3,10 @@ import
   glib2, gtk2
 
 proc newbutton(ALabel: cstring): PWidget = 
-  Result = button_new(ALabel)
+  result = button_new(ALabel)
   show(result)
 
-proc destroy(widget: pWidget, data: pgpointer){.cdecl.} = 
+proc destroy(widget: PWidget, data: Pgpointer){.cdecl.} = 
   main_quit()
 
 nimrod_init()

@@ -10,13 +10,13 @@ type
 
   PButtonSignalState = ptr TButtonSignalState
 
-proc destroy(widget: pWidget, data: pgpointer){.cdecl.} = 
+proc destroy(widget: PWidget, data: Pgpointer){.cdecl.} = 
   main_quit()
 
 # This function is used to close the window when clicking on the "Click me" button.
 proc widgetDestroy(w: PWidget) {.cdecl.} = destroy(w)
 
-proc disablesignal(widget: pWidget, data: pgpointer){.cdecl.} = 
+proc disablesignal(widget: PWidget, data: Pgpointer){.cdecl.} = 
   var s = cast[PButtonSignalState](Data)
   if s.Disable: 
     signal_handler_block(s.Obj, s.SignalID)

@@ -4,12 +4,12 @@
 import
   glib2, gtk2, gtkmacintegration, os
 
-proc destroy(widget: pWidget, data: pgpointer) {.cdecl.} =
+proc destroy(widget: PWidget, data: Pgpointer) {.cdecl.} =
   main_quit()
 
 var
   application: POSXApplication
-  window: pWidget
+  window: PWidget
 nimrod_init()
 
 # OSX application initialization
