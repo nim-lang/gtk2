@@ -3462,17 +3462,17 @@ proc cclosure_marshal_BOOL_FLAGS*(closure: PGClosure, return_value: PGValue,
                                      marshal_data: gpointer){.cdecl, 
     dynlib: gliblib, importc: "g_cclosure_marshal_BOOLEAN__FLAGS".}
 proc GUINT16_SWAP_LE_BE_CONSTANT*(val: guint16): guint16 = 
-  Result = ((val and 0x00FF'i16) shl 8'i16) or
+  result = ((val and 0x00FF'i16) shl 8'i16) or
       ((val and 0xFF00'i16) shr 8'i16)
 
 proc GUINT32_SWAP_LE_BE_CONSTANT*(val: guint32): guint32 = 
-  Result = ((val and 0x000000FF'i32) shl 24'i32) or
+  result = ((val and 0x000000FF'i32) shl 24'i32) or
       ((val and 0x0000FF00'i32) shl 8'i32) or
       ((val and 0x00FF0000'i32) shr 8'i32) or
       ((val and 0xFF000000'i32) shr 24'i32)
 
 proc GUINT_TO_POINTER*(i: guint): pointer = 
-  Result = cast[pointer](TAddress(i))
+  result = cast[pointer](TAddress(i))
 
 when false: 
   type 

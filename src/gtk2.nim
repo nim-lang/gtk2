@@ -10931,127 +10931,127 @@ proc FUNDAMENTAL_TYPE*(thetype: GType): GType =
 
 proc VALUE_CHAR*(a: TArg): gchar = 
   var a = a
-  Result = cast[ptr gchar](addr(a.d))[] 
+  result = cast[ptr gchar](addr(a.d))[] 
 
 proc VALUE_UCHAR*(a: TArg): guchar = 
   var a = a
-  Result = cast[ptr guchar](addr(a.d))[] 
+  result = cast[ptr guchar](addr(a.d))[] 
 
 proc VALUE_BOOL*(a: TArg): gboolean = 
   var a = a
-  Result = cast[ptr gboolean](addr(a.d))[] 
+  result = cast[ptr gboolean](addr(a.d))[] 
 
 proc VALUE_INT*(a: TArg): gint = 
   var a = a
-  Result = cast[ptr gint](addr(a.d))[] 
+  result = cast[ptr gint](addr(a.d))[] 
 
 proc VALUE_UINT*(a: TArg): guint = 
   var a = a
-  Result = cast[ptr guint](addr(a.d))[] 
+  result = cast[ptr guint](addr(a.d))[] 
 
 proc VALUE_LONG*(a: TArg): glong = 
   var a = a
-  Result = cast[ptr glong](addr(a.d))[] 
+  result = cast[ptr glong](addr(a.d))[] 
 
 proc VALUE_ULONG*(a: TArg): gulong = 
   var a = a
-  Result = cast[ptr gulong](addr(a.d))[] 
+  result = cast[ptr gulong](addr(a.d))[] 
 
 proc VALUE_FLOAT*(a: TArg): gfloat = 
   var a = a
-  Result = cast[ptr gfloat](addr(a.d))[] 
+  result = cast[ptr gfloat](addr(a.d))[] 
 
 proc VALUE_DOUBLE*(a: TArg): gdouble = 
   var a = a
-  Result = cast[ptr gdouble](addr(a.d))[] 
+  result = cast[ptr gdouble](addr(a.d))[] 
 
 proc VALUE_STRING*(a: TArg): cstring = 
   var a = a
-  Result = cast[ptr cstring](addr(a.d))[] 
+  result = cast[ptr cstring](addr(a.d))[] 
 
 proc VALUE_ENUM*(a: TArg): gint = 
   var a = a
-  Result = cast[ptr gint](addr(a.d))[] 
+  result = cast[ptr gint](addr(a.d))[] 
 
 proc VALUE_FLAGS*(a: TArg): guint = 
   var a = a
-  Result = cast[ptr guint](addr(a.d))[] 
+  result = cast[ptr guint](addr(a.d))[] 
 
 proc VALUE_BOXED*(a: TArg): gpointer = 
   var a = a
-  Result = cast[ptr gpointer](addr(a.d))[] 
+  result = cast[ptr gpointer](addr(a.d))[] 
 
 proc VALUE_OBJECT*(a: TArg): PObject = 
   var a = a
-  Result = cast[ptr PObject](addr(a.d))[] 
+  result = cast[ptr PObject](addr(a.d))[] 
 
 proc VALUE_POINTER*(a: TArg): gpointer = 
   var a = a
-  Result = cast[ptr gpointer](addr(a.d))[] 
+  result = cast[ptr gpointer](addr(a.d))[] 
 
 proc VALUE_SIGNAL*(a: TArg): TArgSignalData = 
   var a = a
-  Result = cast[ptr TArgSignalData](addr(a.d))[] 
+  result = cast[ptr TArgSignalData](addr(a.d))[] 
 
 proc RETLOC_CHAR*(a: TArg): cstring = 
   var a = a
-  Result = cast[ptr cstring](addr(a.d))[] 
+  result = cast[ptr cstring](addr(a.d))[] 
 
 proc RETLOC_UCHAR*(a: TArg): Pguchar = 
   var a = a
-  Result = cast[ptr Pguchar](addr(a.d))[] 
+  result = cast[ptr Pguchar](addr(a.d))[] 
 
 proc RETLOC_BOOL*(a: TArg): Pgboolean = 
   var a = a
-  Result = cast[ptr pgboolean](addr(a.d))[] 
+  result = cast[ptr pgboolean](addr(a.d))[] 
 
 proc RETLOC_INT*(a: TArg): Pgint = 
   var a = a
-  Result = cast[ptr pgint](addr(a.d))[] 
+  result = cast[ptr pgint](addr(a.d))[] 
 
 proc RETLOC_UINT*(a: TArg): Pguint = 
   var a = a
-  Result = cast[ptr pguint](addr(a.d))[] 
+  result = cast[ptr pguint](addr(a.d))[] 
 
 proc RETLOC_LONG*(a: TArg): Pglong = 
   var a = a
-  Result = cast[ptr pglong](addr(a.d))[] 
+  result = cast[ptr pglong](addr(a.d))[] 
 
 proc RETLOC_ULONG*(a: TArg): Pgulong = 
   var a = a
-  Result = cast[ptr pgulong](addr(a.d))[] 
+  result = cast[ptr pgulong](addr(a.d))[] 
 
 proc RETLOC_FLOAT*(a: TArg): Pgfloat = 
   var a = a
-  Result = cast[ptr pgfloat](addr(a.d))[] 
+  result = cast[ptr pgfloat](addr(a.d))[] 
 
 proc RETLOC_DOUBLE*(a: TArg): Pgdouble = 
   var a = a
-  Result = cast[ptr pgdouble](addr(a.d))[] 
+  result = cast[ptr pgdouble](addr(a.d))[] 
 
 proc RETLOC_STRING*(a: TArg): Ppgchar = 
   var a = a
-  Result = cast[ptr Ppgchar](addr(a.d))[] 
+  result = cast[ptr Ppgchar](addr(a.d))[] 
 
 proc RETLOC_ENUM*(a: TArg): Pgint = 
   var a = a
-  Result = cast[ptr Pgint](addr(a.d))[] 
+  result = cast[ptr Pgint](addr(a.d))[] 
 
 proc RETLOC_FLAGS*(a: TArg): Pguint = 
   var a = a
-  Result = cast[ptr pguint](addr(a.d))[] 
+  result = cast[ptr pguint](addr(a.d))[] 
 
 proc RETLOC_BOXED*(a: TArg): Pgpointer = 
   var a = a
-  Result = cast[ptr Pgpointer](addr(a.d))[] 
+  result = cast[ptr Pgpointer](addr(a.d))[] 
 
 proc RETLOC_OBJECT*(a: TArg): PPGtkObject = 
   var a = a
-  Result = cast[ptr ppgtkobject](addr(a.d))[] 
+  result = cast[ptr ppgtkobject](addr(a.d))[] 
 
 proc RETLOC_POINTER*(a: TArg): Pgpointer = 
   var a = a
-  Result = cast[ptr Pgpointer](addr(a.d))[] 
+  result = cast[ptr Pgpointer](addr(a.d))[] 
 
 proc TYPE_WIDGET*(): GType = 
   result = widget_get_type()
@@ -14764,7 +14764,7 @@ proc signal_handler_unblock_by_data*(anObject: PObject, data: gpointer) =
 
 proc signal_handler_pending*(anObject: PObject, signal_id: guint, 
                              may_be_blocked: gboolean): gboolean = 
-  Result = g_signal_has_handler_pending(anObject, signal_id, 0, may_be_blocked)
+  result = g_signal_has_handler_pending(anObject, signal_id, 0, may_be_blocked)
 
 proc signal_handler_pending_by_func*(anObject: PObject, signal_id: guint, 
                                      may_be_blocked: gboolean, 
@@ -14775,7 +14775,7 @@ proc signal_handler_pending_by_func*(anObject: PObject, signal_id: guint,
       G_SIGNAL_MATCH_DATA)
   if not may_be_blocked: 
     t = t or cast[TGSignalMatchType](G_SIGNAL_MATCH_UNBLOCKED)
-  Result = g_signal_handler_find(anObject, t, signal_id, 0, nil, fun, data) !=
+  result = g_signal_handler_find(anObject, t, signal_id, 0, nil, fun, data) !=
       0
 
 proc TYPE_SIZE_GROUP*(): GType = 
@@ -16253,11 +16253,11 @@ proc set_parity*(a: PRBNode, `parity`: guint) =
 
 proc GET_COLOR*(node: PRBNode): guint = 
   if node == nil: 
-    Result = RBNODE_BLACK
+    result = RBNODE_BLACK
   elif (int(flags(node)) and RBNODE_RED) == RBNODE_RED: 
-    Result = RBNODE_RED
+    result = RBNODE_RED
   else: 
-    Result = RBNODE_BLACK
+    result = RBNODE_BLACK
 
 proc SET_COLOR*(node: PRBNode, color: guint) = 
   if node == nil: 
