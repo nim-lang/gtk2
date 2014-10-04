@@ -4161,7 +4161,7 @@ proc G_TYPE_CHECK_CLASS_TYPE*(g_class: pointer, g_type: GType): bool =
   result = private_g_type_check_class_is_a(cast[PGTypeClass](g_class), g_type)
 
 proc G_TYPE_CHECK_VALUE*(value: pointer): bool = 
-  result = private_g_type_check_value(cast[PGValue](Value))
+  result = private_g_type_check_value(cast[PGValue](value))
 
 proc G_TYPE_CHECK_VALUE_TYPE*(value: pointer, g_type: GType): bool = 
   result = private_g_type_check_value_holds(cast[PGValue](value), g_type)
@@ -4458,10 +4458,10 @@ proc CLAMP*(x, MinX, MaxX: int): int =
   else: 
     result = x
 
-proc GPOINTER_TO_SIZE*(p: gpointer): GSize = 
-  result = GSize(cast[TAddress](p))
+proc GPOINTER_TO_SIZE*(p: gpointer): gsize = 
+  result = gsize(cast[TAddress](p))
 
-proc GSIZE_TO_POINTER*(s: GSize): gpointer = 
+proc GSIZE_TO_POINTER*(s: gsize): gpointer = 
   result = cast[gpointer](s)
 
 proc HOLDS_CHAR*(value: PGValue): bool = 
