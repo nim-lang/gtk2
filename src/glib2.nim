@@ -4147,7 +4147,7 @@ proc G_TYPE_CHECK_INSTANCE_TYPE*(instance: pointer, g_type: GType): bool =
       g_type)
 
 proc G_TYPE_INSTANCE_GET_CLASS*(instance: pointer, g_type: GType): PGTypeClass = 
-  result = cast[PGTypeInstance](Instance).g_class
+  result = cast[PGTypeInstance](instance).g_class
   result = private_g_type_check_class_cast(result, g_type)
 
 proc G_TYPE_INSTANCE_GET_INTERFACE*(instance: pointer, g_type: GType): pointer = 
