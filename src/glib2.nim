@@ -47,7 +47,7 @@ type
   Pguint* = ptr guint
   Pgfloat* = ptr gfloat
   Pgdouble* = ptr gdouble
-  pgpointer* = ptr gpointer
+  Pgpointer* = ptr gpointer
   gconstpointer* = pointer
   PGCompareFunc* = ptr TGCompareFunc
   TGCompareFunc* = proc (a, b: gconstpointer): gint{.cdecl.}

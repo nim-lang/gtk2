@@ -11043,7 +11043,7 @@ proc RETLOC_FLAGS*(a: TArg): Pguint =
 
 proc RETLOC_BOXED*(a: TArg): Pgpointer = 
   var a = a
-  Result = cast[ptr pgpointer](addr(a.d))[] 
+  Result = cast[ptr Pgpointer](addr(a.d))[] 
 
 proc RETLOC_OBJECT*(a: TArg): PPGtkObject = 
   var a = a
@@ -11051,7 +11051,7 @@ proc RETLOC_OBJECT*(a: TArg): PPGtkObject =
 
 proc RETLOC_POINTER*(a: TArg): Pgpointer = 
   var a = a
-  Result = cast[ptr pgpointer](addr(a.d))[] 
+  Result = cast[ptr Pgpointer](addr(a.d))[] 
 
 proc TYPE_WIDGET*(): GType = 
   result = widget_get_type()
