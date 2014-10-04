@@ -3340,126 +3340,126 @@ proc g_module_build_path*(directory: cstring, module_name: cstring): cstring{.
 proc cclosure_marshal_VOID_VOID*(closure: PGClosure, return_value: PGValue, 
                                     n_param_values: guint, 
                                     param_values: PGValue, 
-                                    invocation_hint: Gpointer, 
-                                    marshal_data: Gpointer){.cdecl, 
+                                    invocation_hint: gpointer, 
+                                    marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__VOID".}
 proc cclosure_marshal_VOID_BOOLEAN*(closure: PGClosure, 
                                        return_value: PGValue, 
                                        n_param_values: guint, 
                                        param_values: PGValue, 
-                                       invocation_hint: Gpointer, 
-                                       marshal_data: Gpointer){.cdecl, 
+                                       invocation_hint: gpointer, 
+                                       marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__BOOLEAN".}
 proc cclosure_marshal_VOID_CHAR*(closure: PGClosure, return_value: PGValue, 
                                     n_param_values: guint, 
                                     param_values: PGValue, 
-                                    invocation_hint: Gpointer, 
-                                    marshal_data: Gpointer){.cdecl, 
+                                    invocation_hint: gpointer, 
+                                    marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__CHAR".}
 proc cclosure_marshal_VOID_UCHAR*(closure: PGClosure, return_value: PGValue, 
                                      n_param_values: guint, 
                                      param_values: PGValue, 
-                                     invocation_hint: Gpointer, 
-                                     marshal_data: Gpointer){.cdecl, 
+                                     invocation_hint: gpointer, 
+                                     marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__UCHAR".}
 proc cclosure_marshal_VOID_INT*(closure: PGClosure, return_value: PGValue, 
                                    n_param_values: guint, param_values: PGValue, 
-                                   invocation_hint: Gpointer, 
-                                   marshal_data: Gpointer){.cdecl, 
+                                   invocation_hint: gpointer, 
+                                   marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__INT".}
 proc cclosure_marshal_VOID_UINT*(closure: PGClosure, return_value: PGValue, 
                                     n_param_values: guint, 
                                     param_values: PGValue, 
-                                    invocation_hint: Gpointer, 
-                                    marshal_data: Gpointer){.cdecl, 
+                                    invocation_hint: gpointer, 
+                                    marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__UINT".}
 proc cclosure_marshal_VOID_LONG*(closure: PGClosure, return_value: PGValue, 
                                     n_param_values: guint, 
                                     param_values: PGValue, 
-                                    invocation_hint: Gpointer, 
-                                    marshal_data: Gpointer){.cdecl, 
+                                    invocation_hint: gpointer, 
+                                    marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__LONG".}
 proc cclosure_marshal_VOID_ULONG*(closure: PGClosure, return_value: PGValue, 
                                      n_param_values: guint, 
                                      param_values: PGValue, 
-                                     invocation_hint: Gpointer, 
-                                     marshal_data: Gpointer){.cdecl, 
+                                     invocation_hint: gpointer, 
+                                     marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__ULONG".}
 proc cclosure_marshal_VOID_ENUM*(closure: PGClosure, return_value: PGValue, 
                                     n_param_values: guint, 
                                     param_values: PGValue, 
-                                    invocation_hint: Gpointer, 
-                                    marshal_data: Gpointer){.cdecl, 
+                                    invocation_hint: gpointer, 
+                                    marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__ENUM".}
 proc cclosure_marshal_VOID_FLAGS*(closure: PGClosure, return_value: PGValue, 
                                      n_param_values: guint, 
                                      param_values: PGValue, 
-                                     invocation_hint: Gpointer, 
-                                     marshal_data: Gpointer){.cdecl, 
+                                     invocation_hint: gpointer, 
+                                     marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__FLAGS".}
 proc cclosure_marshal_VOID_FLOAT*(closure: PGClosure, return_value: PGValue, 
                                      n_param_values: guint, 
                                      param_values: PGValue, 
-                                     invocation_hint: Gpointer, 
-                                     marshal_data: Gpointer){.cdecl, 
+                                     invocation_hint: gpointer, 
+                                     marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__FLOAT".}
 proc cclosure_marshal_VOID_DOUBLE*(closure: PGClosure, return_value: PGValue, 
                                       n_param_values: guint, 
                                       param_values: PGValue, 
-                                      invocation_hint: Gpointer, 
-                                      marshal_data: Gpointer){.cdecl, 
+                                      invocation_hint: gpointer, 
+                                      marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__DOUBLE".}
 proc cclosure_marshal_VOID_STRING*(closure: PGClosure, return_value: PGValue, 
                                       n_param_values: guint, 
                                       param_values: PGValue, 
-                                      invocation_hint: Gpointer, 
-                                      marshal_data: Gpointer){.cdecl, 
+                                      invocation_hint: gpointer, 
+                                      marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__STRING".}
 proc cclosure_marshal_VOID_PARAM*(closure: PGClosure, return_value: PGValue, 
                                      n_param_values: guint, 
                                      param_values: PGValue, 
-                                     invocation_hint: Gpointer, 
-                                     marshal_data: Gpointer){.cdecl, 
+                                     invocation_hint: gpointer, 
+                                     marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__PARAM".}
 proc cclosure_marshal_VOID_BOXED*(closure: PGClosure, return_value: PGValue, 
                                      n_param_values: guint, 
                                      param_values: PGValue, 
-                                     invocation_hint: Gpointer, 
-                                     marshal_data: Gpointer){.cdecl, 
+                                     invocation_hint: gpointer, 
+                                     marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__BOXED".}
 proc cclosure_marshal_VOID_POINTER*(closure: PGClosure, 
                                        return_value: PGValue, 
                                        n_param_values: guint, 
                                        param_values: PGValue, 
-                                       invocation_hint: Gpointer, 
-                                       marshal_data: Gpointer){.cdecl, 
+                                       invocation_hint: gpointer, 
+                                       marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__POINTER".}
 proc cclosure_marshal_VOID_OBJECT*(closure: PGClosure, return_value: PGValue, 
                                       n_param_values: guint, 
                                       param_values: PGValue, 
-                                      invocation_hint: Gpointer, 
-                                      marshal_data: Gpointer){.cdecl, 
+                                      invocation_hint: gpointer, 
+                                      marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__OBJECT".}
 proc cclosure_marshal_STRING_OBJECT_POINTER*(closure: PGClosure, 
     return_value: PGValue, n_param_values: guint, param_values: PGValue, 
-    invocation_hint: Gpointer, marshal_data: Gpointer){.cdecl, 
+    invocation_hint: gpointer, marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_STRING__OBJECT_POINTER".}
 proc cclosure_marshal_VOID_UINT_POINTER*(closure: PGClosure, 
     return_value: PGValue, n_param_values: guint, param_values: PGValue, 
-    invocation_hint: Gpointer, marshal_data: Gpointer){.cdecl, 
+    invocation_hint: gpointer, marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__UINT_POINTER".}
 proc cclosure_marshal_BOOLEAN_FLAGS*(closure: PGClosure, 
                                         return_value: PGValue, 
                                         n_param_values: guint, 
                                         param_values: PGValue, 
-                                        invocation_hint: Gpointer, 
-                                        marshal_data: Gpointer){.cdecl, 
+                                        invocation_hint: gpointer, 
+                                        marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_BOOLEAN__FLAGS".}
 proc cclosure_marshal_BOOL_FLAGS*(closure: PGClosure, return_value: PGValue, 
                                      n_param_values: guint, 
                                      param_values: PGValue, 
-                                     invocation_hint: Gpointer, 
-                                     marshal_data: Gpointer){.cdecl, 
+                                     invocation_hint: gpointer, 
+                                     marshal_data: gpointer){.cdecl, 
     dynlib: gliblib, importc: "g_cclosure_marshal_BOOLEAN__FLAGS".}
 proc GUINT16_SWAP_LE_BE_CONSTANT*(val: guint16): guint16 = 
   Result = ((val and 0x00FF'i16) shl 8'i16) or
@@ -3487,8 +3487,8 @@ when false:
     result = g_array_insert_vals(a, i, addr(v), 1)
 
   proc g_ptr_array_index*(parray: PGPtrArray, index: guint): gpointer = 
-    result = cast[PGpointer](cast[int](parray []. pdata) +
-        index * sizeof(Gpointer))[] 
+    result = cast[Pgpointer](cast[int](parray []. pdata) +
+        index * sizeof(gpointer))[] 
 
   proc G_THREAD_ERROR*(): TGQuark = 
     result = g_thread_error_quark()
@@ -4458,11 +4458,11 @@ proc CLAMP*(x, MinX, MaxX: int): int =
   else: 
     result = x
 
-proc GPOINTER_TO_SIZE*(p: Gpointer): GSize = 
+proc GPOINTER_TO_SIZE*(p: gpointer): GSize = 
   result = GSize(cast[TAddress](p))
 
-proc GSIZE_TO_POINTER*(s: GSize): Gpointer = 
-  result = cast[Gpointer](s)
+proc GSIZE_TO_POINTER*(s: GSize): gpointer = 
+  result = cast[gpointer](s)
 
 proc HOLDS_CHAR*(value: PGValue): bool = 
   result = G_TYPE_CHECK_VALUE_TYPE(value, G_TYPE_CHAR)

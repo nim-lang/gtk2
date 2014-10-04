@@ -10985,7 +10985,7 @@ proc VALUE_OBJECT*(a: TArg): PObject =
   var a = a
   Result = cast[ptr PObject](addr(a.d))[] 
 
-proc VALUE_POINTER*(a: TArg): Gpointer = 
+proc VALUE_POINTER*(a: TArg): gpointer = 
   var a = a
   Result = cast[ptr gpointer](addr(a.d))[] 
 
