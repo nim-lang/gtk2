@@ -32,15 +32,15 @@ var window = window_new(WINDOW_TOPLEVEL)
 var quitbutton = button_new("Quit program")
 var disablebutton = button_new("Disable button")
 var windowbox = vbox_new(TRUE, 10)
-pack_start(windowbox, disablebutton, True, false, 0)
-pack_start(windowbox, quitbutton, True, false, 0)
+pack_start(windowbox, disablebutton, true, false, 0)
+pack_start(windowbox, quitbutton, true, false, 0)
 set_border_width(Window, 10)
 add(window, windowbox)
 discard signal_connect(window, "destroy", SIGNAL_FUNC(ex6.destroy), nil)
 QuitState.Obj = QuitButton
 quitState.SignalID = signal_connect_object(QuitState.Obj, "clicked", 
                        SIGNAL_FUNC(widgetDestroy), window).int32
-QuitState.Disable = True
+QuitState.Disable = true
 discard signal_connect(disablebutton, "clicked", 
                    SIGNAL_FUNC(disablesignal), addr(QuitState))
 show(quitbutton)
