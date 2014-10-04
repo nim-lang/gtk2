@@ -10999,7 +10999,7 @@ proc RETLOC_CHAR*(a: TArg): cstring =
 
 proc RETLOC_UCHAR*(a: TArg): Pguchar = 
   var a = a
-  Result = cast[ptr pguchar](addr(a.d))[] 
+  Result = cast[ptr Pguchar](addr(a.d))[] 
 
 proc RETLOC_BOOL*(a: TArg): Pgboolean = 
   var a = a

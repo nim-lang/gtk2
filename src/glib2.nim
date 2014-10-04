@@ -2295,7 +2295,7 @@ proc unicode_canonical_ordering*(str: Pgunichar, len: gsize){.cdecl,
     dynlib: gliblib, importc: "g_unicode_canonical_ordering".}
 proc g_unicode_canonical_decomposition*(ch: gunichar, result_len: Pgsize): Pgunichar{.
     cdecl, dynlib: gliblib, importc: "g_unicode_canonical_decomposition".}
-proc utf8_next_char*(p: pguchar): pguchar
+proc utf8_next_char*(p: Pguchar): Pguchar
 proc g_utf8_get_char*(p: cstring): gunichar{.cdecl, dynlib: gliblib, 
     importc: "g_utf8_get_char".}
 proc g_utf8_get_char_validated*(p: cstring, max_len: gssize): gunichar{.cdecl, 
@@ -3772,8 +3772,8 @@ proc TGIOChannel_set_is_seekable*(a: PGIOChannel, `is_seekable`: guint) =
       (int16(`is_seekable` shl bp_TGIOChannel_is_seekable) and
       bm_TGIOChannel_is_seekable)
 
-proc utf8_next_char*(p: pguchar): pguchar = 
-  result = cast[pguchar](cast[TAddress](p) + 1) # p + ord((g_utf8_skip + p[] )[] )
+proc utf8_next_char*(p: Pguchar): Pguchar = 
+  result = cast[Pguchar](cast[TAddress](p) + 1) # p + ord((g_utf8_skip + p[] )[] )
   
 when false: 
   proc GLIB_CHECK_VERSION*(major, minor, micro: guint): bool = 
