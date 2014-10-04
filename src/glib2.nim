@@ -89,7 +89,7 @@ type
   Pgint64* = ptr gint64
   Pguint64* = ptr guint64
   pgssize* = ptr gssize
-  pgsize* = ptr gsize
+  Pgsize* = ptr gsize
   TGQuark* = guint32
   PGQuark* = ptr TGQuark
   PGTypeCValue* = ptr TGTypeCValue
