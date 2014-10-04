@@ -746,8 +746,8 @@ type
     max_aspect*: gdouble
     win_gravity*: TGravity
 
-  PPointerHooks* = ptr TpointerHooks
-  TpointerHooks*{.final, pure.} = object 
+  PPointerHooks* = ptr TPointerHooks
+  TPointerHooks*{.final, pure.} = object 
     get_pointer*: proc (window: PWindow, x: Pgint, y: Pgint, mask: PModifierType): PWindow{.
         cdecl.}
     window_at_pointer*: proc (screen: PScreen, win_x: Pgint, win_y: Pgint): PWindow{.
