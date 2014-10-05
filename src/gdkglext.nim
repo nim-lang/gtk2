@@ -26,7 +26,7 @@ type
   TGLEventMask* = int32
   TGLEventType* = int32
   TGLDrawableType* = int32
-  TGLProc* = Pointer
+  TGLProc* = pointer
   PGLConfig* = ptr TGLConfig
   PGLContext* = ptr TGLContext
   PGLDrawable* = ptr TGLDrawable
@@ -59,7 +59,7 @@ type
                      glcontext: PGLContext): gboolean{.cdecl.}
     gl_end*: proc (gldrawable: PGLDrawable){.cdecl.}
     get_gl_config*: proc (gldrawable: PGLDrawable): PGLConfig{.cdecl.}
-    get_size*: proc (gldrawable: PGLDrawable, width, height: PGInt){.cdecl.}
+    get_size*: proc (gldrawable: PGLDrawable, width, height: Pgint){.cdecl.}
 
   TGLPixmap* = object of TGObject
     drawable*: PDrawable
@@ -283,11 +283,11 @@ type
   PGLConfigMode* = ptr TGLConfigMode
 
 proc TYPE_GL_CONFIG*(): GType
-proc GL_CONFIG*(anObject: Pointer): PGLConfig
-proc GL_CONFIG_CLASS*(klass: Pointer): PGLConfigClass
-proc IS_GL_CONFIG*(anObject: Pointer): bool
-proc IS_GL_CONFIG_CLASS*(klass: Pointer): bool
-proc GL_CONFIG_GET_CLASS*(obj: Pointer): PGLConfigClass
+proc GL_CONFIG*(anObject: pointer): PGLConfig
+proc GL_CONFIG_CLASS*(klass: pointer): PGLConfigClass
+proc IS_GL_CONFIG*(anObject: pointer): bool
+proc IS_GL_CONFIG_CLASS*(klass: pointer): bool
+proc GL_CONFIG_GET_CLASS*(obj: pointer): PGLConfigClass
 proc gl_config_get_type*(): GType{.cdecl, dynlib: GLExtLib, 
                                    importc: "gdk_gl_config_get_type".}
 proc get_screen*(glconfig: PGLConfig): PScreen{.cdecl, 
@@ -321,11 +321,11 @@ proc has_stencil_buffer*(glconfig: PGLConfig): gboolean{.cdecl,
 proc has_accum_buffer*(glconfig: PGLConfig): gboolean{.cdecl, 
     dynlib: GLExtLib, importc: "gdk_gl_config_has_accum_buffer".}
 proc TYPE_GL_CONTEXT*(): GType
-proc GL_CONTEXT*(anObject: Pointer): PGLContext
-proc GL_CONTEXT_CLASS*(klass: Pointer): PGLContextClass
-proc IS_GL_CONTEXT*(anObject: Pointer): bool
-proc IS_GL_CONTEXT_CLASS*(klass: Pointer): bool
-proc GL_CONTEXT_GET_CLASS*(obj: Pointer): PGLContextClass
+proc GL_CONTEXT*(anObject: pointer): PGLContext
+proc GL_CONTEXT_CLASS*(klass: pointer): PGLContextClass
+proc IS_GL_CONTEXT*(anObject: pointer): bool
+proc IS_GL_CONTEXT_CLASS*(klass: pointer): bool
+proc GL_CONTEXT_GET_CLASS*(obj: pointer): PGLContextClass
 proc gl_context_get_type*(): GType{.cdecl, dynlib: GLExtLib, 
                                     importc: "gdk_gl_context_get_type".}
 proc context_new*(gldrawable: PGLDrawable, share_list: PGLContext, 
@@ -348,11 +348,11 @@ proc get_render_type*(glcontext: PGLContext): int32{.cdecl,
 proc gl_context_get_current*(): PGLContext{.cdecl, dynlib: GLExtLib, 
     importc: "gdk_gl_context_get_current".}
 proc TYPE_GL_DRAWABLE*(): GType
-proc GL_DRAWABLE*(inst: Pointer): PGLDrawable
-proc GL_DRAWABLE_CLASS*(vtable: Pointer): PGLDrawableClass
-proc IS_GL_DRAWABLE*(inst: Pointer): bool
-proc IS_GL_DRAWABLE_CLASS*(vtable: Pointer): bool
-proc GL_DRAWABLE_GET_CLASS*(inst: Pointer): PGLDrawableClass
+proc GL_DRAWABLE*(inst: pointer): PGLDrawable
+proc GL_DRAWABLE_CLASS*(vtable: pointer): PGLDrawableClass
+proc IS_GL_DRAWABLE*(inst: pointer): bool
+proc IS_GL_DRAWABLE_CLASS*(vtable: pointer): bool
+proc GL_DRAWABLE_GET_CLASS*(inst: pointer): PGLDrawableClass
 proc gl_drawable_get_type*(): GType{.cdecl, dynlib: GLExtLib, 
                                      importc: "gdk_gl_drawable_get_type".}
 proc make_current*(gldrawable: PGLDrawable, glcontext: PGLContext): gboolean{.
@@ -376,11 +376,11 @@ proc get_size*(gldrawable: PGLDrawable, width, height: PGInt){.
 proc gl_drawable_get_current*(): PGLDrawable{.cdecl, dynlib: GLExtLib, 
     importc: "gdk_gl_drawable_get_current".}
 proc TYPE_GL_PIXMAP*(): GType
-proc GL_PIXMAP*(anObject: Pointer): PGLPixmap
-proc GL_PIXMAP_CLASS*(klass: Pointer): PGLPixmapClass
-proc IS_GL_PIXMAP*(anObject: Pointer): bool
-proc IS_GL_PIXMAP_CLASS*(klass: Pointer): bool
-proc GL_PIXMAP_GET_CLASS*(obj: Pointer): PGLPixmapClass
+proc GL_PIXMAP*(anObject: pointer): PGLPixmap
+proc GL_PIXMAP_CLASS*(klass: pointer): PGLPixmapClass
+proc IS_GL_PIXMAP*(anObject: pointer): bool
+proc IS_GL_PIXMAP_CLASS*(klass: pointer): bool
+proc GL_PIXMAP_GET_CLASS*(obj: pointer): PGLPixmapClass
 proc gl_pixmap_get_type*(): GType{.cdecl, dynlib: GLExtLib, 
                                    importc: "gdk_gl_pixmap_get_type".}
 proc pixmap_new*(glconfig: PGLConfig, pixmap: PPixmap, attrib_list: ptr int32): PGLPixmap{.
@@ -400,11 +400,11 @@ proc get_gl_pixmap*(pixmap: PPixmap): PGLPixmap{.cdecl, dynlib: GLExtLib,
     importc: "gdk_pixmap_get_gl_pixmap".}
 proc get_gl_drawable*(pixmap: PPixmap): PGLDrawable
 proc TYPE_GL_WINDOW*(): GType
-proc GL_WINDOW*(anObject: Pointer): PGLWindow
-proc GL_WINDOW_CLASS*(klass: Pointer): PGLWindowClass
-proc IS_GL_WINDOW*(anObject: Pointer): bool
-proc IS_GL_WINDOW_CLASS*(klass: Pointer): bool
-proc GL_WINDOW_GET_CLASS*(obj: Pointer): PGLWindowClass
+proc GL_WINDOW*(anObject: pointer): PGLWindow
+proc GL_WINDOW_CLASS*(klass: pointer): PGLWindowClass
+proc IS_GL_WINDOW*(anObject: pointer): bool
+proc IS_GL_WINDOW_CLASS*(klass: pointer): bool
+proc GL_WINDOW_GET_CLASS*(obj: pointer): PGLWindowClass
 proc gl_window_get_type*(): GType{.cdecl, dynlib: GLExtLib, 
                                    importc: "gdk_gl_window_get_type".}
 proc window_new*(glconfig: PGLConfig, window: PWindow, attrib_list: ptr int32): PGLWindow{.
@@ -455,78 +455,78 @@ proc HEADER_GDKGLEXT_CHECK_VERSION*(major, minor, micro: guint): bool =
 proc TYPE_GL_CONFIG*(): GType = 
   result = gl_config_get_type()
 
-proc GL_CONFIG*(anObject: Pointer): PGLConfig = 
+proc GL_CONFIG*(anObject: pointer): PGLConfig = 
   result = cast[PGLConfig](G_TYPE_CHECK_INSTANCE_CAST(anObject, TYPE_GL_CONFIG()))
 
-proc GL_CONFIG_CLASS*(klass: Pointer): PGLConfigClass = 
+proc GL_CONFIG_CLASS*(klass: pointer): PGLConfigClass = 
   result = cast[PGLConfigClass](G_TYPE_CHECK_CLASS_CAST(klass, TYPE_GL_CONFIG()))
 
-proc IS_GL_CONFIG*(anObject: Pointer): bool = 
+proc IS_GL_CONFIG*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_GL_CONFIG())
 
-proc IS_GL_CONFIG_CLASS*(klass: Pointer): bool = 
+proc IS_GL_CONFIG_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_GL_CONFIG())
 
-proc GL_CONFIG_GET_CLASS*(obj: Pointer): PGLConfigClass = 
+proc GL_CONFIG_GET_CLASS*(obj: pointer): PGLConfigClass = 
   result = cast[PGLConfigClass](G_TYPE_INSTANCE_GET_CLASS(obj, TYPE_GL_CONFIG()))
 
 proc TYPE_GL_CONTEXT*(): GType = 
   result = gl_context_get_type()
 
-proc GL_CONTEXT*(anObject: Pointer): PGLContext = 
+proc GL_CONTEXT*(anObject: pointer): PGLContext = 
   result = cast[PGLContext](G_TYPE_CHECK_INSTANCE_CAST(anObject, 
       TYPE_GL_CONTEXT()))
 
-proc GL_CONTEXT_CLASS*(klass: Pointer): PGLContextClass = 
+proc GL_CONTEXT_CLASS*(klass: pointer): PGLContextClass = 
   result = cast[PGLContextClass](G_TYPE_CHECK_CLASS_CAST(klass, 
       TYPE_GL_CONTEXT()))
 
-proc IS_GL_CONTEXT*(anObject: Pointer): bool = 
+proc IS_GL_CONTEXT*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_GL_CONTEXT())
 
-proc IS_GL_CONTEXT_CLASS*(klass: Pointer): bool = 
+proc IS_GL_CONTEXT_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_GL_CONTEXT())
 
-proc GL_CONTEXT_GET_CLASS*(obj: Pointer): PGLContextClass = 
+proc GL_CONTEXT_GET_CLASS*(obj: pointer): PGLContextClass = 
   result = cast[PGLContextClass](G_TYPE_INSTANCE_GET_CLASS(obj, 
       TYPE_GL_CONTEXT()))
 
 proc TYPE_GL_DRAWABLE*(): GType = 
   result = gl_drawable_get_type()
 
-proc GL_DRAWABLE*(inst: Pointer): PGLDrawable = 
+proc GL_DRAWABLE*(inst: pointer): PGLDrawable = 
   result = cast[PGLDrawable](G_TYPE_CHECK_INSTANCE_CAST(inst, TYPE_GL_DRAWABLE()))
 
-proc GL_DRAWABLE_CLASS*(vtable: Pointer): PGLDrawableClass = 
+proc GL_DRAWABLE_CLASS*(vtable: pointer): PGLDrawableClass = 
   result = cast[PGLDrawableClass](G_TYPE_CHECK_CLASS_CAST(vtable, 
       TYPE_GL_DRAWABLE()))
 
-proc IS_GL_DRAWABLE*(inst: Pointer): bool = 
+proc IS_GL_DRAWABLE*(inst: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(inst, TYPE_GL_DRAWABLE())
 
-proc IS_GL_DRAWABLE_CLASS*(vtable: Pointer): bool = 
+proc IS_GL_DRAWABLE_CLASS*(vtable: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(vtable, TYPE_GL_DRAWABLE())
 
-proc GL_DRAWABLE_GET_CLASS*(inst: Pointer): PGLDrawableClass = 
+proc GL_DRAWABLE_GET_CLASS*(inst: pointer): PGLDrawableClass = 
   result = cast[PGLDrawableClass](G_TYPE_INSTANCE_GET_INTERFACE(inst, 
       TYPE_GL_DRAWABLE()))
 
 proc TYPE_GL_PIXMAP*(): GType = 
   result = gl_pixmap_get_type()
 
-proc GL_PIXMAP*(anObject: Pointer): PGLPixmap = 
+proc GL_PIXMAP*(anObject: pointer): PGLPixmap = 
   result = cast[PGLPixmap](G_TYPE_CHECK_INSTANCE_CAST(anObject, TYPE_GL_PIXMAP()))
 
-proc GL_PIXMAP_CLASS*(klass: Pointer): PGLPixmapClass = 
+proc GL_PIXMAP_CLASS*(klass: pointer): PGLPixmapClass = 
   result = cast[PGLPixmapClass](G_TYPE_CHECK_CLASS_CAST(klass, TYPE_GL_PIXMAP()))
 
-proc IS_GL_PIXMAP*(anObject: Pointer): bool = 
+proc IS_GL_PIXMAP*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_GL_PIXMAP())
 
-proc IS_GL_PIXMAP_CLASS*(klass: Pointer): bool = 
+proc IS_GL_PIXMAP_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_GL_PIXMAP())
 
-proc GL_PIXMAP_GET_CLASS*(obj: Pointer): PGLPixmapClass = 
+proc GL_PIXMAP_GET_CLASS*(obj: pointer): PGLPixmapClass = 
   result = cast[PGLPixmapClass](G_TYPE_INSTANCE_GET_CLASS(obj, TYPE_GL_PIXMAP()))
 
 proc get_gl_drawable*(pixmap: PPixmap): PGLDrawable = 
@@ -535,19 +535,19 @@ proc get_gl_drawable*(pixmap: PPixmap): PGLDrawable =
 proc TYPE_GL_WINDOW*(): GType = 
   result = gl_window_get_type()
 
-proc GL_WINDOW*(anObject: Pointer): PGLWindow = 
+proc GL_WINDOW*(anObject: pointer): PGLWindow = 
   result = cast[PGLWindow](G_TYPE_CHECK_INSTANCE_CAST(anObject, TYPE_GL_WINDOW()))
 
-proc GL_WINDOW_CLASS*(klass: Pointer): PGLWindowClass = 
+proc GL_WINDOW_CLASS*(klass: pointer): PGLWindowClass = 
   result = cast[PGLWindowClass](G_TYPE_CHECK_CLASS_CAST(klass, TYPE_GL_WINDOW()))
 
-proc IS_GL_WINDOW*(anObject: Pointer): bool = 
+proc IS_GL_WINDOW*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, TYPE_GL_WINDOW())
 
-proc IS_GL_WINDOW_CLASS*(klass: Pointer): bool = 
+proc IS_GL_WINDOW_CLASS*(klass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(klass, TYPE_GL_WINDOW())
 
-proc GL_WINDOW_GET_CLASS*(obj: Pointer): PGLWindowClass = 
+proc GL_WINDOW_GET_CLASS*(obj: pointer): PGLWindowClass = 
   result = cast[PGLWindowClass](G_TYPE_INSTANCE_GET_CLASS(obj, TYPE_GL_WINDOW()))
 
 proc get_gl_drawable*(window: PWindow): PGLDrawable = 

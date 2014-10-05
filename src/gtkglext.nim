@@ -1,6 +1,6 @@
 {.deadCodeElim: on.}
 import 
-  Glib2, Gdk2, gtk2, GdkGLExt
+  Glib2, gdk2, gtk2, GdkGLExt
 
 when defined(windows):
   const 

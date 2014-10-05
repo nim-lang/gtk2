@@ -3,10 +3,10 @@ import
   glib2, gtk2
 
 proc newbutton(ALabel: cstring): PWidget = 
-  Result = button_new(ALabel)
+  result = button_new(ALabel)
   show(result)
 
-proc destroy(widget: pWidget, data: pgpointer){.cdecl.} = 
+proc destroy(widget: PWidget, data: Pgpointer){.cdecl.} = 
   main_quit()
 
 nimrod_init()
@@ -30,7 +30,7 @@ pack_start(hbox, newbutton("Button 3"), false, false, 0) # Vertical box
 pack_start(vbox, newbutton("Button A"), true, true, 0)
 pack_start(vbox, newbutton("Button B"), true, true, 0)
 pack_start(vbox, newbutton("Button C"), true, true, 0) # Put totalbox in window
-set_border_width(PCONTAINER(Window), 5)
+set_border_width(PCONTAINER(window), 5)
 add(PContainer(window), totalbox)
 discard signal_connect(window, "destroy", SIGNAL_FUNC(ex3.destroy), nil)
 show(window)

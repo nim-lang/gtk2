@@ -326,23 +326,23 @@ proc set_mime_type*(stream: PHtmlStream, mime_type: cstring){.cdecl,
 proc html_stream_buffer_new*(close_func: THtmlStreamBufferCloseFunc, 
                              user_data: gpointer): PHtmlStream{.cdecl, 
     dynlib: htmllib, importc: "html_stream_buffer_new".}
-proc event_mouse_move*(view: PHtmlView, event: Gdk2.PEventMotion){.cdecl, 
+proc event_mouse_move*(view: PHtmlView, event: gdk2.PEventMotion){.cdecl, 
     dynlib: htmllib, importc: "html_event_mouse_move".}
-proc event_button_press*(view: PHtmlView, button: Gdk2.PEventButton){.cdecl, 
+proc event_button_press*(view: PHtmlView, button: gdk2.PEventButton){.cdecl, 
     dynlib: htmllib, importc: "html_event_button_press".}
-proc event_button_release*(view: PHtmlView, event: Gdk2.PEventButton){.cdecl, 
+proc event_button_release*(view: PHtmlView, event: gdk2.PEventButton){.cdecl, 
     dynlib: htmllib, importc: "html_event_button_release".}
 proc event_activate*(view: PHtmlView){.cdecl, dynlib: htmllib, 
     importc: "html_event_activate".}
-proc event_key_press*(view: PHtmlView, event: Gdk2.PEventKey): gboolean{.
+proc event_key_press*(view: PHtmlView, event: gdk2.PEventKey): gboolean{.
     cdecl, dynlib: htmllib, importc: "html_event_key_press".}
 proc event_find_root_box*(self: PHtmlBox, x: gint, y: gint): PHtmlBox{.
     cdecl, dynlib: htmllib, importc: "html_event_find_root_box".}
-proc selection_start*(view: PHtmlView, event: Gdk2.PEventButton){.cdecl, 
+proc selection_start*(view: PHtmlView, event: gdk2.PEventButton){.cdecl, 
     dynlib: htmllib, importc: "html_selection_start".}
-proc selection_end*(view: PHtmlView, event: Gdk2.PEventButton){.cdecl, 
+proc selection_end*(view: PHtmlView, event: gdk2.PEventButton){.cdecl, 
     dynlib: htmllib, importc: "html_selection_end".}
-proc selection_update*(view: PHtmlView, event: Gdk2.PEventMotion){.cdecl, 
+proc selection_update*(view: PHtmlView, event: gdk2.PEventMotion){.cdecl, 
     dynlib: htmllib, importc: "html_selection_update".}
 proc selection_clear*(view: PHtmlView){.cdecl, dynlib: htmllib, 
     importc: "html_selection_clear".}

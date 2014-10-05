@@ -47,7 +47,7 @@ type
   Pguint* = ptr guint
   Pgfloat* = ptr gfloat
   Pgdouble* = ptr gdouble
-  pgpointer* = ptr gpointer
+  Pgpointer* = ptr gpointer
   gconstpointer* = pointer
   PGCompareFunc* = ptr TGCompareFunc
   TGCompareFunc* = proc (a, b: gconstpointer): gint{.cdecl.}
@@ -89,7 +89,7 @@ type
   Pgint64* = ptr gint64
   Pguint64* = ptr guint64
   pgssize* = ptr gssize
-  pgsize* = ptr gsize
+  Pgsize* = ptr gsize
   TGQuark* = guint32
   PGQuark* = ptr TGQuark
   PGTypeCValue* = ptr TGTypeCValue
@@ -231,18 +231,18 @@ proc G_TYPE_IS_ABSTRACT*(theType: GType): bool
 proc G_TYPE_IS_VALUE_ABSTRACT*(theType: GType): bool
 proc G_TYPE_IS_VALUE_TYPE*(theType: GType): bool
 proc G_TYPE_HAS_VALUE_TABLE*(theType: GType): bool
-proc G_TYPE_CHECK_INSTANCE*(instance: Pointer): gboolean
-proc G_TYPE_CHECK_INSTANCE_CAST*(instance: Pointer, g_type: GType): PGTypeInstance
-proc G_TYPE_CHECK_INSTANCE_TYPE*(instance: Pointer, g_type: GType): bool
-proc G_TYPE_INSTANCE_GET_CLASS*(instance: Pointer, g_type: GType): PGTypeClass
-proc G_TYPE_INSTANCE_GET_INTERFACE*(instance: Pointer, g_type: GType): Pointer
-proc G_TYPE_CHECK_CLASS_CAST*(g_class: pointer, g_type: GType): Pointer
+proc G_TYPE_CHECK_INSTANCE*(instance: pointer): gboolean
+proc G_TYPE_CHECK_INSTANCE_CAST*(instance: pointer, g_type: GType): PGTypeInstance
+proc G_TYPE_CHECK_INSTANCE_TYPE*(instance: pointer, g_type: GType): bool
+proc G_TYPE_INSTANCE_GET_CLASS*(instance: pointer, g_type: GType): PGTypeClass
+proc G_TYPE_INSTANCE_GET_INTERFACE*(instance: pointer, g_type: GType): pointer
+proc G_TYPE_CHECK_CLASS_CAST*(g_class: pointer, g_type: GType): pointer
 proc G_TYPE_CHECK_CLASS_TYPE*(g_class: pointer, g_type: GType): bool
-proc G_TYPE_CHECK_VALUE*(value: Pointer): bool
+proc G_TYPE_CHECK_VALUE*(value: pointer): bool
 proc G_TYPE_CHECK_VALUE_TYPE*(value: pointer, g_type: GType): bool
-proc G_TYPE_FROM_INSTANCE*(instance: Pointer): GType
-proc G_TYPE_FROM_CLASS*(g_class: Pointer): GType
-proc G_TYPE_FROM_INTERFACE*(g_iface: Pointer): GType
+proc G_TYPE_FROM_INSTANCE*(instance: pointer): GType
+proc G_TYPE_FROM_CLASS*(g_class: pointer): GType
+proc G_TYPE_FROM_INTERFACE*(g_iface: pointer): GType
 type 
   TGTypeDebugFlags* = int32
   PGTypeDebugFlags* = ptr TGTypeDebugFlags
@@ -388,7 +388,7 @@ proc g_type_interface_get_plugin*(instance_type: GType,
     cdecl, dynlib: gobjectlib, importc: "g_type_interface_get_plugin".}
 proc g_type_fundamental_next*(): GType{.cdecl, dynlib: gobjectlib, 
                                         importc: "g_type_fundamental_next".}
-proc g_type_fundamental*(type_id: GType): GType{.cdecl, dynlib: gobjectlib, 
+proc G_TYPE_FUNDAMENTAL*(type_id: GType): GType{.cdecl, dynlib: gobjectlib, 
     importc: "g_type_fundamental".}
 proc g_type_create_instance*(theType: GType): PGTypeInstance{.cdecl, 
     dynlib: gobjectlib, importc: "g_type_create_instance".}
@@ -433,8 +433,8 @@ const
 
 proc G_TYPE_IS_VALUE*(theType: GType): bool
 proc G_IS_VALUE*(value: pointer): bool
-proc G_VALUE_TYPE*(value: Pointer): GType
-proc G_VALUE_TYPE_NAME*(value: Pointer): cstring
+proc G_VALUE_TYPE*(value: pointer): GType
+proc G_VALUE_TYPE_NAME*(value: pointer): cstring
 proc G_VALUE_HOLDS*(value: pointer, g_type: GType): bool
 type 
   TGValueTransform* = proc (src_value: PGValue, dest_value: PGValue){.cdecl.}
@@ -584,15 +584,15 @@ type
   Pgchararray* = ptr Tgchararray
 
 proc G_TYPE_IS_PARAM*(theType: GType): bool
-proc G_PARAM_SPEC*(pspec: Pointer): PGParamSpec
-proc G_IS_PARAM_SPEC*(pspec: Pointer): bool
-proc G_PARAM_SPEC_CLASS*(pclass: Pointer): PGParamSpecClass
-proc G_IS_PARAM_SPEC_CLASS*(pclass: Pointer): bool
-proc G_PARAM_SPEC_GET_CLASS*(pspec: Pointer): PGParamSpecClass
-proc G_PARAM_SPEC_TYPE*(pspec: Pointer): GType
-proc G_PARAM_SPEC_TYPE_NAME*(pspec: Pointer): cstring
-proc G_PARAM_SPEC_VALUE_TYPE*(pspec: Pointer): GType
-proc G_VALUE_HOLDS_PARAM*(value: Pointer): bool
+proc G_PARAM_SPEC*(pspec: pointer): PGParamSpec
+proc G_IS_PARAM_SPEC*(pspec: pointer): bool
+proc G_PARAM_SPEC_CLASS*(pclass: pointer): PGParamSpecClass
+proc G_IS_PARAM_SPEC_CLASS*(pclass: pointer): bool
+proc G_PARAM_SPEC_GET_CLASS*(pspec: pointer): PGParamSpecClass
+proc G_PARAM_SPEC_TYPE*(pspec: pointer): GType
+proc G_PARAM_SPEC_TYPE_NAME*(pspec: pointer): cstring
+proc G_PARAM_SPEC_VALUE_TYPE*(pspec: pointer): GType
+proc G_VALUE_HOLDS_PARAM*(value: pointer): bool
 const 
   G_PARAM_READABLE* = 1 shl 0
   G_PARAM_WRITABLE* = 1 shl 1
@@ -705,7 +705,7 @@ type
     notify*: TGClosureNotify
 
 
-proc G_CLOSURE_NEEDS_MARSHAL*(closure: Pointer): bool
+proc G_CLOSURE_NEEDS_MARSHAL*(closure: pointer): bool
 proc N_NOTIFIERS*(cl: PGClosure): int32
 proc CCLOSURE_SWAP_DATA*(cclosure: PGClosure): int32
 proc G_CALLBACK*(f: pointer): TGCallback
@@ -979,11 +979,11 @@ type
 
 
 proc G_TYPE_TYPE_PLUGIN*(): GType
-proc G_TYPE_PLUGIN*(inst: Pointer): PGTypePlugin
-proc G_TYPE_PLUGIN_CLASS*(vtable: Pointer): PGTypePluginClass
-proc G_IS_TYPE_PLUGIN*(inst: Pointer): bool
-proc G_IS_TYPE_PLUGIN_CLASS*(vtable: Pointer): bool
-proc G_TYPE_PLUGIN_GET_CLASS*(inst: Pointer): PGTypePluginClass
+proc G_TYPE_PLUGIN*(inst: pointer): PGTypePlugin
+proc G_TYPE_PLUGIN_CLASS*(vtable: pointer): PGTypePluginClass
+proc G_IS_TYPE_PLUGIN*(inst: pointer): bool
+proc G_IS_TYPE_PLUGIN_CLASS*(vtable: pointer): bool
+proc G_TYPE_PLUGIN_GET_CLASS*(inst: pointer): PGTypePluginClass
 proc g_type_plugin_get_type*(): GType{.cdecl, dynlib: gliblib, 
                                        importc: "g_type_plugin_get_type".}
 proc plugin_use*(plugin: PGTypePlugin){.cdecl, dynlib: gliblib, 
@@ -1036,15 +1036,15 @@ type
 
 proc G_TYPE_IS_OBJECT*(theType: GType): bool
 proc G_OBJECT*(anObject: pointer): PGObject
-proc G_OBJECT_CLASS*(class: Pointer): PGObjectClass
+proc G_OBJECT_CLASS*(class: pointer): PGObjectClass
 proc G_IS_OBJECT*(anObject: pointer): bool
-proc G_IS_OBJECT_CLASS*(class: Pointer): bool
+proc G_IS_OBJECT_CLASS*(class: pointer): bool
 proc G_OBJECT_GET_CLASS*(anObject: pointer): PGObjectClass
 proc G_OBJECT_TYPE*(anObject: pointer): GType
 proc G_OBJECT_TYPE_NAME*(anObject: pointer): cstring
-proc G_OBJECT_CLASS_TYPE*(class: Pointer): GType
-proc G_OBJECT_CLASS_NAME*(class: Pointer): cstring
-proc G_VALUE_HOLDS_OBJECT*(value: Pointer): bool
+proc G_OBJECT_CLASS_TYPE*(class: pointer): GType
+proc G_OBJECT_CLASS_NAME*(class: pointer): cstring
+proc G_VALUE_HOLDS_OBJECT*(value: pointer): bool
 proc class_install_property*(oclass: PGObjectClass, property_id: guint, 
                                       pspec: PGParamSpec){.cdecl, 
     dynlib: gobjectlib, importc: "g_object_class_install_property".}
@@ -1236,9 +1236,9 @@ const
   G_HAVE_GINT64* = 1
   G_GINT64_FORMAT* = "I64i"
   G_GUINT64_FORMAT* = "I64u"
-  GLIB_SIZEOF_VOID_P* = SizeOf(Pointer)
-  GLIB_SIZEOF_LONG* = SizeOf(int32)
-  GLIB_SIZEOF_SIZE_T* = SizeOf(int32)
+  GLIB_SIZEOF_VOID_P* = sizeof(pointer)
+  GLIB_SIZEOF_LONG* = sizeof(int32)
+  GLIB_SIZEOF_SIZE_T* = sizeof(int32)
 
 type 
   PGSystemThread* = ptr TGSystemThread
@@ -1515,8 +1515,8 @@ proc set_vtable*(vtable: PGMemVTable){.cdecl, dynlib: gliblib,
 proc g_mem_is_system_malloc*(): gboolean{.cdecl, dynlib: gliblib, 
     importc: "g_mem_is_system_malloc".}
 proc g_mem_profile*(){.cdecl, dynlib: gliblib, importc: "g_mem_profile".}
-proc g_chunk_new*(chunk: Pointer): Pointer
-proc g_chunk_new0*(chunk: Pointer): Pointer
+proc g_chunk_new*(chunk: pointer): pointer
+proc g_chunk_new0*(chunk: pointer): pointer
 
 const 
   G_ALLOC_ONLY* = 1
@@ -2295,7 +2295,7 @@ proc unicode_canonical_ordering*(str: Pgunichar, len: gsize){.cdecl,
     dynlib: gliblib, importc: "g_unicode_canonical_ordering".}
 proc g_unicode_canonical_decomposition*(ch: gunichar, result_len: Pgsize): Pgunichar{.
     cdecl, dynlib: gliblib, importc: "g_unicode_canonical_decomposition".}
-proc utf8_next_char*(p: pguchar): pguchar
+proc utf8_next_char*(p: Pguchar): Pguchar
 proc g_utf8_get_char*(p: cstring): gunichar{.cdecl, dynlib: gliblib, 
     importc: "g_utf8_get_char".}
 proc g_utf8_get_char_validated*(p: cstring, max_len: gssize): gunichar{.cdecl, 
@@ -3338,141 +3338,141 @@ proc name*(module: PGModule): cstring{.cdecl, dynlib: gmodulelib,
 proc g_module_build_path*(directory: cstring, module_name: cstring): cstring{.
     cdecl, dynlib: gmodulelib, importc: "g_module_build_path".}
 proc cclosure_marshal_VOID_VOID*(closure: PGClosure, return_value: PGValue, 
-                                    n_param_values: GUInt, 
+                                    n_param_values: guint, 
                                     param_values: PGValue, 
-                                    invocation_hint: GPointer, 
-                                    marshal_data: GPointer){.cdecl, 
+                                    invocation_hint: gpointer, 
+                                    marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__VOID".}
 proc cclosure_marshal_VOID_BOOLEAN*(closure: PGClosure, 
                                        return_value: PGValue, 
-                                       n_param_values: GUInt, 
+                                       n_param_values: guint, 
                                        param_values: PGValue, 
-                                       invocation_hint: GPointer, 
-                                       marshal_data: GPointer){.cdecl, 
+                                       invocation_hint: gpointer, 
+                                       marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__BOOLEAN".}
 proc cclosure_marshal_VOID_CHAR*(closure: PGClosure, return_value: PGValue, 
-                                    n_param_values: GUInt, 
+                                    n_param_values: guint, 
                                     param_values: PGValue, 
-                                    invocation_hint: GPointer, 
-                                    marshal_data: GPointer){.cdecl, 
+                                    invocation_hint: gpointer, 
+                                    marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__CHAR".}
 proc cclosure_marshal_VOID_UCHAR*(closure: PGClosure, return_value: PGValue, 
-                                     n_param_values: GUInt, 
+                                     n_param_values: guint, 
                                      param_values: PGValue, 
-                                     invocation_hint: GPointer, 
-                                     marshal_data: GPointer){.cdecl, 
+                                     invocation_hint: gpointer, 
+                                     marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__UCHAR".}
 proc cclosure_marshal_VOID_INT*(closure: PGClosure, return_value: PGValue, 
-                                   n_param_values: GUInt, param_values: PGValue, 
-                                   invocation_hint: GPointer, 
-                                   marshal_data: GPointer){.cdecl, 
+                                   n_param_values: guint, param_values: PGValue, 
+                                   invocation_hint: gpointer, 
+                                   marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__INT".}
 proc cclosure_marshal_VOID_UINT*(closure: PGClosure, return_value: PGValue, 
-                                    n_param_values: GUInt, 
+                                    n_param_values: guint, 
                                     param_values: PGValue, 
-                                    invocation_hint: GPointer, 
-                                    marshal_data: GPointer){.cdecl, 
+                                    invocation_hint: gpointer, 
+                                    marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__UINT".}
 proc cclosure_marshal_VOID_LONG*(closure: PGClosure, return_value: PGValue, 
-                                    n_param_values: GUInt, 
+                                    n_param_values: guint, 
                                     param_values: PGValue, 
-                                    invocation_hint: GPointer, 
-                                    marshal_data: GPointer){.cdecl, 
+                                    invocation_hint: gpointer, 
+                                    marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__LONG".}
 proc cclosure_marshal_VOID_ULONG*(closure: PGClosure, return_value: PGValue, 
-                                     n_param_values: GUInt, 
+                                     n_param_values: guint, 
                                      param_values: PGValue, 
-                                     invocation_hint: GPointer, 
-                                     marshal_data: GPointer){.cdecl, 
+                                     invocation_hint: gpointer, 
+                                     marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__ULONG".}
 proc cclosure_marshal_VOID_ENUM*(closure: PGClosure, return_value: PGValue, 
-                                    n_param_values: GUInt, 
+                                    n_param_values: guint, 
                                     param_values: PGValue, 
-                                    invocation_hint: GPointer, 
-                                    marshal_data: GPointer){.cdecl, 
+                                    invocation_hint: gpointer, 
+                                    marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__ENUM".}
 proc cclosure_marshal_VOID_FLAGS*(closure: PGClosure, return_value: PGValue, 
-                                     n_param_values: GUInt, 
+                                     n_param_values: guint, 
                                      param_values: PGValue, 
-                                     invocation_hint: GPointer, 
-                                     marshal_data: GPointer){.cdecl, 
+                                     invocation_hint: gpointer, 
+                                     marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__FLAGS".}
 proc cclosure_marshal_VOID_FLOAT*(closure: PGClosure, return_value: PGValue, 
-                                     n_param_values: GUInt, 
+                                     n_param_values: guint, 
                                      param_values: PGValue, 
-                                     invocation_hint: GPointer, 
-                                     marshal_data: GPointer){.cdecl, 
+                                     invocation_hint: gpointer, 
+                                     marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__FLOAT".}
 proc cclosure_marshal_VOID_DOUBLE*(closure: PGClosure, return_value: PGValue, 
-                                      n_param_values: GUInt, 
+                                      n_param_values: guint, 
                                       param_values: PGValue, 
-                                      invocation_hint: GPointer, 
-                                      marshal_data: GPointer){.cdecl, 
+                                      invocation_hint: gpointer, 
+                                      marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__DOUBLE".}
 proc cclosure_marshal_VOID_STRING*(closure: PGClosure, return_value: PGValue, 
-                                      n_param_values: GUInt, 
+                                      n_param_values: guint, 
                                       param_values: PGValue, 
-                                      invocation_hint: GPointer, 
-                                      marshal_data: GPointer){.cdecl, 
+                                      invocation_hint: gpointer, 
+                                      marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__STRING".}
 proc cclosure_marshal_VOID_PARAM*(closure: PGClosure, return_value: PGValue, 
-                                     n_param_values: GUInt, 
+                                     n_param_values: guint, 
                                      param_values: PGValue, 
-                                     invocation_hint: GPointer, 
-                                     marshal_data: GPointer){.cdecl, 
+                                     invocation_hint: gpointer, 
+                                     marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__PARAM".}
 proc cclosure_marshal_VOID_BOXED*(closure: PGClosure, return_value: PGValue, 
-                                     n_param_values: GUInt, 
+                                     n_param_values: guint, 
                                      param_values: PGValue, 
-                                     invocation_hint: GPointer, 
-                                     marshal_data: GPointer){.cdecl, 
+                                     invocation_hint: gpointer, 
+                                     marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__BOXED".}
 proc cclosure_marshal_VOID_POINTER*(closure: PGClosure, 
                                        return_value: PGValue, 
-                                       n_param_values: GUInt, 
+                                       n_param_values: guint, 
                                        param_values: PGValue, 
-                                       invocation_hint: GPointer, 
-                                       marshal_data: GPointer){.cdecl, 
+                                       invocation_hint: gpointer, 
+                                       marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__POINTER".}
 proc cclosure_marshal_VOID_OBJECT*(closure: PGClosure, return_value: PGValue, 
-                                      n_param_values: GUInt, 
+                                      n_param_values: guint, 
                                       param_values: PGValue, 
-                                      invocation_hint: GPointer, 
-                                      marshal_data: GPointer){.cdecl, 
+                                      invocation_hint: gpointer, 
+                                      marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__OBJECT".}
 proc cclosure_marshal_STRING_OBJECT_POINTER*(closure: PGClosure, 
-    return_value: PGValue, n_param_values: GUInt, param_values: PGValue, 
-    invocation_hint: GPointer, marshal_data: GPointer){.cdecl, 
+    return_value: PGValue, n_param_values: guint, param_values: PGValue, 
+    invocation_hint: gpointer, marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_STRING__OBJECT_POINTER".}
 proc cclosure_marshal_VOID_UINT_POINTER*(closure: PGClosure, 
-    return_value: PGValue, n_param_values: GUInt, param_values: PGValue, 
-    invocation_hint: GPointer, marshal_data: GPointer){.cdecl, 
+    return_value: PGValue, n_param_values: guint, param_values: PGValue, 
+    invocation_hint: gpointer, marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_VOID__UINT_POINTER".}
 proc cclosure_marshal_BOOLEAN_FLAGS*(closure: PGClosure, 
                                         return_value: PGValue, 
-                                        n_param_values: GUInt, 
+                                        n_param_values: guint, 
                                         param_values: PGValue, 
-                                        invocation_hint: GPointer, 
-                                        marshal_data: GPointer){.cdecl, 
+                                        invocation_hint: gpointer, 
+                                        marshal_data: gpointer){.cdecl, 
     dynlib: gobjectlib, importc: "g_cclosure_marshal_BOOLEAN__FLAGS".}
 proc cclosure_marshal_BOOL_FLAGS*(closure: PGClosure, return_value: PGValue, 
-                                     n_param_values: GUInt, 
+                                     n_param_values: guint, 
                                      param_values: PGValue, 
-                                     invocation_hint: GPointer, 
-                                     marshal_data: GPointer){.cdecl, 
+                                     invocation_hint: gpointer, 
+                                     marshal_data: gpointer){.cdecl, 
     dynlib: gliblib, importc: "g_cclosure_marshal_BOOLEAN__FLAGS".}
 proc GUINT16_SWAP_LE_BE_CONSTANT*(val: guint16): guint16 = 
-  Result = ((val and 0x00FF'i16) shl 8'i16) or
+  result = ((val and 0x00FF'i16) shl 8'i16) or
       ((val and 0xFF00'i16) shr 8'i16)
 
 proc GUINT32_SWAP_LE_BE_CONSTANT*(val: guint32): guint32 = 
-  Result = ((val and 0x000000FF'i32) shl 24'i32) or
+  result = ((val and 0x000000FF'i32) shl 24'i32) or
       ((val and 0x0000FF00'i32) shl 8'i32) or
       ((val and 0x00FF0000'i32) shr 8'i32) or
       ((val and 0xFF000000'i32) shr 24'i32)
 
 proc GUINT_TO_POINTER*(i: guint): pointer = 
-  Result = cast[Pointer](TAddress(i))
+  result = cast[pointer](TAddress(i))
 
 when false: 
   type 
@@ -3487,8 +3487,8 @@ when false:
     result = g_array_insert_vals(a, i, addr(v), 1)
 
   proc g_ptr_array_index*(parray: PGPtrArray, index: guint): gpointer = 
-    result = cast[PGPointer](cast[int](parray []. pdata) +
-        index * SizeOf(GPointer))[] 
+    result = cast[Pgpointer](cast[int](parray []. pdata) +
+        index * sizeof(gpointer))[] 
 
   proc G_THREAD_ERROR*(): TGQuark = 
     result = g_thread_error_quark()
@@ -3606,10 +3606,10 @@ proc g_new0*(bytes_per_struct, n_structs: int): gpointer =
 proc g_renew*(struct_size: int, OldMem: gpointer, n_structs: int): gpointer = 
   result = g_realloc(OldMem, struct_size * n_structs)
 
-proc g_chunk_new*(chunk: Pointer): Pointer = 
+proc g_chunk_new*(chunk: pointer): pointer = 
   result = chunk_alloc(chunk)
 
-proc g_chunk_new0*(chunk: Pointer): Pointer = 
+proc g_chunk_new0*(chunk: pointer): pointer = 
   result = chunk_alloc0(chunk)
 
 proc previous*(list: PGList): PGList = 
@@ -3772,8 +3772,8 @@ proc TGIOChannel_set_is_seekable*(a: PGIOChannel, `is_seekable`: guint) =
       (int16(`is_seekable` shl bp_TGIOChannel_is_seekable) and
       bm_TGIOChannel_is_seekable)
 
-proc utf8_next_char*(p: pguchar): pguchar = 
-  result = cast[pguchar](cast[TAddress](p) + 1) # p + ord((g_utf8_skip + p[] )[] )
+proc utf8_next_char*(p: Pguchar): Pguchar = 
+  result = cast[Pguchar](cast[TAddress](p) + 1) # p + ord((g_utf8_skip + p[] )[] )
   
 when false: 
   proc GLIB_CHECK_VERSION*(major, minor, micro: guint): bool = 
@@ -4051,10 +4051,10 @@ proc TGScannerConfig_set_scope_0_fallback*(a: PGScannerConfig,
       bm_TGScannerConfig_scope_0_fallback)
 
 proc freeze_symbol_table*(scanner: PGScanner) = 
-  if Scanner == nil: discard
+  if scanner == nil: discard
   
 proc thaw_symbol_table*(scanner: PGScanner) = 
-  if Scanner == nil: discard
+  if scanner == nil: discard
   
 proc G_SHELL_ERROR*(): TGQuark = 
   result = g_shell_error_quark()
@@ -4135,56 +4135,56 @@ proc G_TYPE_IS_VALUE_TYPE*(theType: GType): bool =
 proc G_TYPE_HAS_VALUE_TABLE*(theType: GType): bool = 
   result = (g_type_value_table_peek(theType)) != nil
 
-proc G_TYPE_CHECK_INSTANCE*(instance: Pointer): gboolean = 
+proc G_TYPE_CHECK_INSTANCE*(instance: pointer): gboolean = 
   result = private_g_type_check_instance(cast[PGTypeInstance](instance))
 
-proc G_TYPE_CHECK_INSTANCE_CAST*(instance: Pointer, g_type: GType): PGTypeInstance = 
+proc G_TYPE_CHECK_INSTANCE_CAST*(instance: pointer, g_type: GType): PGTypeInstance = 
   result = cast[PGTypeInstance](private_g_type_check_instance_cast(
       cast[PGTypeInstance](instance), g_type))
 
-proc G_TYPE_CHECK_INSTANCE_TYPE*(instance: Pointer, g_type: GType): bool = 
+proc G_TYPE_CHECK_INSTANCE_TYPE*(instance: pointer, g_type: GType): bool = 
   result = private_g_type_check_instance_is_a(cast[PGTypeInstance](instance), 
       g_type)
 
-proc G_TYPE_INSTANCE_GET_CLASS*(instance: Pointer, g_type: GType): PGTypeClass = 
-  result = cast[PGTypeInstance](Instance).g_class
+proc G_TYPE_INSTANCE_GET_CLASS*(instance: pointer, g_type: GType): PGTypeClass = 
+  result = cast[PGTypeInstance](instance).g_class
   result = private_g_type_check_class_cast(result, g_type)
 
-proc G_TYPE_INSTANCE_GET_INTERFACE*(instance: Pointer, g_type: GType): Pointer = 
+proc G_TYPE_INSTANCE_GET_INTERFACE*(instance: pointer, g_type: GType): pointer = 
   result = g_type_interface_peek((cast[PGTypeInstance](instance)).g_class, 
                                  g_type)
 
-proc G_TYPE_CHECK_CLASS_CAST*(g_class: pointer, g_type: GType): Pointer = 
+proc G_TYPE_CHECK_CLASS_CAST*(g_class: pointer, g_type: GType): pointer = 
   result = private_g_type_check_class_cast(cast[PGTypeClass](g_class), g_type)
 
 proc G_TYPE_CHECK_CLASS_TYPE*(g_class: pointer, g_type: GType): bool = 
   result = private_g_type_check_class_is_a(cast[PGTypeClass](g_class), g_type)
 
-proc G_TYPE_CHECK_VALUE*(value: Pointer): bool = 
-  result = private_g_type_check_value(cast[PGValue](Value))
+proc G_TYPE_CHECK_VALUE*(value: pointer): bool = 
+  result = private_g_type_check_value(cast[PGValue](value))
 
 proc G_TYPE_CHECK_VALUE_TYPE*(value: pointer, g_type: GType): bool = 
   result = private_g_type_check_value_holds(cast[PGValue](value), g_type)
 
-proc G_TYPE_FROM_INSTANCE*(instance: Pointer): GType = 
+proc G_TYPE_FROM_INSTANCE*(instance: pointer): GType = 
   result = G_TYPE_FROM_CLASS((cast[PGTypeInstance](instance)).g_class)
 
-proc G_TYPE_FROM_CLASS*(g_class: Pointer): GType = 
+proc G_TYPE_FROM_CLASS*(g_class: pointer): GType = 
   result = (cast[PGTypeClass](g_class)).g_type
 
-proc G_TYPE_FROM_INTERFACE*(g_iface: Pointer): GType = 
+proc G_TYPE_FROM_INTERFACE*(g_iface: pointer): GType = 
   result = (cast[PGTypeInterface](g_iface)).g_type
 
 proc G_TYPE_IS_VALUE*(theType: GType): bool = 
   result = private_g_type_check_is_value_type(theType)
 
-proc G_IS_VALUE*(value: Pointer): bool = 
+proc G_IS_VALUE*(value: pointer): bool = 
   result = G_TYPE_CHECK_VALUE(value)
 
-proc G_VALUE_TYPE*(value: Pointer): GType = 
+proc G_VALUE_TYPE*(value: pointer): GType = 
   result = (cast[PGValue](value)).g_type
 
-proc G_VALUE_TYPE_NAME*(value: Pointer): cstring = 
+proc G_VALUE_TYPE_NAME*(value: pointer): cstring = 
   result = g_type_name(G_VALUE_TYPE(value))
 
 proc G_VALUE_HOLDS*(value: pointer, g_type: GType): bool = 
@@ -4193,34 +4193,34 @@ proc G_VALUE_HOLDS*(value: pointer, g_type: GType): bool =
 proc G_TYPE_IS_PARAM*(theType: GType): bool = 
   result = (G_TYPE_FUNDAMENTAL(theType)) == G_TYPE_PARAM
 
-proc G_PARAM_SPEC*(pspec: Pointer): PGParamSpec = 
+proc G_PARAM_SPEC*(pspec: pointer): PGParamSpec = 
   result = cast[PGParamSpec](G_TYPE_CHECK_INSTANCE_CAST(pspec, G_TYPE_PARAM))
 
-proc G_IS_PARAM_SPEC*(pspec: Pointer): bool = 
+proc G_IS_PARAM_SPEC*(pspec: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(pspec, G_TYPE_PARAM)
 
-proc G_PARAM_SPEC_CLASS*(pclass: Pointer): PGParamSpecClass = 
+proc G_PARAM_SPEC_CLASS*(pclass: pointer): PGParamSpecClass = 
   result = cast[PGParamSpecClass](G_TYPE_CHECK_CLASS_CAST(pclass, G_TYPE_PARAM))
 
-proc G_IS_PARAM_SPEC_CLASS*(pclass: Pointer): bool = 
+proc G_IS_PARAM_SPEC_CLASS*(pclass: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(pclass, G_TYPE_PARAM)
 
-proc G_PARAM_SPEC_GET_CLASS*(pspec: Pointer): PGParamSpecClass = 
+proc G_PARAM_SPEC_GET_CLASS*(pspec: pointer): PGParamSpecClass = 
   result = cast[PGParamSpecClass](G_TYPE_INSTANCE_GET_CLASS(pspec, G_TYPE_PARAM))
 
-proc G_PARAM_SPEC_TYPE*(pspec: Pointer): GType = 
+proc G_PARAM_SPEC_TYPE*(pspec: pointer): GType = 
   result = G_TYPE_FROM_INSTANCE(pspec)
 
-proc G_PARAM_SPEC_TYPE_NAME*(pspec: Pointer): cstring = 
+proc G_PARAM_SPEC_TYPE_NAME*(pspec: pointer): cstring = 
   result = g_type_name(G_PARAM_SPEC_TYPE(pspec))
 
-proc G_PARAM_SPEC_VALUE_TYPE*(pspec: Pointer): GType = 
+proc G_PARAM_SPEC_VALUE_TYPE*(pspec: pointer): GType = 
   result = (G_PARAM_SPEC(pspec)).value_type
 
-proc G_VALUE_HOLDS_PARAM*(value: Pointer): bool = 
+proc G_VALUE_HOLDS_PARAM*(value: pointer): bool = 
   result = G_TYPE_CHECK_VALUE_TYPE(value, G_TYPE_PARAM)
 
-proc G_CLOSURE_NEEDS_MARSHAL*(closure: Pointer): bool = 
+proc G_CLOSURE_NEEDS_MARSHAL*(closure: pointer): bool = 
   result = cast[PGClosure](closure).marshal == nil
 
 proc N_NOTIFIERS*(cl: PGClosure): int32 = 
@@ -4348,13 +4348,13 @@ proc G_TYPE_IS_OBJECT*(theType: GType): bool =
 proc G_OBJECT*(anObject: pointer): PGObject = 
   result = cast[PGObject](G_TYPE_CHECK_INSTANCE_CAST(anObject, G_TYPE_OBJECT))
 
-proc G_OBJECT_CLASS*(class: Pointer): PGObjectClass = 
+proc G_OBJECT_CLASS*(class: pointer): PGObjectClass = 
   result = cast[PGObjectClass](G_TYPE_CHECK_CLASS_CAST(class, G_TYPE_OBJECT))
 
 proc G_IS_OBJECT*(anObject: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(anObject, G_TYPE_OBJECT)
 
-proc G_IS_OBJECT_CLASS*(class: Pointer): bool = 
+proc G_IS_OBJECT_CLASS*(class: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(class, G_TYPE_OBJECT)
 
 proc G_OBJECT_GET_CLASS*(anObject: pointer): PGObjectClass = 
@@ -4366,13 +4366,13 @@ proc G_OBJECT_TYPE*(anObject: pointer): GType =
 proc G_OBJECT_TYPE_NAME*(anObject: pointer): cstring = 
   result = g_type_name(G_OBJECT_TYPE(anObject))
 
-proc G_OBJECT_CLASS_TYPE*(class: Pointer): GType = 
+proc G_OBJECT_CLASS_TYPE*(class: pointer): GType = 
   result = G_TYPE_FROM_CLASS(class)
 
-proc G_OBJECT_CLASS_NAME*(class: Pointer): cstring = 
+proc G_OBJECT_CLASS_NAME*(class: pointer): cstring = 
   result = g_type_name(G_OBJECT_CLASS_TYPE(class))
 
-proc G_VALUE_HOLDS_OBJECT*(value: Pointer): bool = 
+proc G_VALUE_HOLDS_OBJECT*(value: pointer): bool = 
   result = G_TYPE_CHECK_VALUE_TYPE(value, G_TYPE_OBJECT)
 
 proc G_OBJECT_WARN_INVALID_PROPERTY_ID*(anObject: gpointer, property_id: gint, 
@@ -4397,20 +4397,20 @@ proc G_OBJECT_WARN_INVALID_PSPEC*(anObject: gpointer, pname: cstring,
 proc G_TYPE_TYPE_PLUGIN*(): GType = 
   result = g_type_plugin_get_type()
 
-proc G_TYPE_PLUGIN*(inst: Pointer): PGTypePlugin = 
+proc G_TYPE_PLUGIN*(inst: pointer): PGTypePlugin = 
   result = PGTypePlugin(G_TYPE_CHECK_INSTANCE_CAST(inst, G_TYPE_TYPE_PLUGIN()))
 
-proc G_TYPE_PLUGIN_CLASS*(vtable: Pointer): PGTypePluginClass = 
+proc G_TYPE_PLUGIN_CLASS*(vtable: pointer): PGTypePluginClass = 
   result = cast[PGTypePluginClass](G_TYPE_CHECK_CLASS_CAST(vtable, 
       G_TYPE_TYPE_PLUGIN()))
 
-proc G_IS_TYPE_PLUGIN*(inst: Pointer): bool = 
+proc G_IS_TYPE_PLUGIN*(inst: pointer): bool = 
   result = G_TYPE_CHECK_INSTANCE_TYPE(inst, G_TYPE_TYPE_PLUGIN())
 
-proc G_IS_TYPE_PLUGIN_CLASS*(vtable: Pointer): bool = 
+proc G_IS_TYPE_PLUGIN_CLASS*(vtable: pointer): bool = 
   result = G_TYPE_CHECK_CLASS_TYPE(vtable, G_TYPE_TYPE_PLUGIN())
 
-proc G_TYPE_PLUGIN_GET_CLASS*(inst: Pointer): PGTypePluginClass = 
+proc G_TYPE_PLUGIN_GET_CLASS*(inst: pointer): PGTypePluginClass = 
   result = cast[PGTypePluginClass](G_TYPE_INSTANCE_GET_INTERFACE(inst, 
       G_TYPE_TYPE_PLUGIN()))
 
@@ -4458,11 +4458,11 @@ proc CLAMP*(x, MinX, MaxX: int): int =
   else: 
     result = x
 
-proc GPOINTER_TO_SIZE*(p: GPointer): GSize = 
-  result = GSize(cast[TAddress](p))
+proc GPOINTER_TO_SIZE*(p: gpointer): gsize = 
+  result = gsize(cast[TAddress](p))
 
-proc GSIZE_TO_POINTER*(s: GSize): GPointer = 
-  result = cast[GPointer](s)
+proc GSIZE_TO_POINTER*(s: gsize): gpointer = 
+  result = cast[gpointer](s)
 
 proc HOLDS_CHAR*(value: PGValue): bool = 
   result = G_TYPE_CHECK_VALUE_TYPE(value, G_TYPE_CHAR)
