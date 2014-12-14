@@ -115,9 +115,9 @@ type
   THtmlStreamCancelFunc* = proc (stream: PHtmlStream, user_data: gpointer, 
                                  cancel_data: gpointer){.cdecl.}
   THtmlStream* = object of TGObject
-    write_func*: THtmlStreamWriteFunc
-    close_func*: THtmlStreamCloseFunc
-    cancel_func*: THtmlStreamCancelFunc
+    write_fn*: THtmlStreamWriteFunc
+    close_fn*: THtmlStreamCloseFunc
+    cancel_fn*: THtmlStreamCancelFunc
     user_data*: gpointer
     cancel_data*: gpointer
     written*: gint
@@ -302,8 +302,8 @@ proc HTML_IS_STREAM_CLASS*(klass: pointer): bool
 proc HTML_STREAM_GET_CLASS*(obj: pointer): PHtmlStreamClass
 proc html_stream_get_type*(): GType{.cdecl, dynlib: htmllib, 
                                      importc: "html_stream_get_type".}
-proc html_stream_new*(write_func: THtmlStreamWriteFunc, 
-                      close_func: THtmlStreamCloseFunc, user_data: gpointer): PHtmlStream{.
+proc html_stream_new*(write_fn: THtmlStreamWriteFunc, 
+                      close_fn: THtmlStreamCloseFunc, user_data: gpointer): PHtmlStream{.
     cdecl, dynlib: htmllib, importc: "html_stream_new".}
 proc write*(stream: PHtmlStream, buffer: cstring, size: guint){.
     cdecl, dynlib: htmllib, importc: "html_stream_write".}
@@ -315,15 +315,15 @@ proc get_written*(stream: PHtmlStream): gint{.cdecl,
     dynlib: htmllib, importc: "html_stream_get_written".}
 proc cancel*(stream: PHtmlStream){.cdecl, dynlib: htmllib, 
     importc: "html_stream_cancel".}
-proc set_cancel_func*(stream: PHtmlStream, 
-                                  abort_func: THtmlStreamCancelFunc, 
+proc set_cancel_fn*(stream: PHtmlStream, 
+                                  abort_fn: THtmlStreamCancelFunc, 
                                   cancel_data: gpointer){.cdecl, 
-    dynlib: htmllib, importc: "html_stream_set_cancel_func".}
+    dynlib: htmllib, importc: "html_stream_set_cancel_fn".}
 proc get_mime_type*(stream: PHtmlStream): cstring{.cdecl, 
     dynlib: htmllib, importc: "html_stream_get_mime_type".}
 proc set_mime_type*(stream: PHtmlStream, mime_type: cstring){.cdecl, 
     dynlib: htmllib, importc: "html_stream_set_mime_type".}
-proc html_stream_buffer_new*(close_func: THtmlStreamBufferCloseFunc, 
+proc html_stream_buffer_new*(close_fn: THtmlStreamBufferCloseFunc, 
                              user_data: gpointer): PHtmlStream{.cdecl, 
     dynlib: htmllib, importc: "html_stream_buffer_new".}
 proc event_mouse_move*(view: PHtmlView, event: gdk2.PEventMotion){.cdecl, 

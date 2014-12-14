@@ -57,9 +57,9 @@ type
 
   PFunction* = ptr TFunction
   TFunction* = enum 
-    funcCOPY, funcINVERT, funcXOR, funcCLEAR, funcAND, 
-    funcAND_REVERSE, funcAND_INVERT, funcNOOP, funcOR, funcEQUIV, 
-    funcOR_REVERSE, funcCOPY_INVERT, funcOR_INVERT, funcNAND, funcNOR, funcSET
+    fnCOPY, fnINVERT, fnXOR, fnCLEAR, fnAND, 
+    fnAND_REVERSE, fnAND_INVERT, fnNOOP, fnOR, fnEQUIV, 
+    fnOR_REVERSE, fnCOPY_INVERT, fnOR_INVERT, fnNAND, fnNOR, fnSET
   PCapStyle* = ptr TCapStyle
   TCapStyle* = enum 
     CAP_NOT_LAST, CAP_BUTT, CAP_ROUND, CAP_PROJECTING
@@ -777,7 +777,7 @@ type
 
   PWindowObjectClass* = ptr TWindowObjectClass
   TWindowObjectClass* = object of TDrawableClass
-  window_invalidate_maybe_recurse_child_func* = proc (para1: PWindow, 
+  window_invalidate_maybe_recurse_child_fn* = proc (para1: PWindow, 
       para2: gpointer): gboolean {.cdecl.}
 
 proc TYPE_COLORMAP*(): GType
@@ -1132,7 +1132,7 @@ proc get_root_coords*(event: PEvent, x_root: Pgdouble, y_root: Pgdouble): gboole
     cdecl, dynlib: lib, importc: "gdk_event_get_root_coords".}
 proc get_axis*(event: PEvent, axis_use: TAxisUse, value: Pgdouble): gboolean{.
     cdecl, dynlib: lib, importc: "gdk_event_get_axis".}
-proc event_handler_set*(func: TEventFunc, data: gpointer, 
+proc event_handler_set*(fn: TEventFunc, data: gpointer, 
                         notify: TGDestroyNotify){.cdecl, dynlib: lib, 
     importc: "gdk_event_handler_set".}
 proc set_show_events*(show_events: gboolean){.cdecl, dynlib: lib, 
@@ -2943,7 +2943,7 @@ proc peek_event*(display: PDisplay): PEvent{.cdecl, dynlib: lib,
 proc put_event*(display: PDisplay, event: PEvent){.cdecl, dynlib: lib, 
     importc: "gdk_display_put_event".}
 proc add_client_message_filter*(display: PDisplay, message_type: TAtom, 
-                                        func: TFilterFunc, data: gpointer){.
+                                        fn: TFilterFunc, data: gpointer){.
     cdecl, dynlib: lib, importc: "gdk_display_add_client_message_filter".}
 proc set_double_click_time*(display: PDisplay, msec: guint){.cdecl, 
     dynlib: lib, importc: "gdk_display_set_double_click_time".}
@@ -3323,7 +3323,7 @@ proc invalidate_region*(window: PWindow, region: PRegion,
                                invalidate_children: gboolean){.cdecl, 
     dynlib: lib, importc: "gdk_window_invalidate_region".}
 proc invalidate_maybe_recurse*(window: PWindow, region: PRegion, 
-    child_func: window_invalidate_maybe_recurse_child_func, user_data: gpointer){.
+    child_fn: window_invalidate_maybe_recurse_child_fn, user_data: gpointer){.
     cdecl, dynlib: lib, importc: "gdk_window_invalidate_maybe_recurse".}
 proc get_update_area*(window: PWindow): PRegion{.cdecl, dynlib: lib, 
     importc: "gdk_window_get_update_area".}

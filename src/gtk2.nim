@@ -176,11 +176,11 @@ type
     type_name*: cstring
     object_size*: guint
     class_size*: guint
-    class_init_func*: pointer #TGtkClassInitFunc
-    object_init_func*: pointer #TGtkObjectInitFunc
+    class_init_fn*: pointer #TGtkClassInitFunc
+    object_init_fn*: pointer #TGtkObjectInitFunc
     reserved_1*: gpointer
     reserved_2*: gpointer
-    base_class_init_func*: pointer #TGtkClassInitFunc
+    base_class_init_fn*: pointer #TGtkClassInitFunc
   
   PEnumValue* = ptr TEnumValue
   TEnumValue* = TGEnumValue
@@ -377,7 +377,7 @@ type
     closure*: PGClosure
     accel_path_quark*: TGQuark
 
-  Taccel_group_find_func* = proc (key: PAccelKey, closure: PGClosure, 
+  Taccel_group_find_fn* = proc (key: PAccelKey, closure: PGClosure, 
                                   data: gpointer): gboolean{.cdecl.}
   PContainer* = ptr TContainer
   TContainer* = object of TWidget
@@ -1329,8 +1329,8 @@ type
     old_active_menu_item*: PWidget
     accel_group*: PAccelGroup
     accel_path*: cstring
-    position_func*: TMenuPositionFunc
-    position_func_data*: gpointer
+    position_fn*: TMenuPositionFunc
+    position_fn_data*: gpointer
     toggle_size*: guint
     toplevel*: PWidget
     tearoff_window*: PWidget
@@ -2023,7 +2023,7 @@ type
     reserved703: proc (){.cdecl.}
     reserved704: proc (){.cdecl.}
 
-  TPrintFunc* = proc (func_data: gpointer, str: cstring){.cdecl.}
+  TPrintFunc* = proc (fn_data: gpointer, str: cstring){.cdecl.}
   PTranslateFunc* = ptr TTranslateFunc
   TTranslateFunc* = gchar
   TItemFactoryCallback* = proc (){.cdecl.}
@@ -2035,7 +2035,7 @@ type
     accel_group*: PAccelGroup
     widget*: PWidget
     items*: PGSList
-    translate_func*: TTranslateFunc
+    translate_fn*: TTranslateFunc
     translate_data*: gpointer
     translate_notify*: TDestroyNotify
 
@@ -2158,13 +2158,13 @@ type
                                order: PSortType): gboolean{.cdecl.}
     set_sort_column_id*: proc (sortable: PTreeSortable, sort_column_id: gint, 
                                order: TSortType){.cdecl.}
-    set_sort_func*: proc (sortable: PTreeSortable, sort_column_id: gint, 
-                          func: TTreeIterCompareFunc, data: gpointer, 
+    set_sort_fn*: proc (sortable: PTreeSortable, sort_column_id: gint, 
+                          fn: TTreeIterCompareFunc, data: gpointer, 
                           destroy: TDestroyNotify){.cdecl.}
-    set_default_sort_func*: proc (sortable: PTreeSortable, 
-                                  func: TTreeIterCompareFunc, data: gpointer, 
+    set_default_sort_fn*: proc (sortable: PTreeSortable, 
+                                  fn: TTreeIterCompareFunc, data: gpointer, 
                                   destroy: TDestroyNotify){.cdecl.}
-    has_default_sort_func*: proc (sortable: PTreeSortable): gboolean{.cdecl.}
+    has_default_sort_fn*: proc (sortable: PTreeSortable): gboolean{.cdecl.}
 
   PTreeModelSort* = ptr TTreeModelSort
   TTreeModelSort* = object of TGObject
@@ -2176,7 +2176,7 @@ type
     sort_list*: PGList
     sort_column_id*: gint
     order*: TSortType
-    default_sort_func*: TTreeIterCompareFunc
+    default_sort_fn*: TTreeIterCompareFunc
     default_sort_data*: gpointer
     default_sort_destroy*: TDestroyNotify
     changed_id*: guint
@@ -2203,7 +2203,7 @@ type
     order*: TSortType
     column_headers*: PGType
     length*: gint
-    default_sort_func*: TTreeIterCompareFunc
+    default_sort_fn*: TTreeIterCompareFunc
     default_sort_data*: gpointer
     default_sort_destroy*: TDestroyNotify
     ListStore_flag0*: guint16
@@ -2217,7 +2217,7 @@ type
 
   TModuleInitFunc* = proc (argc: Pgint, argv: PPPgchar){.cdecl.}
   TKeySnoopFunc* = proc (grab_widget: PWidget, event: gdk2.PEventKey, 
-                         func_data: gpointer): gint{.cdecl.}
+                         fn_data: gpointer): gint{.cdecl.}
   PMenuBar* = ptr TMenuBar
   TMenuBar* = object of TMenuShell
   PMenuBarClass* = ptr TMenuBarClass
@@ -3193,7 +3193,7 @@ type
   TTreeSelection* = object of TGObject
     tree_view*: PTreeView
     thetype*: TSelectionMode
-    user_func*: TTreeSelectionFunc
+    user_fn*: TTreeSelectionFunc
     user_data*: gpointer
     destroy*: TDestroyNotify
 
@@ -3215,7 +3215,7 @@ type
     sort_list*: PGList
     order*: TSortType
     column_headers*: PGType
-    default_sort_func*: TTreeIterCompareFunc
+    default_sort_fn*: TTreeIterCompareFunc
     default_sort_data*: gpointer
     default_sort_destroy*: TDestroyNotify
     TreeStore_flag0*: guint16
@@ -3347,12 +3347,12 @@ type
     n_columns*: gint
     columns*: PGList
     header_height*: gint
-    column_drop_func*: TTreeViewColumnDropFunc
-    column_drop_func_data*: gpointer
-    column_drop_func_data_destroy*: TDestroyNotify
+    column_drop_fn*: TTreeViewColumnDropFunc
+    column_drop_fn_data*: gpointer
+    column_drop_fn_data_destroy*: TDestroyNotify
     column_drag_info*: PGList
     cur_reorder*: PTreeViewColumnReorder
-    destroy_count_func*: TTreeDestroyCountFunc
+    destroy_count_fn*: TTreeDestroyCountFunc
     destroy_count_data*: gpointer
     destroy_count_destroy*: TDestroyNotify
     scroll_timeout*: guint
@@ -3368,8 +3368,8 @@ type
     scroll_to_col_align*: gfloat
     flag0*: guint16
     search_column*: gint
-    search_dialog_position_func*: TTreeViewSearchDialogPositionFunc
-    search_equal_func*: TTreeViewSearchEqualFunc
+    search_dialog_position_fn*: TTreeViewSearchDialogPositionFunc
+    search_equal_fn*: TTreeViewSearchEqualFunc
     search_user_data*: gpointer
     search_destroy*: TDestroyNotify
 
@@ -3886,7 +3886,7 @@ proc accel_groups_activate*(anObject: PGObject, accel_key: guint,
 proc accel_groups_from_object*(anObject: PGObject): PGSList{.cdecl, dynlib: lib, 
     importc: "gtk_accel_groups_from_object".}
 proc find*(accel_group: PAccelGroup, 
-                       find_func: Taccel_group_find_func, data: gpointer): PAccelKey{.
+                       find_fn: Taccel_group_find_fn, data: gpointer): PAccelKey{.
     cdecl, dynlib: lib, importc: "gtk_accel_group_find".}
 proc accel_group_from_accel_closure*(closure: PGClosure): PAccelGroup{.cdecl, 
     dynlib: lib, importc: "gtk_accel_group_from_accel_closure".}
@@ -4275,8 +4275,8 @@ proc get_group*(window: PWindow): PWindowGroup{.cdecl, dynlib: lib,
     importc: "_gtk_window_get_group".}
 proc activate_key*(window: PWindow, event: gdk2.PEventKey): gboolean{.
     cdecl, dynlib: lib, importc: "_gtk_window_activate_key".}
-proc keys_foreach*(window: PWindow, func: TWindowKeysForeachFunc, 
-                          func_data: gpointer){.cdecl, dynlib: lib, 
+proc keys_foreach*(window: PWindow, fn: TWindowKeysForeachFunc, 
+                          fn_data: gpointer){.cdecl, dynlib: lib, 
     importc: "_gtk_window_keys_foreach".}
 proc query_nonaccels*(window: PWindow, accel_key: guint, 
                              accel_mods: gdk2.TModifierType): gboolean{.cdecl, 
@@ -4404,7 +4404,7 @@ proc accel_map_load*(file_name: cstring){.cdecl, dynlib: lib,
     importc: "gtk_accel_map_load".}
 proc accel_map_save*(file_name: cstring){.cdecl, dynlib: lib, 
     importc: "gtk_accel_map_save".}
-proc accel_map_foreach*(data: gpointer, foreach_func: TAccelMapForeach){.cdecl, 
+proc accel_map_foreach*(data: gpointer, foreach_fn: TAccelMapForeach){.cdecl, 
     dynlib: lib, importc: "gtk_accel_map_foreach".}
 proc accel_map_load_fd*(fd: gint){.cdecl, dynlib: lib, 
                                    importc: "gtk_accel_map_load_fd".}
@@ -4415,7 +4415,7 @@ proc accel_map_save_fd*(fd: gint){.cdecl, dynlib: lib,
 proc accel_map_add_filter*(filter_pattern: cstring){.cdecl, dynlib: lib, 
     importc: "gtk_accel_map_add_filter".}
 proc accel_map_foreach_unfiltered*(data: gpointer, 
-                                   foreach_func: TAccelMapForeach){.cdecl, 
+                                   foreach_fn: TAccelMapForeach){.cdecl, 
     dynlib: lib, importc: "gtk_accel_map_foreach_unfiltered".}
 proc accel_map_init*(){.cdecl, dynlib: lib, importc: "_gtk_accel_map_init".}
 proc accel_map_add_group*(accel_path: cstring, accel_group: PAccelGroup){.cdecl, 
@@ -5132,13 +5132,13 @@ proc clipboard_get_for_display*(display: gdk2.PDisplay, selection: gdk2.TAtom): 
 proc get_display*(clipboard: PClipboard): gdk2.PDisplay{.cdecl, 
     dynlib: lib, importc: "gtk_clipboard_get_display".}
 proc set_with_data*(clipboard: PClipboard, targets: PTargetEntry, 
-                              n_targets: guint, get_func: TClipboardGetFunc, 
-                              clear_func: TClipboardClearFunc, 
+                              n_targets: guint, get_fn: TClipboardGetFunc, 
+                              clear_fn: TClipboardClearFunc, 
                               user_data: gpointer): gboolean{.cdecl, 
     dynlib: lib, importc: "gtk_clipboard_set_with_data".}
 proc set_with_owner*(clipboard: PClipboard, targets: PTargetEntry, 
-                               n_targets: guint, get_func: TClipboardGetFunc, 
-                               clear_func: TClipboardClearFunc, owner: PGObject): gboolean{.
+                               n_targets: guint, get_fn: TClipboardGetFunc, 
+                               clear_fn: TClipboardClearFunc, owner: PGObject): gboolean{.
     cdecl, dynlib: lib, importc: "gtk_clipboard_set_with_owner".}
 proc get_owner*(clipboard: PClipboard): PGObject{.cdecl, dynlib: lib, 
     importc: "gtk_clipboard_get_owner".}
@@ -5371,8 +5371,8 @@ proc swap_rows*(clist: PCList, row1: gint, row2: gint){.cdecl,
     dynlib: lib, importc: "gtk_clist_swap_rows".}
 proc row_move*(clist: PCList, source_row: gint, dest_row: gint){.cdecl, 
     dynlib: lib, importc: "gtk_clist_row_move".}
-proc set_compare_func*(clist: PCList, cmp_func: TCListCompareFunc){.cdecl, 
-    dynlib: lib, importc: "gtk_clist_set_compare_func".}
+proc set_compare_fn*(clist: PCList, cmp_fn: TCListCompareFunc){.cdecl, 
+    dynlib: lib, importc: "gtk_clist_set_compare_fn".}
 proc set_sort_column*(clist: PCList, column: gint){.cdecl, dynlib: lib, 
     importc: "gtk_clist_set_sort_column".}
 proc set_sort_type*(clist: PCList, sort_type: TSortType){.cdecl, 
@@ -5484,7 +5484,7 @@ proc color_selection_palette_from_string*(str: cstring, colors: var gdk2.PColor,
 proc color_selection_palette_to_string*(colors: gdk2.PColor, n_colors: gint): cstring{.
     cdecl, dynlib: lib, importc: "gtk_color_selection_palette_to_string".}
 proc color_selection_set_change_palette_with_screen_hook*(
-    func: TColorSelectionChangePaletteWithScreenFunc): TColorSelectionChangePaletteWithScreenFunc{.
+    fn: TColorSelectionChangePaletteWithScreenFunc): TColorSelectionChangePaletteWithScreenFunc{.
     cdecl, dynlib: lib, 
     importc: "gtk_color_selection_set_change_palette_with_screen_hook".}
 proc TYPE_COLOR_SELECTION_DIALOG*(): GType
@@ -5738,8 +5738,8 @@ proc set_line_style*(ctree: PCTree, line_style: TCTreeLineStyle){.cdecl,
 proc set_expander_style*(ctree: PCTree, 
                                expander_style: TCTreeExpanderStyle){.cdecl, 
     dynlib: lib, importc: "gtk_ctree_set_expander_style".}
-proc set_drag_compare_func*(ctree: PCTree, cmp_func: TCTreeCompareDragFunc){.
-    cdecl, dynlib: lib, importc: "gtk_ctree_set_drag_compare_func".}
+proc set_drag_compare_fn*(ctree: PCTree, cmp_fn: TCTreeCompareDragFunc){.
+    cdecl, dynlib: lib, importc: "gtk_ctree_set_drag_compare_fn".}
 proc sort_node*(ctree: PCTree, node: PCTreeNode){.cdecl, dynlib: lib, 
     importc: "gtk_ctree_sort_node".}
 proc sort_recursive*(ctree: PCTree, node: PCTreeNode){.cdecl, 
@@ -7282,10 +7282,10 @@ proc popup_data*(ifactory: PItemFactory): gpointer{.cdecl,
     dynlib: lib, importc: "gtk_item_factory_popup_data".}
 proc item_factory_popup_data_from_widget*(widget: PWidget): gpointer{.cdecl, 
     dynlib: lib, importc: "gtk_item_factory_popup_data_from_widget".}
-proc set_translate_func*(ifactory: PItemFactory, 
+proc set_translate_fn*(ifactory: PItemFactory, 
                                       fun: TTranslateFunc, data: gpointer, 
                                       notify: TDestroyNotify){.cdecl, 
-    dynlib: lib, importc: "gtk_item_factory_set_translate_func".}
+    dynlib: lib, importc: "gtk_item_factory_set_translate_fn".}
 proc TYPE_LAYOUT*(): GType
 proc LAYOUT*(obj: pointer): PLayout
 proc LAYOUT_CLASS*(klass: pointer): PLayoutClass
@@ -7535,15 +7535,15 @@ proc get_sort_column_id*(sortable: PTreeSortable,
 proc set_sort_column_id*(sortable: PTreeSortable, 
                                        sort_column_id: gint, order: TSortType){.
     cdecl, dynlib: lib, importc: "gtk_tree_sortable_set_sort_column_id".}
-proc set_sort_func*(sortable: PTreeSortable, sort_column_id: gint, 
-                                  sort_func: TTreeIterCompareFunc, 
+proc set_sort_fn*(sortable: PTreeSortable, sort_column_id: gint, 
+                                  sort_fn: TTreeIterCompareFunc, 
                                   user_data: gpointer, destroy: TDestroyNotify){.
-    cdecl, dynlib: lib, importc: "gtk_tree_sortable_set_sort_func".}
-proc set_default_sort_func*(sortable: PTreeSortable, 
-    sort_func: TTreeIterCompareFunc, user_data: gpointer, 
-    destroy: TDestroyNotify){.cdecl, dynlib: lib, importc: "gtk_tree_sortable_set_default_sort_func".}
-proc has_default_sort_func*(sortable: PTreeSortable): gboolean{.
-    cdecl, dynlib: lib, importc: "gtk_tree_sortable_has_default_sort_func".}
+    cdecl, dynlib: lib, importc: "gtk_tree_sortable_set_sort_fn".}
+proc set_default_sort_fn*(sortable: PTreeSortable, 
+    sort_fn: TTreeIterCompareFunc, user_data: gpointer, 
+    destroy: TDestroyNotify){.cdecl, dynlib: lib, importc: "gtk_tree_sortable_set_default_sort_fn".}
+proc has_default_sort_fn*(sortable: PTreeSortable): gboolean{.
+    cdecl, dynlib: lib, importc: "gtk_tree_sortable_has_default_sort_fn".}
 proc TYPE_TREE_MODEL_SORT*(): GType
 proc TREE_MODEL_SORT*(obj: pointer): PTreeModelSort
 proc TREE_MODEL_SORT_CLASS*(klass: pointer): PTreeModelSortClass
@@ -7569,8 +7569,8 @@ proc tree_model_sort_convert_path_to_child_path*(
 proc tree_model_sort_convert_iter_to_child_iter*(
     tree_model_sort: PTreeModelSort, child_iter: PTreeIter, 
     sorted_iter: PTreeIter){.cdecl, dynlib: lib, importc: "gtk_tree_model_sort_convert_iter_to_child_iter".}
-proc sort_reset_default_sort_func*(tree_model_sort: PTreeModelSort){.
-    cdecl, dynlib: lib, importc: "gtk_tree_model_sort_reset_default_sort_func".}
+proc sort_reset_default_sort_fn*(tree_model_sort: PTreeModelSort){.
+    cdecl, dynlib: lib, importc: "gtk_tree_model_sort_reset_default_sort_fn".}
 proc sort_clear_cache*(tree_model_sort: PTreeModelSort){.cdecl, 
     dynlib: lib, importc: "gtk_tree_model_sort_clear_cache".}
 const 
@@ -7679,7 +7679,7 @@ proc input_add_full*(source: gint, condition: gdk2.TInputCondition,
     dynlib: lib, importc: "gtk_input_add_full".}
 proc input_remove*(input_handler_id: guint){.cdecl, dynlib: lib, 
     importc: "gtk_input_remove".}
-proc key_snooper_install*(snooper: TKeySnoopFunc, func_data: gpointer): guint{.
+proc key_snooper_install*(snooper: TKeySnoopFunc, fn_data: gpointer): guint{.
     cdecl, dynlib: lib, importc: "gtk_key_snooper_install".}
 proc key_snooper_remove*(snooper_handler_id: guint){.cdecl, dynlib: lib, 
     importc: "gtk_key_snooper_remove".}
@@ -9360,8 +9360,8 @@ proc check*(tree: PTextBTree){.cdecl, dynlib: lib,
     importc: "_gtk_text_btree_check".}
 proc spew*(tree: PTextBTree){.cdecl, dynlib: lib, 
     importc: "_gtk_text_btree_spew".}
-proc toggle_segment_check_func*(segPtr: PTextLineSegment, line: PTextLine){.
-    cdecl, dynlib: lib, importc: "_gtk_toggle_segment_check_func".}
+proc toggle_segment_check_fn*(segPtr: PTextLineSegment, line: PTextLine){.
+    cdecl, dynlib: lib, importc: "_gtk_toggle_segment_check_fn".}
 proc change_node_toggle_count*(node: PTextBTreeNode, info: PTextTagInfo, 
                                delta: gint){.cdecl, dynlib: lib, 
     importc: "_gtk_change_node_toggle_count".}
@@ -10289,9 +10289,9 @@ proc column_add_attribute*(tree_column: PTreeViewColumn,
                                      cell_renderer: PCellRenderer, 
                                      attribute: cstring, column: gint){.cdecl, 
     dynlib: lib, importc: "gtk_tree_view_column_add_attribute".}
-proc column_set_cell_data_func*(tree_column: PTreeViewColumn, 
-    cell_renderer: PCellRenderer, fun: TTreeCellDataFunc, func_data: gpointer, 
-    destroy: TDestroyNotify){.cdecl, dynlib: lib, importc: "gtk_tree_view_column_set_cell_data_func".}
+proc column_set_cell_data_fn*(tree_column: PTreeViewColumn, 
+    cell_renderer: PCellRenderer, fun: TTreeCellDataFunc, fn_data: gpointer, 
+    destroy: TDestroyNotify){.cdecl, dynlib: lib, importc: "gtk_tree_view_column_set_cell_data_fn".}
 proc column_clear_attributes*(tree_column: PTreeViewColumn, 
                                         cell_renderer: PCellRenderer){.cdecl, 
     dynlib: lib, importc: "gtk_tree_view_column_clear_attributes".}
@@ -10652,10 +10652,10 @@ proc remove_column*(tree_view: PTreeView, column: PTreeViewColumn): gint{.
 proc insert_column*(tree_view: PTreeView, column: PTreeViewColumn, 
                               position: gint): gint{.cdecl, dynlib: lib, 
     importc: "gtk_tree_view_insert_column".}
-proc insert_column_with_data_func*(tree_view: PTreeView, 
+proc insert_column_with_data_fn*(tree_view: PTreeView, 
     position: gint, title: cstring, cell: PCellRenderer, 
     fun: TTreeCellDataFunc, data: gpointer, dnotify: TGDestroyNotify): gint{.
-    cdecl, dynlib: lib, importc: "gtk_tree_view_insert_column_with_data_func".}
+    cdecl, dynlib: lib, importc: "gtk_tree_view_insert_column_with_data_fn".}
 proc get_column*(tree_view: PTreeView, n: gint): PTreeViewColumn{.
     cdecl, dynlib: lib, importc: "gtk_tree_view_get_column".}
 proc get_columns*(tree_view: PTreeView): PGList{.cdecl, dynlib: lib, 
@@ -10749,16 +10749,16 @@ proc get_search_column*(tree_view: PTreeView): gint{.cdecl,
     dynlib: lib, importc: "gtk_tree_view_get_search_column".}
 proc set_search_column*(tree_view: PTreeView, column: gint){.cdecl, 
     dynlib: lib, importc: "gtk_tree_view_set_search_column".}
-proc get_search_equal_func*(tree_view: PTreeView): TTreeViewSearchEqualFunc{.
-    cdecl, dynlib: lib, importc: "gtk_tree_view_get_search_equal_func".}
-proc set_search_equal_func*(tree_view: PTreeView, search_equal_func: TTreeViewSearchEqualFunc, 
+proc get_search_equal_fn*(tree_view: PTreeView): TTreeViewSearchEqualFunc{.
+    cdecl, dynlib: lib, importc: "gtk_tree_view_get_search_equal_fn".}
+proc set_search_equal_fn*(tree_view: PTreeView, search_equal_fn: TTreeViewSearchEqualFunc, 
                                       search_user_data: gpointer, 
                                       search_destroy: TDestroyNotify){.cdecl, 
-    dynlib: lib, importc: "gtk_tree_view_set_search_equal_func".}
-proc set_destroy_count_func*(tree_view: PTreeView, 
+    dynlib: lib, importc: "gtk_tree_view_set_search_equal_fn".}
+proc set_destroy_count_fn*(tree_view: PTreeView, 
                                        fun: TTreeDestroyCountFunc, 
                                        data: gpointer, destroy: TDestroyNotify){.
-    cdecl, dynlib: lib, importc: "gtk_tree_view_set_destroy_count_func".}
+    cdecl, dynlib: lib, importc: "gtk_tree_view_set_destroy_count_fn".}
 proc TYPE_VBUTTON_BOX*(): GType
 proc VBUTTON_BOX*(obj: pointer): PVButtonBox
 proc VBUTTON_BOX_CLASS*(klass: pointer): PVButtonBoxClass
@@ -14705,19 +14705,19 @@ proc signal_emit_stop*(instance: gpointer, signal_id: guint, detail: TGQuark) =
   if detail != 0'i32: g_signal_stop_emission(instance, signal_id, 0)
   
 proc signal_connect_full*(anObject: PObject, name: cstring, fun: TSignalFunc, 
-                          unknown1: pointer, func_data: gpointer, 
+                          unknown1: pointer, fn_data: gpointer, 
                           unknown2: pointer, unknown3, unknown4: int): gulong{.
     importc: "gtk_signal_connect_full", cdecl, dynlib: lib.}
 proc signal_compat_matched*(anObject: PObject, fun: TSignalFunc, 
                             data: gpointer, m: TGSignalMatchType, u: int){.
     importc: "gtk_signal_compat_matched", cdecl, dynlib: lib.}
 proc signal_connect*(anObject: PObject, name: cstring, fun: TSignalFunc, 
-                     func_data: gpointer): gulong = 
-  result = signal_connect_full(anObject, name, fun, nil, func_data, nil, 0, 0)
+                     fn_data: gpointer): gulong = 
+  result = signal_connect_full(anObject, name, fun, nil, fn_data, nil, 0, 0)
 
 proc signal_connect_after*(anObject: PObject, name: cstring, fun: TSignalFunc, 
-                           func_data: gpointer): gulong = 
-  result = signal_connect_full(anObject, name, fun, nil, func_data, nil, 0, 1)
+                           fn_data: gpointer): gulong = 
+  result = signal_connect_full(anObject, name, fun, nil, fn_data, nil, 0, 1)
 
 proc signal_connect_object*(anObject: PObject, name: cstring, 
                             fun: TSignalFunc, slot_object: gpointer): gulong = 
@@ -14741,12 +14741,12 @@ proc signal_handler_unblock*(anObject: gpointer, handler_id: gulong) =
 proc signal_disconnect_by_data*(anObject: PObject, data: gpointer) = 
   signal_compat_matched(anObject, nil, data, G_SIGNAL_MATCH_DATA, 0)
 
-proc signal_disconnect_by_func*(anObject: PObject, fun: TSignalFunc, 
+proc signal_disconnect_by_fn*(anObject: PObject, fun: TSignalFunc, 
                                 data: gpointer) = 
   signal_compat_matched(anObject, fun, data, cast[TGSignalMatchType](G_SIGNAL_MATCH_FUNC or
       G_SIGNAL_MATCH_DATA), 0)
 
-proc signal_handler_block_by_func*(anObject: PObject, fun: TSignalFunc, 
+proc signal_handler_block_by_fn*(anObject: PObject, fun: TSignalFunc, 
                                    data: gpointer) = 
   signal_compat_matched(anObject, fun, data, TGSignalMatchType(
       G_SIGNAL_MATCH_FUNC or G_SIGNAL_MATCH_DATA), 0)
@@ -14754,7 +14754,7 @@ proc signal_handler_block_by_func*(anObject: PObject, fun: TSignalFunc,
 proc signal_handler_block_by_data*(anObject: PObject, data: gpointer) = 
   signal_compat_matched(anObject, nil, data, G_SIGNAL_MATCH_DATA, 1)
 
-proc signal_handler_unblock_by_func*(anObject: PObject, fun: TSignalFunc, 
+proc signal_handler_unblock_by_fn*(anObject: PObject, fun: TSignalFunc, 
                                      data: gpointer) = 
   signal_compat_matched(anObject, fun, data, cast[TGSignalMatchType](G_SIGNAL_MATCH_FUNC or
       G_SIGNAL_MATCH_DATA), 0)
@@ -14766,7 +14766,7 @@ proc signal_handler_pending*(anObject: PObject, signal_id: guint,
                              may_be_blocked: gboolean): gboolean = 
   result = g_signal_has_handler_pending(anObject, signal_id, 0, may_be_blocked)
 
-proc signal_handler_pending_by_func*(anObject: PObject, signal_id: guint, 
+proc signal_handler_pending_by_fn*(anObject: PObject, signal_id: guint, 
                                      may_be_blocked: gboolean, 
                                      fun: TSignalFunc, 
                                      data: gpointer): gboolean = 
@@ -16785,7 +16785,7 @@ proc add_mime_type*(filter: PFileFilter, mime_type: cstring){.cdecl,
 proc add_pattern*(filter: PFileFilter, pattern: cstring){.cdecl, 
     dynlib: lib, importc: "gtk_file_filter_add_pattern".}
 proc add_custom*(filter: PFileFilter, needed: TFileFilterFlags, 
-                             func: TFileFilterFunc, data: gpointer, 
+                             fn: TFileFilterFunc, data: gpointer, 
                              notify: TGDestroyNotify){.cdecl, dynlib: lib, 
     importc: "gtk_file_filter_add_custom".}
 proc get_needed*(filter: PFileFilter): TFileFilterFlags{.cdecl, 
@@ -17040,12 +17040,12 @@ proc set_model*(combo_box: PComboBox; model: PTreeModel){.cdecl,
     importc: "gtk_combo_box_set_model", dynlib: lib.}
 proc get_model*(combo_box: PComboBox): PTreeModel{.cdecl, 
     importc: "gtk_combo_box_get_model", dynlib: lib.}
-discard """proc get_row_separator_func*(combo_box: PComboBox): GtkTreeViewRowSeparatorFunc{.
-    cdecl, importc: "gtk_combo_box_get_row_separator_func", dynlib: lib.}
-proc set_row_separator_func*(combo_box: PComboBox; 
-                             func: GtkTreeViewRowSeparatorFunc; data: gpointer; 
+discard """proc get_row_separator_fn*(combo_box: PComboBox): GtkTreeViewRowSeparatorFunc{.
+    cdecl, importc: "gtk_combo_box_get_row_separator_fn", dynlib: lib.}
+proc set_row_separator_fn*(combo_box: PComboBox; 
+                             fn: GtkTreeViewRowSeparatorFunc; data: gpointer; 
                              destroy: GDestroyNotify){.cdecl, 
-    importc: "gtk_combo_box_set_row_separator_func", dynlib: lib.}"""
+    importc: "gtk_combo_box_set_row_separator_fn", dynlib: lib.}"""
 discard """proc set_button_sensitivity*(combo_box: PComboBox; 
                              sensitivity: GtkSensitivityType){.cdecl, 
     importc: "gtk_combo_box_set_button_sensitivity", dynlib: lib.}
