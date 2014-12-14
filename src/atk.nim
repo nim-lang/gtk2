@@ -432,7 +432,7 @@ type
     keycode*: guint16
     timestamp*: guint32
 
-  TKeySnoopFunc* = proc (event: PKeyEventStruct, func_data: gpointer): gint{.
+  TKeySnoopFunc* = proc (event: PKeyEventStruct, fn_data: gpointer): gint{.
       cdecl.}
   PKeyEventType* = ptr TKeyEventType
   TKeyEventType* = enum 
