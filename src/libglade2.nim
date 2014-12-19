@@ -53,17 +53,17 @@ proc xml_new_from_buffer*(buffer: cstring, size: int32, root: cstring,
     importc: "glade_xml_new_from_buffer".}
 proc construct*(self: PXML, fname: cstring, root: cstring, domain: cstring): gboolean{.
     cdecl, dynlib: LibGladeLib, importc: "glade_xml_construct".}
-proc signal_connect*(self: PXML, handlername: cstring, func: TGCallback){.
+proc signal_connect*(self: PXML, handlername: cstring, fn: TGCallback){.
     cdecl, dynlib: LibGladeLib, importc: "glade_xml_signal_connect".}
 proc signal_connect_data*(self: PXML, handlername: cstring, 
-                              func: TGCallback, user_data: gpointer){.cdecl, 
+                              fn: TGCallback, user_data: gpointer){.cdecl, 
     dynlib: LibGladeLib, importc: "glade_xml_signal_connect_data".}
 proc signal_autoconnect*(self: PXML){.cdecl, dynlib: LibGladeLib, 
     importc: "glade_xml_signal_autoconnect".}
 proc signal_connect_full*(self: PXML, handler_name: cstring, 
-                              func: TXMLConnectFunc, user_data: gpointer){.
+                              fn: TXMLConnectFunc, user_data: gpointer){.
     cdecl, dynlib: LibGladeLib, importc: "glade_xml_signal_connect_full".}
-proc signal_autoconnect_full*(self: PXML, func: TXMLConnectFunc, 
+proc signal_autoconnect_full*(self: PXML, fn: TXMLConnectFunc, 
                                   user_data: gpointer){.cdecl, 
     dynlib: LibGladeLib, importc: "glade_xml_signal_autoconnect_full".}
 proc get_widget*(self: PXML, name: cstring): gtk2.PWidget{.cdecl, 

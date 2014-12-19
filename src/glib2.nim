@@ -924,22 +924,22 @@ proc g_signal_handler_is_connected*(instance: gpointer, handler_id: gulong): gbo
     cdecl, dynlib: gobjectlib, importc: "g_signal_handler_is_connected".}
 proc g_signal_handler_find*(instance: gpointer, mask: TGSignalMatchType, 
                             signal_id: guint, detail: TGQuark, 
-                            closure: PGClosure, func: gpointer, data: gpointer): gulong{.
+                            closure: PGClosure, fn: gpointer, data: gpointer): gulong{.
     cdecl, dynlib: gobjectlib, importc: "g_signal_handler_find".}
 proc g_signal_handlers_block_matched*(instance: gpointer, 
                                       mask: TGSignalMatchType, signal_id: guint, 
                                       detail: TGQuark, closure: PGClosure, 
-                                      func: gpointer, data: gpointer): guint{.
+                                      fn: gpointer, data: gpointer): guint{.
     cdecl, dynlib: gobjectlib, importc: "g_signal_handlers_block_matched".}
 proc g_signal_handlers_unblock_matched*(instance: gpointer, 
                                         mask: TGSignalMatchType, 
                                         signal_id: guint, detail: TGQuark, 
-                                        closure: PGClosure, func: gpointer, 
+                                        closure: PGClosure, fn: gpointer, 
                                         data: gpointer): guint{.cdecl, 
     dynlib: gobjectlib, importc: "g_signal_handlers_unblock_matched".}
 proc g_signal_handlers_disconnect_matched*(instance: gpointer, 
     mask: TGSignalMatchType, signal_id: guint, detail: TGQuark, 
-    closure: PGClosure, func: gpointer, data: gpointer): guint{.cdecl, 
+    closure: PGClosure, fn: gpointer, data: gpointer): guint{.cdecl, 
     dynlib: gobjectlib, importc: "g_signal_handlers_disconnect_matched".}
 proc g_signal_override_class_closure*(signal_id: guint, instance_type: GType, 
                                       class_closure: PGClosure){.cdecl, 
@@ -954,9 +954,9 @@ proc g_signal_connect_after*(instance: gpointer, detailed_signal: cstring,
 proc g_signal_connect_swapped*(instance: gpointer, detailed_signal: cstring, 
                                c_handler: TGCallback, data: gpointer): gulong
 proc g_signal_handlers_disconnect_by_func*(instance: gpointer, 
-    func, data: gpointer): guint
-proc g_signal_handlers_block_by_func*(instance: gpointer, func, data: gpointer)
-proc g_signal_handlers_unblock_by_func*(instance: gpointer, func, data: gpointer)
+    fn, data: gpointer): guint
+proc g_signal_handlers_block_by_func*(instance: gpointer, fn, data: gpointer)
+proc g_signal_handlers_unblock_by_func*(instance: gpointer, fn, data: gpointer)
 proc g_signal_handlers_destroy*(instance: gpointer){.cdecl, dynlib: gobjectlib, 
     importc: "g_signal_handlers_destroy".}
 proc g_signals_destroy*(itype: GType){.cdecl, dynlib: gobjectlib, 
@@ -1396,7 +1396,7 @@ proc g_getenv*(variable: cstring): cstring{.cdecl, dynlib: gliblib,
 type 
   TGVoidFunc* = proc (){.cdecl.}
 
-proc g_atexit*(func: TGVoidFunc){.cdecl, dynlib: gliblib, importc: "g_atexit".}
+proc g_atexit*(fn: TGVoidFunc){.cdecl, dynlib: gliblib, importc: "g_atexit".}
 proc g_find_program_in_path*(program: cstring): cstring{.cdecl, dynlib: gliblib, 
     importc: "g_find_program_in_path".}
 proc g_bit_nth_lsf*(mask: gulong, nth_bit: gint): gint{.cdecl, dynlib: gliblib, 
@@ -1448,13 +1448,13 @@ proc table_lookup_extended*(hash_table: PGHashTable,
                                    lookup_key: gconstpointer, 
                                    orig_key: Pgpointer, value: Pgpointer): gboolean{.
     cdecl, dynlib: gliblib, importc: "g_hash_table_lookup_extended".}
-proc table_foreach*(hash_table: PGHashTable, func: TGHFunc, 
+proc table_foreach*(hash_table: PGHashTable, fn: TGHFunc, 
                            user_data: gpointer){.cdecl, dynlib: gliblib, 
     importc: "g_hash_table_foreach".}
-proc table_foreach_remove*(hash_table: PGHashTable, func: TGHRFunc, 
+proc table_foreach_remove*(hash_table: PGHashTable, fn: TGHRFunc, 
                                   user_data: gpointer): guint{.cdecl, 
     dynlib: gliblib, importc: "g_hash_table_foreach_remove".}
-proc table_foreach_steal*(hash_table: PGHashTable, func: TGHRFunc, 
+proc table_foreach_steal*(hash_table: PGHashTable, fn: TGHRFunc, 
                                  user_data: gpointer): guint{.cdecl, 
     dynlib: gliblib, importc: "g_hash_table_foreach_steal".}
 proc table_size*(hash_table: PGHashTable): guint{.cdecl, dynlib: gliblib, 
@@ -1565,7 +1565,7 @@ proc prepend*(list: PGSList, data: gpointer): PGSList{.cdecl,
     dynlib: gliblib, importc: "g_slist_prepend".}
 proc insert*(list: PGSList, data: gpointer, position: gint): PGSList{.
     cdecl, dynlib: gliblib, importc: "g_slist_insert".}
-proc insert_sorted*(list: PGSList, data: gpointer, func: TGCompareFunc): PGSList{.
+proc insert_sorted*(list: PGSList, data: gpointer, fn: TGCompareFunc): PGSList{.
     cdecl, dynlib: gliblib, importc: "g_slist_insert_sorted".}
 proc insert_before*(slist: PGSList, sibling: PGSList, data: gpointer): PGSList{.
     cdecl, dynlib: gliblib, importc: "g_slist_insert_before".}
@@ -1588,7 +1588,7 @@ proc nth*(list: PGSList, n: guint): PGSList{.cdecl, dynlib: gliblib,
 proc find*(list: PGSList, data: gconstpointer): PGSList{.cdecl, 
     dynlib: gliblib, importc: "g_slist_find".}
 proc find_custom*(list: PGSList, data: gconstpointer, 
-                          func: TGCompareFunc): PGSList{.cdecl, dynlib: gliblib, 
+                          fn: TGCompareFunc): PGSList{.cdecl, dynlib: gliblib, 
     importc: "g_slist_find_custom".}
 proc position*(list: PGSList, llink: PGSList): gint{.cdecl, 
     dynlib: gliblib, importc: "g_slist_position".}
@@ -1598,7 +1598,7 @@ proc last*(list: PGSList): PGSList{.cdecl, dynlib: gliblib,
     importc: "g_slist_last".}
 proc length*(list: PGSList): guint{.cdecl, dynlib: gliblib, 
     importc: "g_slist_length".}
-proc foreach*(list: PGSList, func: TGFunc, user_data: gpointer){.cdecl, 
+proc foreach*(list: PGSList, fn: TGFunc, user_data: gpointer){.cdecl, 
     dynlib: gliblib, importc: "g_slist_foreach".}
 proc sort*(list: PGSList, compare_func: TGCompareFunc): PGSList{.cdecl, 
     dynlib: gliblib, importc: "g_slist_sort".}
@@ -1622,7 +1622,7 @@ proc prepend*(list: PGList, data: gpointer): PGList{.cdecl,
     dynlib: gliblib, importc: "g_list_prepend".}
 proc insert*(list: PGList, data: gpointer, position: gint): PGList{.
     cdecl, dynlib: gliblib, importc: "g_list_insert".}
-proc insert_sorted*(list: PGList, data: gpointer, func: TGCompareFunc): PGList{.
+proc insert_sorted*(list: PGList, data: gpointer, fn: TGCompareFunc): PGList{.
     cdecl, dynlib: gliblib, importc: "g_list_insert_sorted".}
 proc insert_before*(list: PGList, sibling: PGList, data: gpointer): PGList{.
     cdecl, dynlib: gliblib, importc: "g_list_insert_before".}
@@ -1646,7 +1646,7 @@ proc nth_prev*(list: PGList, n: guint): PGList{.cdecl, dynlib: gliblib,
     importc: "g_list_nth_prev".}
 proc find*(list: PGList, data: gconstpointer): PGList{.cdecl, 
     dynlib: gliblib, importc: "g_list_find".}
-proc find_custom*(list: PGList, data: gconstpointer, func: TGCompareFunc): PGList{.
+proc find_custom*(list: PGList, data: gconstpointer, fn: TGCompareFunc): PGList{.
     cdecl, dynlib: gliblib, importc: "g_list_find_custom".}
 proc position*(list: PGList, llink: PGList): gint{.cdecl, 
     dynlib: gliblib, importc: "g_list_position".}
@@ -1658,7 +1658,7 @@ proc first*(list: PGList): PGList{.cdecl, dynlib: gliblib,
     importc: "g_list_first".}
 proc length*(list: PGList): guint{.cdecl, dynlib: gliblib, 
     importc: "g_list_length".}
-proc foreach*(list: PGList, func: TGFunc, user_data: gpointer){.cdecl, 
+proc foreach*(list: PGList, fn: TGFunc, user_data: gpointer){.cdecl, 
     dynlib: gliblib, importc: "g_list_foreach".}
 proc sort*(list: PGList, compare_func: TGCompareFunc): PGList{.cdecl, 
     dynlib: gliblib, importc: "g_list_sort".}
@@ -1688,9 +1688,9 @@ proc insert*(cache: PGCache, key: gpointer): gpointer{.cdecl,
     dynlib: gliblib, importc: "g_cache_insert".}
 proc remove*(cache: PGCache, value: gconstpointer){.cdecl, 
     dynlib: gliblib, importc: "g_cache_remove".}
-proc key_foreach*(cache: PGCache, func: TGHFunc, user_data: gpointer){.
+proc key_foreach*(cache: PGCache, fn: TGHFunc, user_data: gpointer){.
     cdecl, dynlib: gliblib, importc: "g_cache_key_foreach".}
-proc value_foreach*(cache: PGCache, func: TGHFunc, user_data: gpointer){.
+proc value_foreach*(cache: PGCache, fn: TGHFunc, user_data: gpointer){.
     cdecl, dynlib: gliblib, importc: "g_cache_value_foreach".}
 type 
   PGCompletionFunc* = ptr TGCompletionFunc
@@ -1700,13 +1700,13 @@ type
   PGCompletion* = ptr TGCompletion
   TGCompletion*{.final.} = object 
     items*: PGList
-    func*: TGCompletionFunc
+    fn*: TGCompletionFunc
     prefix*: cstring
     cache*: PGList
     strncmp_func*: TGCompletionStrncmpFunc
 
 
-proc g_completion_new*(func: TGCompletionFunc): PGCompletion{.cdecl, 
+proc g_completion_new*(fn: TGCompletionFunc): PGCompletion{.cdecl, 
     dynlib: gliblib, importc: "g_completion_new".}
 proc add_items*(cmp: PGCompletion, items: PGList){.cdecl, 
     dynlib: gliblib, importc: "g_completion_add_items".}
@@ -1787,7 +1787,7 @@ proc g_datalist_id_set_data_full*(datalist: PPGData, key_id: TGQuark,
     cdecl, dynlib: gliblib, importc: "g_datalist_id_set_data_full".}
 proc g_datalist_id_remove_no_notify*(datalist: PPGData, key_id: TGQuark): gpointer{.
     cdecl, dynlib: gliblib, importc: "g_datalist_id_remove_no_notify".}
-proc g_datalist_foreach*(datalist: PPGData, func: TGDataForeachFunc, 
+proc g_datalist_foreach*(datalist: PPGData, fn: TGDataForeachFunc, 
                          user_data: gpointer){.cdecl, dynlib: gliblib, 
     importc: "g_datalist_foreach".}
 proc g_datalist_id_set_data*(datalist: PPGData, key_id: TGQuark, data: gpointer)
@@ -1808,7 +1808,7 @@ proc g_dataset_id_remove_no_notify*(dataset_location: gconstpointer,
                                     key_id: TGQuark): gpointer{.cdecl, 
     dynlib: gliblib, importc: "g_dataset_id_remove_no_notify".}
 proc g_dataset_foreach*(dataset_location: gconstpointer, 
-                        func: TGDataForeachFunc, user_data: gpointer){.cdecl, 
+                        fn: TGDataForeachFunc, user_data: gpointer){.cdecl, 
     dynlib: gliblib, importc: "g_dataset_foreach".}
 proc g_dataset_id_set_data*(location: gconstpointer, key_id: TGQuark, 
                             data: gpointer)
@@ -2054,7 +2054,7 @@ type
     ref_count*: guint
     hook_id*: gulong
     flags*: guint
-    func*: gpointer
+    fn*: gpointer
     destroy*: TGDestroyNotify
 
   PGHookList* = ptr TGHookList
@@ -2122,21 +2122,21 @@ proc prepend*(hook_list: PGHookList, hook: PGHook){.cdecl,
 proc insert_before*(hook_list: PGHookList, sibling: PGHook, hook: PGHook){.
     cdecl, dynlib: gliblib, importc: "g_hook_insert_before".}
 proc insert_sorted*(hook_list: PGHookList, hook: PGHook, 
-                           func: TGHookCompareFunc){.cdecl, dynlib: gliblib, 
+                           fn: TGHookCompareFunc){.cdecl, dynlib: gliblib, 
     importc: "g_hook_insert_sorted".}
 proc get*(hook_list: PGHookList, hook_id: gulong): PGHook{.cdecl, 
     dynlib: gliblib, importc: "g_hook_get".}
 proc find*(hook_list: PGHookList, need_valids: gboolean, 
-                  func: TGHookFindFunc, data: gpointer): PGHook{.cdecl, 
+                  fn: TGHookFindFunc, data: gpointer): PGHook{.cdecl, 
     dynlib: gliblib, importc: "g_hook_find".}
 proc find_data*(hook_list: PGHookList, need_valids: gboolean, 
                        data: gpointer): PGHook{.cdecl, dynlib: gliblib, 
     importc: "g_hook_find_data".}
 proc find_func*(hook_list: PGHookList, need_valids: gboolean, 
-                       func: gpointer): PGHook{.cdecl, dynlib: gliblib, 
+                       fn: gpointer): PGHook{.cdecl, dynlib: gliblib, 
     importc: "g_hook_find_func".}
 proc find_func_data*(hook_list: PGHookList, need_valids: gboolean, 
-                            func: gpointer, data: gpointer): PGHook{.cdecl, 
+                            fn: gpointer, data: gpointer): PGHook{.cdecl, 
     dynlib: gliblib, importc: "g_hook_find_func_data".}
 proc first_valid*(hook_list: PGHookList, may_be_in_call: gboolean): PGHook{.
     cdecl, dynlib: gliblib, importc: "g_hook_first_valid".}
@@ -2158,12 +2158,12 @@ proc list_marshal_check*(hook_list: PGHookList, may_recurse: gboolean,
 type 
   PGThreadPool* = ptr TGThreadPool
   TGThreadPool*{.final.} = object 
-    func*: TGFunc
+    fn*: TGFunc
     user_data*: gpointer
     exclusive*: gboolean
 
 
-proc g_thread_pool_new*(func: TGFunc, user_data: gpointer, max_threads: gint, 
+proc g_thread_pool_new*(fn: TGFunc, user_data: gpointer, max_threads: gint, 
                         exclusive: gboolean, error: pointer): PGThreadPool{.
     cdecl, dynlib: gliblib, importc: "g_thread_pool_new".}
 proc pool_push*(pool: PGThreadPool, data: gpointer, error: pointer){.
@@ -2567,13 +2567,13 @@ proc channel_close*(channel: PGIOChannel){.cdecl, dynlib: gliblib,
 proc channel_shutdown*(channel: PGIOChannel, flush: gboolean, err: pointer): TGIOStatus{.
     cdecl, dynlib: gliblib, importc: "g_io_channel_shutdown".}
 proc add_watch_full*(channel: PGIOChannel, priority: gint, 
-                          condition: TGIOCondition, func: TGIOFunc, 
+                          condition: TGIOCondition, fn: TGIOFunc, 
                           user_data: gpointer, notify: TGDestroyNotify): guint{.
     cdecl, dynlib: gliblib, importc: "g_io_add_watch_full".}
 proc create_watch*(channel: PGIOChannel, condition: TGIOCondition): PGSource{.
     cdecl, dynlib: gliblib, importc: "g_io_create_watch".}
 proc add_watch*(channel: PGIOChannel, condition: TGIOCondition, 
-                     func: TGIOFunc, user_data: gpointer): guint{.cdecl, 
+                     fn: TGIOFunc, user_data: gpointer): guint{.cdecl, 
     dynlib: gliblib, importc: "g_io_add_watch".}
 proc channel_set_buffer_size*(channel: PGIOChannel, size: gsize){.cdecl, 
     dynlib: gliblib, importc: "g_io_channel_set_buffer_size".}
@@ -2693,9 +2693,9 @@ when false:
 type 
   TGPrintFunc* = proc (str: cstring){.cdecl, varargs.}
 
-proc g_set_print_handler*(func: TGPrintFunc): TGPrintFunc{.cdecl, 
+proc g_set_print_handler*(fn: TGPrintFunc): TGPrintFunc{.cdecl, 
     dynlib: gliblib, importc: "g_set_print_handler".}
-proc g_set_printerr_handler*(func: TGPrintFunc): TGPrintFunc{.cdecl, 
+proc g_set_printerr_handler*(fn: TGPrintFunc): TGPrintFunc{.cdecl, 
     dynlib: gliblib, importc: "g_set_printerr_handler".}
 type 
   PGMarkupError* = ptr TGMarkupError
@@ -2815,12 +2815,12 @@ proc prepend_data*(parent: PGNode, data: gpointer): PGNode
 proc append_data*(parent: PGNode, data: gpointer): PGNode
 proc traverse*(root: PGNode, order: TGTraverseType, 
                       flags: TGTraverseFlags, max_depth: gint, 
-                      func: TGNodeTraverseFunc, data: gpointer): guint{.cdecl, 
+                      fn: TGNodeTraverseFunc, data: gpointer): guint{.cdecl, 
     dynlib: gliblib, importc: "g_node_traverse".}
 proc max_height*(root: PGNode): guint{.cdecl, dynlib: gliblib, 
     importc: "g_node_max_height".}
 proc children_foreach*(node: PGNode, flags: TGTraverseFlags, 
-                              func: TGNodeForeachFunc, data: gpointer){.cdecl, 
+                              fn: TGNodeForeachFunc, data: gpointer){.cdecl, 
     dynlib: gliblib, importc: "g_node_children_foreach".}
 proc reverse_children*(node: PGNode){.cdecl, dynlib: gliblib, 
     importc: "g_node_reverse_children".}
@@ -2874,7 +2874,7 @@ proc lookup*(tree: PGTree, key: gconstpointer): gpointer{.cdecl,
 proc lookup_extended*(tree: PGTree, lookup_key: gconstpointer, 
                              orig_key: Pgpointer, value: Pgpointer): gboolean{.
     cdecl, dynlib: gliblib, importc: "g_tree_lookup_extended".}
-proc foreach*(tree: PGTree, func: TGTraverseFunc, user_data: gpointer){.
+proc foreach*(tree: PGTree, fn: TGTraverseFunc, user_data: gpointer){.
     cdecl, dynlib: gliblib, importc: "g_tree_foreach".}
 proc search*(tree: PGTree, search_func: TGCompareFunc, 
                     user_data: gconstpointer): gpointer{.cdecl, dynlib: gliblib, 
@@ -3208,7 +3208,7 @@ proc scope_lookup_symbol*(scanner: PGScanner, scope_id: guint,
                                     symbol: cstring): gpointer{.cdecl, 
     dynlib: gliblib, importc: "g_scanner_scope_lookup_symbol".}
 proc scope_foreach_symbol*(scanner: PGScanner, scope_id: guint, 
-                                     func: TGHFunc, user_data: gpointer){.cdecl, 
+                                     fn: TGHFunc, user_data: gpointer){.cdecl, 
     dynlib: gliblib, importc: "g_scanner_scope_foreach_symbol".}
 proc lookup_symbol*(scanner: PGScanner, symbol: cstring): gpointer{.
     cdecl, dynlib: gliblib, importc: "g_scanner_lookup_symbol".}
@@ -3562,9 +3562,9 @@ when false:
     if g_threads_got_initialized: 
       g_thread_functions_for_glib_use.thread_yield
 
-  proc g_thread_create*(func: TGThreadFunc, data: gpointer, joinable: gboolean, 
+  proc g_thread_create*(fn: TGThreadFunc, data: gpointer, joinable: gboolean, 
                         error: pointer): PGThread = 
-    result = g_thread_create_full(func, data, 0, joinable, false, 
+    result = g_thread_create_full(fn, data, 0, joinable, false, 
                                   G_THREAD_PRIORITY_NORMAL, error)
 
   proc g_static_mutex_get_mutex*(mutex: PPGMutex): PGMutex = 
@@ -3588,8 +3588,8 @@ when false:
   proc g_main_pending*(): gboolean = 
     result = g_main_context_pending(nil)
 
-  proc g_main_set_poll_func*(func: TGPollFunc) = 
-    g_main_context_set_poll_func(nil, func)
+  proc g_main_set_poll_func*(fn: TGPollFunc) = 
+    g_main_context_set_poll_func(nil, fn)
 
 proc next*(slist: PGSList): PGSList = 
   if slist != nil: 
@@ -4327,20 +4327,20 @@ proc g_signal_connect_swapped*(instance: gpointer, detailed_signal: cstring,
                                  nil, G_CONNECT_SWAPPED)
 
 proc g_signal_handlers_disconnect_by_func*(instance: gpointer, 
-    func, data: gpointer): guint = 
+    fn, data: gpointer): guint = 
   result = g_signal_handlers_disconnect_matched(instance, 
       TGSignalMatchType(G_SIGNAL_MATCH_FUNC or G_SIGNAL_MATCH_DATA), 0, 0, nil, 
-      func, data)
+      fn, data)
 
-proc g_signal_handlers_block_by_func*(instance: gpointer, func, data: gpointer) = 
+proc g_signal_handlers_block_by_func*(instance: gpointer, fn, data: gpointer) = 
   discard g_signal_handlers_block_matched(instance, 
       TGSignalMatchType(G_SIGNAL_MATCH_FUNC or G_SIGNAL_MATCH_DATA), 0, 0, nil, 
-      func, data)
+      fn, data)
 
-proc g_signal_handlers_unblock_by_func*(instance: gpointer, func, data: gpointer) = 
+proc g_signal_handlers_unblock_by_func*(instance: gpointer, fn, data: gpointer) = 
   discard g_signal_handlers_unblock_matched(instance, 
       TGSignalMatchType(G_SIGNAL_MATCH_FUNC or G_SIGNAL_MATCH_DATA), 0, 0, nil, 
-      func, data)
+      fn, data)
 
 proc G_TYPE_IS_OBJECT*(theType: GType): bool = 
   result = (G_TYPE_FUNDAMENTAL(theType)) == G_TYPE_OBJECT
