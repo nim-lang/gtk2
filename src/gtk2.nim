@@ -2159,10 +2159,10 @@ type
     set_sort_column_id*: proc (sortable: PTreeSortable, sort_column_id: gint, 
                                order: TSortType){.cdecl.}
     set_sort_func*: proc (sortable: PTreeSortable, sort_column_id: gint, 
-                          func: TTreeIterCompareFunc, data: gpointer, 
+                          fn: TTreeIterCompareFunc, data: gpointer, 
                           destroy: TDestroyNotify){.cdecl.}
     set_default_sort_func*: proc (sortable: PTreeSortable, 
-                                  func: TTreeIterCompareFunc, data: gpointer, 
+                                  fn: TTreeIterCompareFunc, data: gpointer, 
                                   destroy: TDestroyNotify){.cdecl.}
     has_default_sort_func*: proc (sortable: PTreeSortable): gboolean{.cdecl.}
 
@@ -4275,7 +4275,7 @@ proc get_group*(window: PWindow): PWindowGroup{.cdecl, dynlib: lib,
     importc: "_gtk_window_get_group".}
 proc activate_key*(window: PWindow, event: gdk2.PEventKey): gboolean{.
     cdecl, dynlib: lib, importc: "_gtk_window_activate_key".}
-proc keys_foreach*(window: PWindow, func: TWindowKeysForeachFunc, 
+proc keys_foreach*(window: PWindow, fn: TWindowKeysForeachFunc, 
                           func_data: gpointer){.cdecl, dynlib: lib, 
     importc: "_gtk_window_keys_foreach".}
 proc query_nonaccels*(window: PWindow, accel_key: guint, 
@@ -5484,7 +5484,7 @@ proc color_selection_palette_from_string*(str: cstring, colors: var gdk2.PColor,
 proc color_selection_palette_to_string*(colors: gdk2.PColor, n_colors: gint): cstring{.
     cdecl, dynlib: lib, importc: "gtk_color_selection_palette_to_string".}
 proc color_selection_set_change_palette_with_screen_hook*(
-    func: TColorSelectionChangePaletteWithScreenFunc): TColorSelectionChangePaletteWithScreenFunc{.
+    fn: TColorSelectionChangePaletteWithScreenFunc): TColorSelectionChangePaletteWithScreenFunc{.
     cdecl, dynlib: lib, 
     importc: "gtk_color_selection_set_change_palette_with_screen_hook".}
 proc TYPE_COLOR_SELECTION_DIALOG*(): GType
@@ -16785,7 +16785,7 @@ proc add_mime_type*(filter: PFileFilter, mime_type: cstring){.cdecl,
 proc add_pattern*(filter: PFileFilter, pattern: cstring){.cdecl, 
     dynlib: lib, importc: "gtk_file_filter_add_pattern".}
 proc add_custom*(filter: PFileFilter, needed: TFileFilterFlags, 
-                             func: TFileFilterFunc, data: gpointer, 
+                             fn: TFileFilterFunc, data: gpointer, 
                              notify: TGDestroyNotify){.cdecl, dynlib: lib, 
     importc: "gtk_file_filter_add_custom".}
 proc get_needed*(filter: PFileFilter): TFileFilterFlags{.cdecl, 
@@ -17043,7 +17043,7 @@ proc get_model*(combo_box: PComboBox): PTreeModel{.cdecl,
 discard """proc get_row_separator_func*(combo_box: PComboBox): GtkTreeViewRowSeparatorFunc{.
     cdecl, importc: "gtk_combo_box_get_row_separator_func", dynlib: lib.}
 proc set_row_separator_func*(combo_box: PComboBox; 
-                             func: GtkTreeViewRowSeparatorFunc; data: gpointer; 
+                             fn: GtkTreeViewRowSeparatorFunc; data: gpointer; 
                              destroy: GDestroyNotify){.cdecl, 
     importc: "gtk_combo_box_set_row_separator_func", dynlib: lib.}"""
 discard """proc set_button_sensitivity*(combo_box: PComboBox; 

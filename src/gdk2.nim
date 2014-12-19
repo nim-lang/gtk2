@@ -1132,7 +1132,7 @@ proc get_root_coords*(event: PEvent, x_root: Pgdouble, y_root: Pgdouble): gboole
     cdecl, dynlib: lib, importc: "gdk_event_get_root_coords".}
 proc get_axis*(event: PEvent, axis_use: TAxisUse, value: Pgdouble): gboolean{.
     cdecl, dynlib: lib, importc: "gdk_event_get_axis".}
-proc event_handler_set*(func: TEventFunc, data: gpointer, 
+proc event_handler_set*(fn: TEventFunc, data: gpointer, 
                         notify: TGDestroyNotify){.cdecl, dynlib: lib, 
     importc: "gdk_event_handler_set".}
 proc set_show_events*(show_events: gboolean){.cdecl, dynlib: lib, 
@@ -2943,7 +2943,7 @@ proc peek_event*(display: PDisplay): PEvent{.cdecl, dynlib: lib,
 proc put_event*(display: PDisplay, event: PEvent){.cdecl, dynlib: lib, 
     importc: "gdk_display_put_event".}
 proc add_client_message_filter*(display: PDisplay, message_type: TAtom, 
-                                        func: TFilterFunc, data: gpointer){.
+                                        fn: TFilterFunc, data: gpointer){.
     cdecl, dynlib: lib, importc: "gdk_display_add_client_message_filter".}
 proc set_double_click_time*(display: PDisplay, msec: guint){.cdecl, 
     dynlib: lib, importc: "gdk_display_set_double_click_time".}
