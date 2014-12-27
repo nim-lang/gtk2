@@ -1,16 +1,16 @@
 
 # Installation
 
-You can install this wrapper using the [Babel](https://github.com/nimrod-code/babel) package manager.
+You can install this wrapper using the [Nimble](https://github.com/nimrod-code/nimble) package manager.
 
 ```bash
-babel install gtk2 # To install latest tagged version from git, if one exists.
-babel install gtk2#head # To install GIT HEAD.
+nimble install gtk2 # To install latest tagged version from git, if one exists.
+nimble install gtk2#head # To install GIT HEAD.
 ```
 
-# Use this wrapper as part of your babel package
+# Use this wrapper as part of your nimble package
 
-If you wish to add this wrapper as a dependency to your babel package then add the following to your .babel file.
+If you wish to add this wrapper as a dependency to your nimble package then add the following to your .nimble file.
 
 ```ini
 [Deps]
