@@ -1,6 +1,6 @@
 {.deadCodeElim: on.}
 import 
-  glib2, gdk2pixbuf, pango
+  glib2, gdk2pixbuf, pango, cairo
 
 when defined(win32): 
   const 
@@ -2712,9 +2712,26 @@ const
   KEY_DongSign* = 0x000020AB
   KEY_EuroSign* = 0x000020AC
 
-proc pango_context_get_for_screen*(screen: PScreen): PContext{.cdecl, 
+
+proc cairo_create*(drawable: PDrawable): cairo.PContext {.
+    cdecl, dynlib: lib, importc: "gdk_cairo_create".}
+proc cairo_reset_clip*(cr: cairo.PContext, drawable: PDrawable) {.
+    cdecl, dynlib: lib, importc: "gdk_cairo_reset_clip".}
+proc cairo_set_source_color*(cr: cairo.PContext, color: PColor) {.
+    cdecl, dynlib: lib, importc: "gdk_cairo_set_source_color".}
+proc cairo_set_source_pixbuf*(cr: cairo.PContext, pixbuf: PPixbuf, pixbuf_x, pixbuf_y: float64) {.
+    cdecl, dynlib: lib, importc: "gdk_cairo_set_source_pixbuf".}
+proc cairo_set_source_pixmap*(cr: cairo.PContext, pixmap: PPixmap, pixmap_x, pixmap_y: float64) {.
+    cdecl, dynlib: lib, importc: "gdk_cairo_set_source_pixmap".}
+proc cairo_set_source_window*(cr: cairo.PContext, window: PWindow, x,y: float64) {.
+    cdecl, dynlib: lib, importc: "gdk_cairo_set_source_window".}
+proc cairo_rectangle*(cr: cairo.PContext, rectangle: PRectangle) {.
+    cdecl, dynlib: lib, importc: "gdk_cairo_rectangle".}
+proc cairo_region*(cr: cairo.PContext, region: PRegion) {.
+    cdecl, dynlib: lib, importc: "gdk_cairo_region".}
+proc pango_context_get_for_screen*(screen: PScreen): pango.PContext{.cdecl, 
     dynlib: lib, importc: "gdk_pango_context_get_for_screen".}
-proc pango_context_set_colormap*(context: PContext, colormap: PColormap){.
+proc pango_context_set_colormap*(context: pango.PContext, colormap: PColormap){.
     cdecl, dynlib: lib, importc: "gdk_pango_context_set_colormap".}
 proc pango_layout_line_get_clip_region*(line: PLayoutLine, x_origin: gint, 
                                         y_origin: gint, index_ranges: Pgint, 
