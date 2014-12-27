@@ -1,6 +1,6 @@
 {.deadCodeElim: on.}
 import 
-  glib2, gdk2pixbuf, pango
+  glib2, gdk2pixbuf, pango, cairo
 
 when defined(win32): 
   const 
