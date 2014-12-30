@@ -30,7 +30,7 @@ type
   gboolean* = distinct gint
   guchar* = char
   gushort* = int16
-  gulong* = int
+  gulong* = clonglong
   guint* = cint
   gfloat* = cfloat
   gdouble* = cdouble
