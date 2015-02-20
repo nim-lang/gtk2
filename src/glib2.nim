@@ -30,7 +30,7 @@ type
   gboolean* = distinct gint
   guchar* = char
   gushort* = int16
-  gulong* = clonglong
+  gulong* = clong
   guint* = cint
   gfloat* = cfloat
   gdouble* = cdouble
@@ -240,8 +240,8 @@ proc G_TYPE_CHECK_CLASS_CAST*(g_class: pointer, g_type: GType): pointer
 proc G_TYPE_CHECK_CLASS_TYPE*(g_class: pointer, g_type: GType): bool
 proc G_TYPE_CHECK_VALUE*(value: pointer): bool
 proc G_TYPE_CHECK_VALUE_TYPE*(value: pointer, g_type: GType): bool
-proc G_TYPE_FROM_INSTANCE*(instance: pointer): GType
-proc G_TYPE_FROM_CLASS*(g_class: pointer): GType
+proc G_TYPE_FROM_INSTANCE*(instance: pointer): GType {.gcsafe.}
+proc G_TYPE_FROM_CLASS*(g_class: pointer): GType {.gcsafe.}
 proc G_TYPE_FROM_INTERFACE*(g_iface: pointer): GType
 type 
   TGTypeDebugFlags* = int32
@@ -695,7 +695,7 @@ type
     notifiers*: PGClosureNotifyData
 
   TGCallBackProcedure* = proc (){.cdecl.}
-  TGCallback* = proc (){.cdecl.}
+  TGCallback* = proc (){.cdecl, gcsafe.}
   TGClosureMarshal* = proc (closure: PGClosure, return_value: PGValue, 
                             n_param_values: guint, param_values: PGValue, 
                             invocation_hint: gpointer, marshal_data: gpointer){.
@@ -3597,13 +3597,13 @@ proc next*(slist: PGSList): PGSList =
   else: 
     result = nil
 
-proc g_new*(bytes_per_struct, n_structs: int): gpointer = 
+proc g_new*(bytes_per_struct, n_structs: gulong): gpointer = 
   result = g_malloc(n_structs * bytes_per_struct)
 
-proc g_new0*(bytes_per_struct, n_structs: int): gpointer = 
+proc g_new0*(bytes_per_struct, n_structs: gulong): gpointer = 
   result = g_malloc0(n_structs * bytes_per_struct)
 
-proc g_renew*(struct_size: int, OldMem: gpointer, n_structs: int): gpointer = 
+proc g_renew*(struct_size: gulong, OldMem: gpointer, n_structs: gulong): gpointer = 
   result = g_realloc(OldMem, struct_size * n_structs)
 
 proc g_chunk_new*(chunk: pointer): pointer = 

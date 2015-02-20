@@ -159,7 +159,7 @@ type
   TDestroyNotify* = proc (data: gpointer){.cdecl.}
   TCallbackMarshal* = proc (anObject: PObject, data: gpointer, n_args: guint, 
                             args: PArg){.cdecl.}
-  TSignalFunc* = proc (para1: pointer){.cdecl.}
+  TSignalFunc* = proc (para1: pointer){.cdecl, gcsafe.}
   PSignalMarshaller* = ptr TSignalMarshaller
   TSignalMarshaller* = TGSignalCMarshaller
   TArgSignalData*{.final, pure.} = object 
