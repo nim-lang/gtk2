@@ -3472,7 +3472,7 @@ proc GUINT32_SWAP_LE_BE_CONSTANT*(val: guint32): guint32 =
       ((val and 0xFF000000'i32) shr 24'i32)
 
 proc GUINT_TO_POINTER*(i: guint): pointer = 
-  result = cast[pointer](TAddress(i))
+  result = cast[pointer](ByteAddress(i))
 
 when false: 
   type 
@@ -3773,7 +3773,7 @@ proc TGIOChannel_set_is_seekable*(a: PGIOChannel, `is_seekable`: guint) =
       bm_TGIOChannel_is_seekable)
 
 proc utf8_next_char*(p: Pguchar): Pguchar = 
-  result = cast[Pguchar](cast[TAddress](p) + 1) # p + ord((g_utf8_skip + p[] )[] )
+  result = cast[Pguchar](cast[ByteAddress](p) + 1) # p + ord((g_utf8_skip + p[] )[] )
   
 when false: 
   proc GLIB_CHECK_VERSION*(major, minor, micro: guint): bool = 
@@ -4442,7 +4442,7 @@ proc G_FLAGS_CLASS_TYPE*(class: pointer): GType =
   result = G_TYPE_FROM_CLASS(class)
 
 proc G_FLAGS_CLASS_TYPE_NAME*(class: pointer): cstring = 
-  result = g_type_name(G_FLAGS_TYPE(cast[TAddress](class)))
+  result = g_type_name(G_FLAGS_TYPE(cast[ByteAddress](class)))
 
 proc G_VALUE_HOLDS_ENUM*(value: pointer): gboolean = 
   result = G_TYPE_CHECK_VALUE_TYPE(value, G_TYPE_ENUM)
@@ -4459,7 +4459,7 @@ proc CLAMP*(x, MinX, MaxX: int): int =
     result = x
 
 proc GPOINTER_TO_SIZE*(p: gpointer): gsize = 
-  result = gsize(cast[TAddress](p))
+  result = gsize(cast[ByteAddress](p))
 
 proc GSIZE_TO_POINTER*(s: gsize): gpointer = 
   result = cast[gpointer](s)

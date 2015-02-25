@@ -54,7 +54,7 @@ proc pixbuf_error_quark*(): TGQuark{.cdecl, dynlib: pixbuflib,
                                      importc: "gdk_pixbuf_error_quark".}
 proc pixbuf_get_type*(): GType{.cdecl, dynlib: pixbuflib, 
                                 importc: "gdk_pixbuf_get_type".}
-when not defined(PIXBUF_DISABLE_DEPRECATED): 
+when not declared(PIXBUF_DISABLE_DEPRECATED): 
   proc pixbuf_ref*(pixbuf: PPixbuf): PPixbuf{.cdecl, dynlib: pixbuflib, 
       importc: "gdk_pixbuf_ref".}
   proc pixbuf_unref*(pixbuf: PPixbuf){.cdecl, dynlib: pixbuflib, 
@@ -154,7 +154,7 @@ proc pixbuf_animation_get_type*(): GType{.cdecl, dynlib: pixbuflib,
     importc: "gdk_pixbuf_animation_get_type".}
 proc pixbuf_animation_new_from_file*(filename: cstring, error: pointer): PPixbufAnimation{.
     cdecl, dynlib: pixbuflib, importc: "gdk_pixbuf_animation_new_from_file".}
-when not defined(PIXBUF_DISABLE_DEPRECATED): 
+when not declared(PIXBUF_DISABLE_DEPRECATED): 
   proc pixbuf_animation_ref*(animation: PPixbufAnimation): PPixbufAnimation{.
       cdecl, dynlib: pixbuflib, importc: "gdk_pixbuf_animation_ref".}
   proc pixbuf_animation_unref*(animation: PPixbufAnimation){.cdecl, 

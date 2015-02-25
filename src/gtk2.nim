@@ -7,7 +7,7 @@ export gbool, toBool
 when defined(win32): 
   const 
     lib = "libgtk-win32-2.0-0.dll"
-elif defined(gtk_quartz):
+elif declared(gtk_quartz):
   const
     lib = "libgtk-quartz-2.0.0.dylib"
 elif defined(macosx): 
@@ -5569,11 +5569,11 @@ proc CTREE_CLASS*(klass: pointer): PCTreeClass
 proc IS_CTREE*(obj: pointer): bool
 proc IS_CTREE_CLASS*(klass: pointer): bool
 proc CTREE_GET_CLASS*(obj: pointer): PCTreeClass
-proc CTREE_ROW*(node: TAddress): PCTreeRow
-proc CTREE_NODE*(node: TAddress): PCTreeNode
-proc CTREE_NODE_NEXT*(nnode: TAddress): PCTreeNode
-proc CTREE_NODE_PREV*(pnode: TAddress): PCTreeNode
-proc CTREE_FUNC*(fun: TAddress): TCTreeFunc
+proc CTREE_ROW*(node: ByteAddress): PCTreeRow
+proc CTREE_NODE*(node: ByteAddress): PCTreeNode
+proc CTREE_NODE_NEXT*(nnode: ByteAddress): PCTreeNode
+proc CTREE_NODE_PREV*(pnode: ByteAddress): PCTreeNode
+proc CTREE_FUNC*(fun: ByteAddress): TCTreeFunc
 proc TYPE_CTREE_NODE*(): GType
 proc line_style*(a: PCTree): guint
 proc set_line_style*(a: PCTree, `line_style`: guint)
@@ -12703,19 +12703,19 @@ proc IS_CTREE_CLASS*(klass: pointer): bool =
 proc CTREE_GET_CLASS*(obj: pointer): PCTreeClass = 
   result = cast[PCTreeClass](CHECK_GET_CLASS(obj, TYPE_CTREE()))
 
-proc CTREE_ROW*(node: TAddress): PCTreeRow = 
+proc CTREE_ROW*(node: ByteAddress): PCTreeRow = 
   result = cast[PCTreeRow]((cast[PGList](node)).data)
 
-proc CTREE_NODE*(node: TAddress): PCTreeNode = 
+proc CTREE_NODE*(node: ByteAddress): PCTreeNode = 
   result = cast[PCTreeNode](node)
 
-proc CTREE_NODE_NEXT*(nnode: TAddress): PCTreeNode = 
+proc CTREE_NODE_NEXT*(nnode: ByteAddress): PCTreeNode = 
   result = cast[PCTreeNode]((cast[PGList](nnode)).next)
 
-proc CTREE_NODE_PREV*(pnode: TAddress): PCTreeNode = 
+proc CTREE_NODE_PREV*(pnode: ByteAddress): PCTreeNode = 
   result = cast[PCTreeNode]((cast[PGList](pnode)).prev)
 
-proc CTREE_FUNC*(fun: TAddress): TCTreeFunc = 
+proc CTREE_FUNC*(fun: ByteAddress): TCTreeFunc = 
   result = cast[TCTreeFunc](fun)
 
 proc TYPE_CTREE_NODE*(): GType = 

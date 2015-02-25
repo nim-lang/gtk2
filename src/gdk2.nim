@@ -5,7 +5,7 @@ import
 when defined(win32): 
   const 
     lib = "libgdk-win32-2.0-0.dll"
-elif defined(gtk_quartz):
+elif declared(gtk_quartz):
   const
     lib = "libgdk-quartz-2.0.dylib"
 elif defined(macosx): 
@@ -3369,7 +3369,7 @@ proc parse_args*(argc: Pgint, v: var PPgchar){.cdecl, dynlib: lib,
 proc init*(argc: Pgint, v: var PPgchar){.cdecl, dynlib: lib, importc: "gdk_init".}
 proc init_check*(argc: Pgint, v: var PPgchar): gboolean{.cdecl, dynlib: lib, 
     importc: "gdk_init_check".}
-when not defined(DISABLE_DEPRECATED): 
+when not declared(DISABLE_DEPRECATED): 
   proc exit*(error_code: gint){.cdecl, dynlib: lib, importc: "gdk_exit".}
 proc set_locale*(): cstring{.cdecl, dynlib: lib, importc: "gdk_set_locale".}
 proc get_program_class*(): cstring{.cdecl, dynlib: lib, 
@@ -3378,7 +3378,7 @@ proc set_program_class*(program_class: cstring){.cdecl, dynlib: lib,
     importc: "gdk_set_program_class".}
 proc error_trap_push*(){.cdecl, dynlib: lib, importc: "gdk_error_trap_push".}
 proc error_trap_pop*(): gint{.cdecl, dynlib: lib, importc: "gdk_error_trap_pop".}
-when not defined(DISABLE_DEPRECATED): 
+when not declared(DISABLE_DEPRECATED): 
   proc set_use_xshm*(use_xshm: gboolean){.cdecl, dynlib: lib, 
       importc: "gdk_set_use_xshm".}
   proc get_use_xshm*(): gboolean{.cdecl, dynlib: lib, 
@@ -3386,7 +3386,7 @@ when not defined(DISABLE_DEPRECATED):
 proc get_display*(): cstring{.cdecl, dynlib: lib, importc: "gdk_get_display".}
 proc get_display_arg_name*(): cstring{.cdecl, dynlib: lib, 
                                        importc: "gdk_get_display_arg_name".}
-when not defined(DISABLE_DEPRECATED): 
+when not declared(DISABLE_DEPRECATED): 
   proc input_add_full*(source: gint, condition: TInputCondition, 
                        `function`: TInputFunction, data: gpointer, 
                        destroy: TDestroyNotify): gint{.cdecl, dynlib: lib, 
@@ -3401,7 +3401,7 @@ proc pointer_grab*(window: PWindow, owner_events: gboolean,
     importc: "gdk_pointer_grab".}
 proc keyboard_grab*(window: PWindow, owner_events: gboolean, time: guint32): TGrabStatus{.
     cdecl, dynlib: lib, importc: "gdk_keyboard_grab".}
-when not defined(MULTIHEAD_SAFE): 
+when not declared(MULTIHEAD_SAFE): 
   proc pointer_ungrab*(time: guint32){.cdecl, dynlib: lib, 
                                        importc: "gdk_pointer_ungrab".}
   proc keyboard_ungrab*(time: guint32){.cdecl, dynlib: lib, 
@@ -3416,7 +3416,7 @@ when not defined(MULTIHEAD_SAFE):
                                   importc: "gdk_screen_height_mm".}
   proc beep*(){.cdecl, dynlib: lib, importc: "gdk_beep".}
 proc flush*(){.cdecl, dynlib: lib, importc: "gdk_flush".}
-when not defined(MULTIHEAD_SAFE): 
+when not declared(MULTIHEAD_SAFE): 
   proc set_double_click_time*(msec: guint){.cdecl, dynlib: lib, 
       importc: "gdk_set_double_click_time".}
 proc intersect*(src1: PRectangle, src2: PRectangle, dest: PRectangle): gboolean{.
@@ -3430,7 +3430,7 @@ proc wcstombs*(src: PWChar): cstring{.cdecl, dynlib: lib,
                                       importc: "gdk_wcstombs".}
 proc mbstowcs*(dest: PWChar, src: cstring, dest_max: gint): gint{.cdecl, 
     dynlib: lib, importc: "gdk_mbstowcs".}
-when not defined(MULTIHEAD_SAFE): 
+when not declared(MULTIHEAD_SAFE): 
   proc event_send_client_message*(event: PEvent, xid: guint32): gboolean{.cdecl, 
       dynlib: lib, importc: "gdk_event_send_client_message".}
   proc event_send_clientmessage_toall*(event: PEvent){.cdecl, dynlib: lib, 
