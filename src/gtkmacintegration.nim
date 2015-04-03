@@ -1,5 +1,6 @@
 {.deadCodeElim: on.}
-import 
+{.push gcsafe.}
+import
   glib2, gdk2, gdk2pixbuf, gtk2
 
 const
@@ -12,7 +13,7 @@ type
 
   POSXApplicationClass* = ptr TOSXApplicationClass
   TOSXApplicationClass* = object of TGObjectClass
-  
+
   TOSXApplicationAttentionType* = enum
     CRITICAL_REQUEST = 0, INFO_REQUEST = 10
 
@@ -79,3 +80,4 @@ proc get_bundle_id*(): cstring{.cdecl, dynlib: lib,
 
 proc get_bundle_info*(key : cstring): cstring{.cdecl, dynlib: lib,
     importc: "gtkosx_application_get_bundle_info".}
+{.pop.}
