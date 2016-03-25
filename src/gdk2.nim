@@ -6,9 +6,6 @@ import
 when defined(win32):
   const
     lib = "libgdk-win32-2.0-0.dll"
-elif declared(gtk_quartz):
-  const
-    lib = "libgdk-quartz-2.0.dylib"
 elif defined(macosx):
   #    linklib gtk-x11-2.0
   #    linklib gdk-x11-2.0
@@ -18,7 +15,7 @@ elif defined(macosx):
   #    linklib gdk_pixbuf-2.0.0
   #    linklib atk-1.0.0
   const
-    lib = "libgdk-x11-2.0.dylib"
+    lib = "(libgdk-quartz-2.0.dylib|libgdk-x11-2.0.dylib)"
 else:
   const
     lib = "libgdk-x11-2.0.so(|.0)"

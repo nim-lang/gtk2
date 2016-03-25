@@ -21,8 +21,7 @@ Requires = "gtk2#head"
 
 ## OSX
 
-If you want to compile against [GTK-Quartz][1], use `-d:gtk_quartz`.
-If you don't, the binding will link against the X11 version of GTK. The OpenGL
-extension is currently not available for GTK-Quartz.
+As of version 1.1 this binding will use [GTK-Quartz][1] if it is available,
+otherwise it will fallback to the X11 version of GTK.
 
  [1]: https://wiki.gnome.org/action/show/Projects/GTK+/OSX
