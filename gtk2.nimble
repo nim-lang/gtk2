@@ -8,4 +8,4 @@ license: "MIT"
 srcDir: "src"
 
 [Deps]
-requires: "nimrod > 0.9.2, cairo"
+requires: "nim > 0.9.2, cairo"
