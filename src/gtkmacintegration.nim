@@ -4,7 +4,7 @@ import
   glib2, gdk2, gdk2pixbuf, gtk2
 
 const
-  lib = "libgtkmacintegration.2.dylib"
+  lib = "(libgtkmacintegration.2.dylib|libgtkmacintegration-gtk2.2.dylib)"
 
 type
   POSXApplication* = ptr TOSXApplication
