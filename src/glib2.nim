@@ -8,9 +8,9 @@ when defined(windows):
     gobjectlib = "libgobject-2.0-0.dll"
 elif defined(macosx):
   const
-    gliblib = "libglib-2.0.dylib"
-    gmodulelib = "libgmodule-2.0.dylib"
-    gobjectlib = "libgobject-2.0.dylib"
+    gliblib = "libglib-2.0(|.0).dylib"
+    gmodulelib = "libgmodule-2.0(|.0).dylib"
+    gobjectlib = "libgobject-2.0(|.0).dylib"
 else:
   const
     gliblib = "libglib-2.0.so(|.0)"

@@ -15,7 +15,7 @@ elif defined(macosx):
   #    linklib gdk_pixbuf-2.0.0
   #    linklib atk-1.0.0
   const
-    lib = "(libgdk-quartz-2.0.dylib|libgdk-x11-2.0.dylib)"
+    lib = "libgdk-(quartz|x11)-2.0(|.0).dylib"
 else:
   const
     lib = "libgdk-x11-2.0.so(|.0)"
