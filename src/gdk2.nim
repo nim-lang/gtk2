@@ -1035,6 +1035,17 @@ proc get_clip_region*(drawable: PDrawable): PRegion{.cdecl,
     dynlib: lib, importc: "gdk_drawable_get_clip_region".}
 proc get_visible_region*(drawable: PDrawable): PRegion{.cdecl,
     dynlib: lib, importc: "gdk_drawable_get_visible_region".}
+proc text*(drawable: PDrawable, font: PFont, gc: PGC, x: gint,
+                      y: gint, text: cstring, text_length: gint){.cdecl, dynlib: lib,
+    importc: "gdk_draw_text".}
+proc text_wc*(drawable: PDrawable, font: PFont, gc: PGC, x: gint,
+                      y: gint, text: cstring, text_length: gint){.cdecl, dynlib: lib,
+    importc: "gdk_draw_text_wc".}
+proc string*(drawable: PDrawable, font: PFont, gc: PGC, x: gint,
+                      y: gint, text: cstring, text_length: gint){.cdecl, dynlib: lib,
+    importc: "gdk_draw_string".}
+proc font_load*(font_name: cstring): PFont{.
+    cdecl, dynlib: lib, importc: "gdk_font_load".}
 const
   NOTHING* = - (1)
   DELETE* = 0
