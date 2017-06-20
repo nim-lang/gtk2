@@ -208,7 +208,7 @@ type
 
   PGlyphVisAttr* = ptr TGlyphVisAttr
   TGlyphVisAttr*{.final, pure.} = object
-    flag0*: int16
+    flag0*: uint16
 
   PGlyphInfo* = ptr TGlyphInfo
   TGlyphInfo*{.final, pure.} = object
@@ -381,26 +381,26 @@ proc parse_markup*(markup_text: cstring, length: int32, accel_marker: gunichar,
                    accel_char: Pgunichar, error: pointer): gboolean{.cdecl,
     dynlib: lib, importc: "pango_parse_markup".}
 const
-  bm_TPangoLogAttr_is_line_break* = 0x0001'i16
-  bp_TPangoLogAttr_is_line_break* = 0'i16
-  bm_TPangoLogAttr_is_mandatory_break* = 0x0002'i16
-  bp_TPangoLogAttr_is_mandatory_break* = 1'i16
-  bm_TPangoLogAttr_is_char_break* = 0x0004'i16
-  bp_TPangoLogAttr_is_char_break* = 2'i16
-  bm_TPangoLogAttr_is_white* = 0x0008'i16
-  bp_TPangoLogAttr_is_white* = 3'i16
-  bm_TPangoLogAttr_is_cursor_position* = 0x0010'i16
-  bp_TPangoLogAttr_is_cursor_position* = 4'i16
-  bm_TPangoLogAttr_is_word_start* = 0x0020'i16
-  bp_TPangoLogAttr_is_word_start* = 5'i16
-  bm_TPangoLogAttr_is_word_end* = 0x0040'i16
-  bp_TPangoLogAttr_is_word_end* = 6'i16
-  bm_TPangoLogAttr_is_sentence_boundary* = 0x0080'i16
-  bp_TPangoLogAttr_is_sentence_boundary* = 7'i16
-  bm_TPangoLogAttr_is_sentence_start* = 0x0100'i16
-  bp_TPangoLogAttr_is_sentence_start* = 8'i16
-  bm_TPangoLogAttr_is_sentence_end* = 0x0200'i16
-  bp_TPangoLogAttr_is_sentence_end* = 9'i16
+  bm_TPangoLogAttr_is_line_break* = 0x0001'u16
+  bp_TPangoLogAttr_is_line_break* = 0'u16
+  bm_TPangoLogAttr_is_mandatory_break* = 0x0002'u16
+  bp_TPangoLogAttr_is_mandatory_break* = 1'u16
+  bm_TPangoLogAttr_is_char_break* = 0x0004'u16
+  bp_TPangoLogAttr_is_char_break* = 2'u16
+  bm_TPangoLogAttr_is_white* = 0x0008'u16
+  bp_TPangoLogAttr_is_white* = 3'u16
+  bm_TPangoLogAttr_is_cursor_position* = 0x0010'u16
+  bp_TPangoLogAttr_is_cursor_position* = 4'u16
+  bm_TPangoLogAttr_is_word_start* = 0x0020'u16
+  bp_TPangoLogAttr_is_word_start* = 5'u16
+  bm_TPangoLogAttr_is_word_end* = 0x0040'u16
+  bp_TPangoLogAttr_is_word_end* = 6'u16
+  bm_TPangoLogAttr_is_sentence_boundary* = 0x0080'u16
+  bp_TPangoLogAttr_is_sentence_boundary* = 7'u16
+  bm_TPangoLogAttr_is_sentence_start* = 0x0100'u16
+  bp_TPangoLogAttr_is_sentence_start* = 8'u16
+  bm_TPangoLogAttr_is_sentence_end* = 0x0200'u16
+  bp_TPangoLogAttr_is_sentence_end* = 9'u16
 
 proc is_line_break*(a: PLogAttr): guint
 proc set_is_line_break*(a: PLogAttr, `is_line_break`: guint)
@@ -661,8 +661,8 @@ proc list_families*(fontmap: PFontMap,
                              families: var openarray[ptr PFontFamily]){.cdecl,
     dynlib: lib, importc: "pango_font_map_list_families".}
 const
-  bm_TPangoGlyphVisAttr_is_cluster_start* = 0x0001'i16
-  bp_TPangoGlyphVisAttr_is_cluster_start* = 0'i16
+  bm_TPangoGlyphVisAttr_is_cluster_start* = 0x0001'u16
+  bp_TPangoGlyphVisAttr_is_cluster_start* = 0'u16
 
 proc is_cluster_start*(a: PGlyphVisAttr): guint
 proc set_is_cluster_start*(a: PGlyphVisAttr, `is_cluster_start`: guint)
@@ -914,88 +914,88 @@ proc is_line_break*(a: PLogAttr): guint =
 
 proc set_is_line_break*(a: PLogAttr, `is_line_break`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`is_line_break` shl bp_TPangoLogAttr_is_line_break) and
+      (uint16(`is_line_break` shl bp_TPangoLogAttr_is_line_break) and
       bm_TPangoLogAttr_is_line_break)
 
 proc is_mandatory_break*(a: PLogAttr): guint =
-  result = (a.flag0 and bm_TPangoLogAttr_is_mandatory_break) shr
-      bp_TPangoLogAttr_is_mandatory_break
+  result = ((a.flag0 and bm_TPangoLogAttr_is_mandatory_break) shr
+      bp_TPangoLogAttr_is_mandatory_break).guint
 
 proc set_is_mandatory_break*(a: PLogAttr, `is_mandatory_break`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`is_mandatory_break` shl bp_TPangoLogAttr_is_mandatory_break) and
+      (uint16(`is_mandatory_break` shl bp_TPangoLogAttr_is_mandatory_break) and
       bm_TPangoLogAttr_is_mandatory_break)
 
 proc is_char_break*(a: PLogAttr): guint =
-  result = (a.flag0 and bm_TPangoLogAttr_is_char_break) shr
-      bp_TPangoLogAttr_is_char_break
+  result = ((a.flag0 and bm_TPangoLogAttr_is_char_break) shr
+      bp_TPangoLogAttr_is_char_break).guint
 
 proc set_is_char_break*(a: PLogAttr, `is_char_break`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`is_char_break` shl bp_TPangoLogAttr_is_char_break) and
+      (uint16(`is_char_break` shl bp_TPangoLogAttr_is_char_break) and
       bm_TPangoLogAttr_is_char_break)
 
 proc is_white*(a: PLogAttr): guint =
-  result = (a.flag0 and bm_TPangoLogAttr_is_white) shr
-      bp_TPangoLogAttr_is_white
+  result = ((a.flag0 and bm_TPangoLogAttr_is_white) shr
+      bp_TPangoLogAttr_is_white).guint
 
 proc set_is_white*(a: PLogAttr, `is_white`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`is_white` shl bp_TPangoLogAttr_is_white) and
+      (uint16(`is_white` shl bp_TPangoLogAttr_is_white) and
       bm_TPangoLogAttr_is_white)
 
 proc is_cursor_position*(a: PLogAttr): guint =
-  result = (a.flag0 and bm_TPangoLogAttr_is_cursor_position) shr
-      bp_TPangoLogAttr_is_cursor_position
+  result = ((a.flag0 and bm_TPangoLogAttr_is_cursor_position) shr
+      bp_TPangoLogAttr_is_cursor_position).guint
 
 proc set_is_cursor_position*(a: PLogAttr, `is_cursor_position`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`is_cursor_position` shl bp_TPangoLogAttr_is_cursor_position) and
+      (uint16(`is_cursor_position` shl bp_TPangoLogAttr_is_cursor_position) and
       bm_TPangoLogAttr_is_cursor_position)
 
 proc is_word_start*(a: PLogAttr): guint =
-  result = (a.flag0 and bm_TPangoLogAttr_is_word_start) shr
-      bp_TPangoLogAttr_is_word_start
+  result = ((a.flag0 and bm_TPangoLogAttr_is_word_start) shr
+      bp_TPangoLogAttr_is_word_start).guint
 
 proc set_is_word_start*(a: PLogAttr, `is_word_start`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`is_word_start` shl bp_TPangoLogAttr_is_word_start) and
+      (uint16(`is_word_start` shl bp_TPangoLogAttr_is_word_start) and
       bm_TPangoLogAttr_is_word_start)
 
 proc is_word_end*(a: PLogAttr): guint =
-  result = (a.flag0 and bm_TPangoLogAttr_is_word_end) shr
-      bp_TPangoLogAttr_is_word_end
+  result = ((a.flag0 and bm_TPangoLogAttr_is_word_end) shr
+      bp_TPangoLogAttr_is_word_end).guint
 
 proc set_is_word_end*(a: PLogAttr, `is_word_end`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`is_word_end` shl bp_TPangoLogAttr_is_word_end) and
+      (uint16(`is_word_end` shl bp_TPangoLogAttr_is_word_end) and
       bm_TPangoLogAttr_is_word_end)
 
 proc is_sentence_boundary*(a: PLogAttr): guint =
-  result = (a.flag0 and bm_TPangoLogAttr_is_sentence_boundary) shr
-      bp_TPangoLogAttr_is_sentence_boundary
+  result = ((a.flag0 and bm_TPangoLogAttr_is_sentence_boundary) shr
+      bp_TPangoLogAttr_is_sentence_boundary).guint
 
 proc set_is_sentence_boundary*(a: PLogAttr, `is_sentence_boundary`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`is_sentence_boundary` shl bp_TPangoLogAttr_is_sentence_boundary) and
+      (uint16(`is_sentence_boundary` shl bp_TPangoLogAttr_is_sentence_boundary) and
       bm_TPangoLogAttr_is_sentence_boundary)
 
 proc is_sentence_start*(a: PLogAttr): guint =
-  result = (a.flag0 and bm_TPangoLogAttr_is_sentence_start) shr
-      bp_TPangoLogAttr_is_sentence_start
+  result = ((a.flag0 and bm_TPangoLogAttr_is_sentence_start) shr
+      bp_TPangoLogAttr_is_sentence_start).guint
 
 proc set_is_sentence_start*(a: PLogAttr, `is_sentence_start`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`is_sentence_start` shl bp_TPangoLogAttr_is_sentence_start) and
+      (uint16(`is_sentence_start` shl bp_TPangoLogAttr_is_sentence_start) and
       bm_TPangoLogAttr_is_sentence_start)
 
 proc is_sentence_end*(a: PLogAttr): guint =
-  result = (a.flag0 and bm_TPangoLogAttr_is_sentence_end) shr
-      bp_TPangoLogAttr_is_sentence_end
+  result = ((a.flag0 and bm_TPangoLogAttr_is_sentence_end) shr
+      bp_TPangoLogAttr_is_sentence_end).guint
 
 proc set_is_sentence_end*(a: PLogAttr, `is_sentence_end`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`is_sentence_end` shl bp_TPangoLogAttr_is_sentence_end) and
+      (uint16(`is_sentence_end` shl bp_TPangoLogAttr_is_sentence_end) and
       bm_TPangoLogAttr_is_sentence_end)
 
 proc TYPE_CONTEXT*(): GType =
@@ -1133,7 +1133,7 @@ proc is_cluster_start*(a: PGlyphVisAttr): guint =
 
 proc set_is_cluster_start*(a: PGlyphVisAttr, `is_cluster_start`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`is_cluster_start` shl bp_TPangoGlyphVisAttr_is_cluster_start) and
+      (uint16(`is_cluster_start` shl bp_TPangoGlyphVisAttr_is_cluster_start) and
       bm_TPangoGlyphVisAttr_is_cluster_start)
 
 proc TYPE_GLYPH_STRING*(): GType =
