@@ -3812,6 +3812,8 @@ proc path*(widget: PWidget, path_length: Pguint, path: PPgchar,
 proc class_path*(widget: PWidget, path_length: Pguint, path: PPgchar,
                         path_reversed: PPgchar){.cdecl, dynlib: lib,
     importc: "gtk_widget_class_path".}
+proc set_alignment*(misc: PWidget, xalign: gfloat){.cdecl,
+    dynlib: lib, importc: "gtk_entry_set_alignment".}
 proc requisition_get_type*(): GType{.cdecl, dynlib: lib,
                                      importc: "gtk_requisition_get_type".}
 proc copy*(requisition: PRequisition): PRequisition{.cdecl,
@@ -6463,7 +6465,7 @@ proc in_drag*(a: PHandleBox): guint
 proc set_in_drag*(a: PHandleBox, `in_drag`: guint)
 proc shrink_on_detach*(a: PHandleBox): guint
 proc set_shrink_on_detach*(a: PHandleBox, `shrink_on_detach`: guint)
-#proc snap_edge*(a: PHandleBox): gint
+proc snap_edge*(a: PHandleBox): TPositionType
 
 proc handle_box_get_type*(): TType{.cdecl, dynlib: lib,
                                     importc: "gtk_handle_box_get_type".}
@@ -13324,15 +13326,15 @@ proc set_shrink_on_detach*(a: PHandleBox, `shrink_on_detach`: guint) =
       bm_TGtkHandleBox_shrink_on_detach)
 
 # set_snap_edge was in a when false. snap_edge put in when false as the actual return type should be GtkPositionType not gint
-when false:
-  proc snap_edge*(a: PHandleBox): gint =
-    result = (a.Handlebox_flag0 and bm_TGtkHandleBox_snap_edge) shr
-        bp_TGtkHandleBox_snap_edge
+#when false:
+proc snap_edge*(a: PHandleBox): TPositionType =
+  result = ((a.Handlebox_flag0 and bm_TGtkHandleBox_snap_edge) shr
+      bp_TGtkHandleBox_snap_edge).TPositionType
 
-  proc set_snap_edge*(a: PHandleBox, `snap_edge`: gint) =
-    a.Handlebox_flag0 = a.Handlebox_flag0 or
-        (uint16(`snap_edge` shl bp_TGtkHandleBox_snap_edge) and
-        bm_TGtkHandleBox_snap_edge)
+proc set_snap_edge*(a: PHandleBox, `snap_edge`: TPositionType) =
+  a.Handlebox_flag0 = a.Handlebox_flag0 or
+      (uint16(`snap_edge` shl bp_TGtkHandleBox_snap_edge) and
+      bm_TGtkHandleBox_snap_edge)
 
 proc TYPE_PANED*(): GType =
   result = paned_get_type()
