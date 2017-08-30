@@ -149,7 +149,7 @@ type
   TByteOrder* = enum
     LSB_FIRST, MSB_FIRST
   PModifierType* = ptr TModifierType
-  TModifierType* = gint
+  TModifierType* = guint
   PVisualType* = ptr TVisualType
   TVisualType* = enum
     VISUAL_STATIC_GRAY, VISUAL_GRAYSCALE, VISUAL_STATIC_COLOR,
@@ -3067,45 +3067,45 @@ proc selection_send_notify_for_display*(display: PDisplay, requestor: guint32,
                                         `property`: TAtom, time: guint32){.
     cdecl, dynlib: lib, importc: "gdk_selection_send_notify_for_display".}
 const
-  CURRENT_TIME* = 0
-  PARENT_RELATIVE* = 1
+  CURRENT_TIME*:guint = 0
+  PARENT_RELATIVE*:guint = 1
   OK* = 0
   ERROR* = - (1)
   ERROR_PARAM* = - (2)
   ERROR_FILE* = - (3)
   ERROR_MEM* = - (4)
-  SHIFT_MASK* = 1 shl 0
-  LOCK_MASK* = 1 shl 1
-  CONTROL_MASK* = 1 shl 2
-  MOD1_MASK* = 1 shl 3
-  MOD2_MASK* = 1 shl 4
-  MOD3_MASK* = 1 shl 5
-  MOD4_MASK* = 1 shl 6
-  MOD5_MASK* = 1 shl 7
-  BUTTON1_MASK* = 1 shl 8
-  BUTTON2_MASK* = 1 shl 9
-  BUTTON3_MASK* = 1 shl 10
-  BUTTON4_MASK* = 1 shl 11
-  BUTTON5_MASK* = 1 shl 12
-  RELEASE_MASK* = 1 shl 30
-  MODIFIER_MASK* = ord(RELEASE_MASK) or 0x00001FFF
-  MODIFIER_RESERVED_13_MASK* = 8192 # https://github.com/gtk-rs/sys/blob/master/gdk-sys/src/lib.rs#L3035
-  MODIFIER_RESERVED_14_MASK* = 16384
-  MODIFIER_RESERVED_15_MASK* = 32768
-  MODIFIER_RESERVED_16_MASK* = 65536
-  MODIFIER_RESERVED_17_MASK* = 131072
-  MODIFIER_RESERVED_18_MASK* = 262144
-  MODIFIER_RESERVED_19_MASK* = 524288
-  MODIFIER_RESERVED_20_MASK* = 1048576
-  MODIFIER_RESERVED_21_MASK* = 2097152
-  MODIFIER_RESERVED_22_MASK* = 4194304
-  MODIFIER_RESERVED_23_MASK* = 8388608
-  MODIFIER_RESERVED_24_MASK* = 16777216
-  MODIFIER_RESERVED_25_MASK* = 33554432
-  SUPER_MASK* = 67108864
-  HYPER_MASK* = 134217728
-  META_MASK* = 268435456
-  MODIFIER_RESERVED_29_MASK* = 536870912
+  SHIFT_MASK*:guint = 1 shl 0
+  LOCK_MASK*:guint = 1 shl 1
+  CONTROL_MASK*:guint = 1 shl 2
+  MOD1_MASK*:guint = 1 shl 3
+  MOD2_MASK*:guint = 1 shl 4
+  MOD3_MASK*:guint = 1 shl 5
+  MOD4_MASK*:guint = 1 shl 6
+  MOD5_MASK*:guint = 1 shl 7
+  BUTTON1_MASK*:guint = 1 shl 8
+  BUTTON2_MASK*:guint = 1 shl 9
+  BUTTON3_MASK*:guint = 1 shl 10
+  BUTTON4_MASK*:guint = 1 shl 11
+  BUTTON5_MASK*:guint = 1 shl 12
+  RELEASE_MASK*:guint = 1 shl 30
+  MODIFIER_MASK*:guint = ord(RELEASE_MASK) or 0x00001FFF
+  MODIFIER_RESERVED_13_MASK*:guint = 8192 # https://github.com/gtk-rs/sys/blob/master/gdk-sys/src/lib.rs#L3035
+  MODIFIER_RESERVED_14_MASK*:guint = 16384
+  MODIFIER_RESERVED_15_MASK*:guint = 32768
+  MODIFIER_RESERVED_16_MASK*:guint = 65536
+  MODIFIER_RESERVED_17_MASK*:guint = 131072
+  MODIFIER_RESERVED_18_MASK*:guint = 262144
+  MODIFIER_RESERVED_19_MASK*:guint = 524288
+  MODIFIER_RESERVED_20_MASK*:guint = 1048576
+  MODIFIER_RESERVED_21_MASK*:guint = 2097152
+  MODIFIER_RESERVED_22_MASK*:guint = 4194304
+  MODIFIER_RESERVED_23_MASK*:guint = 8388608
+  MODIFIER_RESERVED_24_MASK*:guint = 16777216
+  MODIFIER_RESERVED_25_MASK*:guint = 33554432
+  SUPER_MASK*:guint = 67108864
+  HYPER_MASK*:guint = 134217728
+  META_MASK*:guint = 268435456
+  MODIFIER_RESERVED_29_MASK*:guint = 536870912
 
 
 const
@@ -3180,14 +3180,14 @@ proc IS_WINDOW_CLASS*(klass: pointer): bool
 proc WINDOW_GET_CLASS*(obj: pointer): PWindowObjectClass
 proc WINDOW_OBJECT*(anObject: pointer): PWindowObject
 const
-  bm_TWindowObject_guffaw_gravity* = 0x0001'i16
-  bp_TWindowObject_guffaw_gravity* = 0'i16
-  bm_TWindowObject_input_only* = 0x0002'i16
-  bp_TWindowObject_input_only* = 1'i16
-  bm_TWindowObject_modal_hint* = 0x0004'i16
-  bp_TWindowObject_modal_hint* = 2'i16
-  bm_TWindowObject_destroyed* = 0x0018'i16
-  bp_TWindowObject_destroyed* = 3'i16
+  bm_TWindowObject_guffaw_gravity* = 0x0001'u16
+  bp_TWindowObject_guffaw_gravity* = 0'u16
+  bm_TWindowObject_input_only* = 0x0002'u16
+  bp_TWindowObject_input_only* = 1'u16
+  bm_TWindowObject_modal_hint* = 0x0004'u16
+  bp_TWindowObject_modal_hint* = 2'u16
+  bm_TWindowObject_destroyed* = 0x0018'u16
+  bp_TWindowObject_destroyed* = 3'u16
 
 proc WindowObject_guffaw_gravity*(a: PWindowObject): guint
 proc WindowObject_set_guffaw_gravity*(a: PWindowObject,
@@ -3863,34 +3863,34 @@ proc WindowObject_guffaw_gravity*(a: PWindowObject): guint =
 proc WindowObject_set_guffaw_gravity*(a: PWindowObject,
                                       `guffaw_gravity`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`guffaw_gravity` shl bp_TWindowObject_guffaw_gravity) and
+      (uint16(`guffaw_gravity` shl bp_TWindowObject_guffaw_gravity) and
       bm_TWindowObject_guffaw_gravity)
 
 proc WindowObject_input_only*(a: PWindowObject): guint =
-  result = (a.flag0 and bm_TWindowObject_input_only) shr
-      bp_TWindowObject_input_only
+  result = ((a.flag0 and bm_TWindowObject_input_only) shr
+      bp_TWindowObject_input_only).guint
 
 proc WindowObject_set_input_only*(a: PWindowObject, `input_only`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`input_only` shl bp_TWindowObject_input_only) and
+      (uint16(`input_only` shl bp_TWindowObject_input_only) and
       bm_TWindowObject_input_only)
 
 proc WindowObject_modal_hint*(a: PWindowObject): guint =
-  result = (a.flag0 and bm_TWindowObject_modal_hint) shr
-      bp_TWindowObject_modal_hint
+  result = ((a.flag0 and bm_TWindowObject_modal_hint) shr
+      bp_TWindowObject_modal_hint).guint
 
 proc WindowObject_set_modal_hint*(a: PWindowObject, `modal_hint`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`modal_hint` shl bp_TWindowObject_modal_hint) and
+      (uint16(`modal_hint` shl bp_TWindowObject_modal_hint) and
       bm_TWindowObject_modal_hint)
 
 proc WindowObject_destroyed*(a: PWindowObject): guint =
-  result = (a.flag0 and bm_TWindowObject_destroyed) shr
-      bp_TWindowObject_destroyed
+  result = ((a.flag0 and bm_TWindowObject_destroyed) shr
+      bp_TWindowObject_destroyed).guint
 
 proc WindowObject_set_destroyed*(a: PWindowObject, `destroyed`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`destroyed` shl bp_TWindowObject_destroyed) and
+      (uint16(`destroyed` shl bp_TWindowObject_destroyed) and
       bm_TWindowObject_destroyed)
 
 proc ROOT_PARENT*(): PWindow =

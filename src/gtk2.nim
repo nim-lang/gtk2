@@ -185,7 +185,7 @@ type
   PFlagValue* = ptr TFlagValue
   TFlagValue* = TGFlagsValue
   PWidgetFlags* = ptr TWidgetFlags
-  TWidgetFlags* = int32
+  TWidgetFlags* = uint32
   PWidgetHelpType* = ptr TWidgetHelpType
   TWidgetHelpType* = enum
     WIDGET_HELP_TOOLTIP, WIDGET_HELP_WHATS_THIS
@@ -380,7 +380,7 @@ type
   PContainer* = ptr TContainer
   TContainer* = object of TWidget
     focus_child*: PWidget
-    Container_flag0*: int32
+    Container_flag0*: uint32
 
   PContainerClass* = ptr TContainerClass
   TContainerClass* = object of TWidgetClass
@@ -425,7 +425,7 @@ type
     frame*: gdk2.PWindow
     group*: PWindowGroup
     configure_request_count*: guint16
-    window_flag0*: int32
+    window_flag0*: uint32
     frame_left*: guint
     frame_top*: guint
     frame_right*: guint
@@ -1694,7 +1694,7 @@ type
     black_gc*: gdk2.PGC
     white_gc*: gdk2.PGC
     bg_pixmap*: array[0..4, gdk2.PPixmap]
-    attach_count*: gint
+    attach_count*: guint
     depth*: gint
     colormap*: gdk2.PColormap
     private_font*: gdk2.PFont
@@ -2542,7 +2542,7 @@ type
     climb_rate*: gdouble
     timer_step*: gdouble
     update_policy*: TSpinButtonUpdatePolicy
-    SpinButton_flag0*: int32
+    SpinButton_flag0*: uint32
 
   PSpinButtonClass* = ptr TSpinButtonClass
   TSpinButtonClass* = object of TEntryClass
@@ -2711,7 +2711,7 @@ type
     name*: cstring
     priority*: int32
     values*: PTextAttributes
-    TextTag_flag0*: int32
+    TextTag_flag0*: uint32
 
   TTextTagClass* = object of TGObjectClass
     event*: proc (tag: PTextTag, event_object: PGObject, event: gdk2.PEvent,
@@ -2851,7 +2851,7 @@ type
     view_id*: gpointer
     next*: PTextLineData
     height*: gint
-    flag0*: int32
+    flag0*: uint32
 
   TTextLine*{.final, pure.} = object
     parent*: PTextBTreeNode
@@ -3079,7 +3079,7 @@ type
     tip_label*: PWidget
     active_tips_data*: PTooltipsData
     tips_data_list*: PGList
-    Tooltips_flag0*: int32
+    Tooltips_flag0*: uint32
     flag1*: guint16
     timer_tag*: gint
     last_popdown*: TGTimeVal
@@ -3526,10 +3526,10 @@ const
   DOUBLE_BUFFERED* = 1 shl 21
 
 const
-  bm_TGtkWidgetAuxInfo_x_set* = 0x0001'i16
-  bp_TGtkWidgetAuxInfo_x_set* = 0'i16
-  bm_TGtkWidgetAuxInfo_y_set* = 0x0002'i16
-  bp_TGtkWidgetAuxInfo_y_set* = 1'i16
+  bm_TGtkWidgetAuxInfo_x_set* = 0x0001'u16
+  bp_TGtkWidgetAuxInfo_x_set* = 0'u16
+  bm_TGtkWidgetAuxInfo_y_set* = 0x0002'u16
+  bp_TGtkWidgetAuxInfo_y_set* = 1'u16
 
 proc TYPE_WIDGET*(): GType
 proc WIDGET*(widget: pointer): PWidget
@@ -3538,8 +3538,8 @@ proc IS_WIDGET*(widget: pointer): bool
 proc IS_WIDGET_CLASS*(klass: pointer): bool
 proc WIDGET_GET_CLASS*(obj: pointer): PWidgetClass
 proc WIDGET_TYPE*(wid: pointer): GType
-proc WIDGET_STATE*(wid: pointer): int32
-proc WIDGET_SAVED_STATE*(wid: pointer): int32
+proc WIDGET_STATE*(wid: pointer): uint32
+proc WIDGET_SAVED_STATE*(wid: pointer): uint32
 proc WIDGET_FLAGS*(wid: pointer): guint32
 proc WIDGET_TOPLEVEL*(wid: pointer): gboolean
 proc WIDGET_NO_WINDOW*(wid: pointer): gboolean
@@ -3812,6 +3812,8 @@ proc path*(widget: PWidget, path_length: Pguint, path: PPgchar,
 proc class_path*(widget: PWidget, path_length: Pguint, path: PPgchar,
                         path_reversed: PPgchar){.cdecl, dynlib: lib,
     importc: "gtk_widget_class_path".}
+proc set_alignment*(misc: PWidget, xalign: gfloat){.cdecl,
+    dynlib: lib, importc: "gtk_entry_set_alignment".}
 proc requisition_get_type*(): GType{.cdecl, dynlib: lib,
                                      importc: "gtk_requisition_get_type".}
 proc copy*(requisition: PRequisition): PRequisition{.cdecl,
@@ -3843,8 +3845,8 @@ const
   ACCEL_VISIBLE* = 1 shl 0
   ACCEL_LOCKED* = 1 shl 1
   ACCEL_MASK* = 0x00000007
-  bm_TGtkAccelKey_accel_flags* = 0xFFFF'i16
-  bp_TGtkAccelKey_accel_flags* = 0'i16
+  bm_TGtkAccelKey_accel_flags* = 0xFFFF'u16
+  bp_TGtkAccelKey_accel_flags* = 0'u16
 
 proc TYPE_ACCEL_GROUP*(): GType
 proc ACCEL_GROUP*(anObject: pointer): PAccelGroup
@@ -3906,16 +3908,16 @@ proc query*(accel_group: PAccelGroup, accel_key: guint,
 proc reconnect*(accel_group: PAccelGroup, accel_path_quark: TGQuark){.
     cdecl, dynlib: lib, importc: "_gtk_accel_group_reconnect".}
 const
-  bm_TGtkContainer_border_width* = 0x0000FFFF'i32
-  bp_TGtkContainer_border_width* = 0'i32
-  bm_TGtkContainer_need_resize* = 0x00010000'i32
-  bp_TGtkContainer_need_resize* = 16'i32
-  bm_TGtkContainer_resize_mode* = 0x00060000'i32
-  bp_TGtkContainer_resize_mode* = 17'i32
-  bm_TGtkContainer_reallocate_redraws* = 0x00080000'i32
-  bp_TGtkContainer_reallocate_redraws* = 19'i32
-  bm_TGtkContainer_has_focus_chain* = 0x00100000'i32
-  bp_TGtkContainer_has_focus_chain* = 20'i32
+  bm_TGtkContainer_border_width* = 0x0000FFFF'u32
+  bp_TGtkContainer_border_width* = 0'u32
+  bm_TGtkContainer_need_resize* = 0x00010000'u32
+  bp_TGtkContainer_need_resize* = 16'u32
+  bm_TGtkContainer_resize_mode* = 0x00060000'u32
+  bp_TGtkContainer_resize_mode* = 17'u32
+  bm_TGtkContainer_reallocate_redraws* = 0x00080000'u32
+  bp_TGtkContainer_reallocate_redraws* = 19'u32
+  bm_TGtkContainer_has_focus_chain* = 0x00100000'u32
+  bp_TGtkContainer_has_focus_chain* = 20'u32
 
 proc TYPE_CONTAINER*(): GType
 proc CONTAINER*(obj: pointer): PContainer
@@ -4024,42 +4026,42 @@ proc bin_get_type*(): TType{.cdecl, dynlib: lib, importc: "gtk_bin_get_type".}
 proc get_child*(bin: PBin): PWidget{.cdecl, dynlib: lib,
     importc: "gtk_bin_get_child".}
 const
-  bm_TGtkWindow_allow_shrink* = 0x00000001'i32
-  bp_TGtkWindow_allow_shrink* = 0'i32
-  bm_TGtkWindow_allow_grow* = 0x00000002'i32
-  bp_TGtkWindow_allow_grow* = 1'i32
-  bm_TGtkWindow_configure_notify_received* = 0x00000004'i32
-  bp_TGtkWindow_configure_notify_received* = 2'i32
-  bm_TGtkWindow_need_default_position* = 0x00000008'i32
-  bp_TGtkWindow_need_default_position* = 3'i32
-  bm_TGtkWindow_need_default_size* = 0x00000010'i32
-  bp_TGtkWindow_need_default_size* = 4'i32
-  bm_TGtkWindow_position* = 0x000000E0'i32
-  bp_TGtkWindow_position* = 5'i32
-  bm_TGtkWindow_type* = 0x00000F00'i32
-  bp_TGtkWindow_type* = 8'i32
-  bm_TGtkWindow_has_user_ref_count* = 0x00001000'i32
-  bp_TGtkWindow_has_user_ref_count* = 12'i32
-  bm_TGtkWindow_has_focus* = 0x00002000'i32
-  bp_TGtkWindow_has_focus* = 13'i32
-  bm_TGtkWindow_modal* = 0x00004000'i32
-  bp_TGtkWindow_modal* = 14'i32
-  bm_TGtkWindow_destroy_with_parent* = 0x00008000'i32
-  bp_TGtkWindow_destroy_with_parent* = 15'i32
-  bm_TGtkWindow_has_frame* = 0x00010000'i32
-  bp_TGtkWindow_has_frame* = 16'i32
-  bm_TGtkWindow_iconify_initially* = 0x00020000'i32
-  bp_TGtkWindow_iconify_initially* = 17'i32
-  bm_TGtkWindow_stick_initially* = 0x00040000'i32
-  bp_TGtkWindow_stick_initially* = 18'i32
-  bm_TGtkWindow_maximize_initially* = 0x00080000'i32
-  bp_TGtkWindow_maximize_initially* = 19'i32
-  bm_TGtkWindow_decorated* = 0x00100000'i32
-  bp_TGtkWindow_decorated* = 20'i32
-  bm_TGtkWindow_type_hint* = 0x00E00000'i32
-  bp_TGtkWindow_type_hint* = 21'i32
-  bm_TGtkWindow_gravity* = 0x1F000000'i32
-  bp_TGtkWindow_gravity* = 24'i32
+  bm_TGtkWindow_allow_shrink* = 0x00000001'u32
+  bp_TGtkWindow_allow_shrink* = 0'u32
+  bm_TGtkWindow_allow_grow* = 0x00000002'u32
+  bp_TGtkWindow_allow_grow* = 1'u32
+  bm_TGtkWindow_configure_notify_received* = 0x00000004'u32
+  bp_TGtkWindow_configure_notify_received* = 2'u32
+  bm_TGtkWindow_need_default_position* = 0x00000008'u32
+  bp_TGtkWindow_need_default_position* = 3'u32
+  bm_TGtkWindow_need_default_size* = 0x00000010'u32
+  bp_TGtkWindow_need_default_size* = 4'u32
+  bm_TGtkWindow_position* = 0x000000E0'u32
+  bp_TGtkWindow_position* = 5'u32
+  bm_TGtkWindow_type* = 0x00000F00'u32
+  bp_TGtkWindow_type* = 8'u32
+  bm_TGtkWindow_has_user_ref_count* = 0x00001000'u32
+  bp_TGtkWindow_has_user_ref_count* = 12'u32
+  bm_TGtkWindow_has_focus* = 0x00002000'u32
+  bp_TGtkWindow_has_focus* = 13'u32
+  bm_TGtkWindow_modal* = 0x00004000'u32
+  bp_TGtkWindow_modal* = 14'u32
+  bm_TGtkWindow_destroy_with_parent* = 0x00008000'u32
+  bp_TGtkWindow_destroy_with_parent* = 15'u32
+  bm_TGtkWindow_has_frame* = 0x00010000'u32
+  bp_TGtkWindow_has_frame* = 16'u32
+  bm_TGtkWindow_iconify_initially* = 0x00020000'u32
+  bp_TGtkWindow_iconify_initially* = 17'u32
+  bm_TGtkWindow_stick_initially* = 0x00040000'u32
+  bp_TGtkWindow_stick_initially* = 18'u32
+  bm_TGtkWindow_maximize_initially* = 0x00080000'u32
+  bp_TGtkWindow_maximize_initially* = 19'u32
+  bm_TGtkWindow_decorated* = 0x00100000'u32
+  bp_TGtkWindow_decorated* = 20'u32
+  bm_TGtkWindow_type_hint* = 0x00E00000'u32
+  bp_TGtkWindow_type_hint* = 21'u32
+  bm_TGtkWindow_gravity* = 0x1F000000'u32
+  bp_TGtkWindow_gravity* = 24'u32
 
 proc TYPE_WINDOW*(): GType
 proc WINDOW*(obj: pointer): PWindow
@@ -4280,14 +4282,14 @@ proc query_nonaccels*(window: PWindow, accel_key: guint,
                              accel_mods: gdk2.TModifierType): gboolean{.cdecl,
     dynlib: lib, importc: "_gtk_window_query_nonaccels".}
 const
-  bm_TGtkLabel_jtype* = 0x0003'i16
-  bp_TGtkLabel_jtype* = 0'i16
-  bm_TGtkLabel_wrap* = 0x0004'i16
-  bp_TGtkLabel_wrap* = 2'i16
-  bm_TGtkLabel_use_underline* = 0x0008'i16
-  bp_TGtkLabel_use_underline* = 3'i16
-  bm_TGtkLabel_use_markup* = 0x0010'i16
-  bp_TGtkLabel_use_markup* = 4'i16
+  bm_TGtkLabel_jtype* = 0x0003'u16
+  bp_TGtkLabel_jtype* = 0'u16
+  bm_TGtkLabel_wrap* = 0x0004'u16
+  bp_TGtkLabel_wrap* = 2'u16
+  bm_TGtkLabel_use_underline* = 0x0008'u16
+  bp_TGtkLabel_use_underline* = 3'u16
+  bm_TGtkLabel_use_markup* = 0x0010'u16
+  bp_TGtkLabel_use_markup* = 4'u16
 
 proc TYPE_LABEL*(): GType
 proc LABEL*(obj: pointer): PLabel
@@ -4363,8 +4365,8 @@ proc get_layout*(`label`: PLabel): pango.PLayout{.cdecl, dynlib: lib,
 proc get_layout_offsets*(`label`: PLabel, x: Pgint, y: Pgint){.cdecl,
     dynlib: lib, importc: "gtk_label_get_layout_offsets".}
 const
-  bm_TGtkAccelLabelClass_latin1_to_char* = 0x0001'i16
-  bp_TGtkAccelLabelClass_latin1_to_char* = 0'i16
+  bm_TGtkAccelLabelClass_latin1_to_char* = 0x0001'u16
+  bp_TGtkAccelLabelClass_latin1_to_char* = 0'u16
 
 proc TYPE_ACCEL_LABEL*(): GType
 proc ACCEL_LABEL*(obj: pointer): PAccelLabel
@@ -4526,12 +4528,12 @@ proc arrow_new*(arrow_type: TArrowType, shadow_type: TShadowType): PArrow{.
 proc set*(arrow: PArrow, arrow_type: TArrowType, shadow_type: TShadowType){.
     cdecl, dynlib: lib, importc: "gtk_arrow_set".}
 const
-  bm_TGtkBindingSet_parsed* = 0x0001'i16
-  bp_TGtkBindingSet_parsed* = 0'i16
-  bm_TGtkBindingEntry_destroyed* = 0x0001'i16
-  bp_TGtkBindingEntry_destroyed* = 0'i16
-  bm_TGtkBindingEntry_in_emission* = 0x0002'i16
-  bp_TGtkBindingEntry_in_emission* = 1'i16
+  bm_TGtkBindingSet_parsed* = 0x0001'u16
+  bp_TGtkBindingSet_parsed* = 0'u16
+  bm_TGtkBindingEntry_destroyed* = 0x0001'u16
+  bp_TGtkBindingEntry_destroyed* = 0'u16
+  bm_TGtkBindingEntry_in_emission* = 0x0002'u16
+  bp_TGtkBindingEntry_in_emission* = 1'u16
 
 proc entry_add*(binding_set: PBindingSet, keyval: guint,
                         modifiers: gdk2.TModifierType)
@@ -4573,16 +4575,16 @@ proc bindings_activate_event*(anObject: PObject, event: gdk2.PEventKey): gboolea
 proc binding_reset_parsed*(){.cdecl, dynlib: lib,
                               importc: "_gtk_binding_reset_parsed".}
 const
-  bm_TGtkBox_homogeneous* = 0x0001'i16
-  bp_TGtkBox_homogeneous* = 0'i16
-  bm_TGtkBoxChild_expand* = 0x0001'i16
-  bp_TGtkBoxChild_expand* = 0'i16
-  bm_TGtkBoxChild_fill* = 0x0002'i16
-  bp_TGtkBoxChild_fill* = 1'i16
-  bm_TGtkBoxChild_pack* = 0x0004'i16
-  bp_TGtkBoxChild_pack* = 2'i16
-  bm_TGtkBoxChild_is_secondary* = 0x0008'i16
-  bp_TGtkBoxChild_is_secondary* = 3'i16
+  bm_TGtkBox_homogeneous* = 0x0001'u16
+  bp_TGtkBox_homogeneous* = 0'u16
+  bm_TGtkBoxChild_expand* = 0x0001'u16
+  bp_TGtkBoxChild_expand* = 0'u16
+  bm_TGtkBoxChild_fill* = 0x0002'u16
+  bp_TGtkBoxChild_fill* = 1'u16
+  bm_TGtkBoxChild_pack* = 0x0004'u16
+  bp_TGtkBoxChild_pack* = 2'u16
+  bm_TGtkBoxChild_is_secondary* = 0x0008'u16
+  bp_TGtkBoxChild_is_secondary* = 3'u16
 
 proc TYPE_BOX*(): GType
 proc BOX*(obj: pointer): PBox
@@ -4651,22 +4653,22 @@ proc button_box_child_requisition*(widget: PWidget, nvis_children: var int32,
                                    width: var int32, height: var int32){.cdecl,
     dynlib: lib, importc: "_gtk_button_box_child_requisition".}
 const
-  bm_TGtkButton_constructed* = 0x0001'i16
-  bp_TGtkButton_constructed* = 0'i16
-  bm_TGtkButton_in_button* = 0x0002'i16
-  bp_TGtkButton_in_button* = 1'i16
-  bm_TGtkButton_button_down* = 0x0004'i16
-  bp_TGtkButton_button_down* = 2'i16
-  bm_TGtkButton_relief* = 0x0018'i16
-  bp_TGtkButton_relief* = 3'i16
-  bm_TGtkButton_use_underline* = 0x0020'i16
-  bp_TGtkButton_use_underline* = 5'i16
-  bm_TGtkButton_use_stock* = 0x0040'i16
-  bp_TGtkButton_use_stock* = 6'i16
-  bm_TGtkButton_depressed* = 0x0080'i16
-  bp_TGtkButton_depressed* = 7'i16
-  bm_TGtkButton_depress_on_activate* = 0x0100'i16
-  bp_TGtkButton_depress_on_activate* = 8'i16
+  bm_TGtkButton_constructed* = 0x0001'u16
+  bp_TGtkButton_constructed* = 0'u16
+  bm_TGtkButton_in_button* = 0x0002'u16
+  bp_TGtkButton_in_button* = 1'u16
+  bm_TGtkButton_button_down* = 0x0004'u16
+  bp_TGtkButton_button_down* = 2'u16
+  bm_TGtkButton_relief* = 0x0018'u16
+  bp_TGtkButton_relief* = 3'u16
+  bm_TGtkButton_use_underline* = 0x0020'u16
+  bp_TGtkButton_use_underline* = 5'u16
+  bm_TGtkButton_use_stock* = 0x0040'u16
+  bp_TGtkButton_use_stock* = 6'u16
+  bm_TGtkButton_depressed* = 0x0080'u16
+  bp_TGtkButton_depressed* = 7'u16
+  bm_TGtkButton_depress_on_activate* = 0x0100'u16
+  bp_TGtkButton_depress_on_activate* = 8'u16
 
 proc TYPE_BUTTON*(): GType
 proc BUTTON*(obj: pointer): PButton
@@ -4790,16 +4792,16 @@ const
   CELL_RENDERER_SORTED* = 1 shl 3
 
 const
-  bm_TGtkCellRenderer_mode* = 0x0003'i16
-  bp_TGtkCellRenderer_mode* = 0'i16
-  bm_TGtkCellRenderer_visible* = 0x0004'i16
-  bp_TGtkCellRenderer_visible* = 2'i16
-  bm_TGtkCellRenderer_is_expander* = 0x0008'i16
-  bp_TGtkCellRenderer_is_expander* = 3'i16
-  bm_TGtkCellRenderer_is_expanded* = 0x0010'i16
-  bp_TGtkCellRenderer_is_expanded* = 4'i16
-  bm_TGtkCellRenderer_cell_background_set* = 0x0020'i16
-  bp_TGtkCellRenderer_cell_background_set* = 5'i16
+  bm_TGtkCellRenderer_mode* = 0x0003'u16
+  bp_TGtkCellRenderer_mode* = 0'u16
+  bm_TGtkCellRenderer_visible* = 0x0004'u16
+  bp_TGtkCellRenderer_visible* = 2'u16
+  bm_TGtkCellRenderer_is_expander* = 0x0008'u16
+  bp_TGtkCellRenderer_is_expander* = 3'u16
+  bm_TGtkCellRenderer_is_expanded* = 0x0010'u16
+  bp_TGtkCellRenderer_is_expanded* = 4'u16
+  bm_TGtkCellRenderer_cell_background_set* = 0x0020'u16
+  bp_TGtkCellRenderer_cell_background_set* = 5'u16
 
 proc TYPE_CELL_RENDERER*(): GType
 proc CELL_RENDERER*(obj: pointer): PCellRenderer
@@ -4846,26 +4848,26 @@ proc get_fixed_size*(cell: PCellRenderer, width: Pgint,
                                    height: Pgint){.cdecl, dynlib: lib,
     importc: "gtk_cell_renderer_get_fixed_size".}
 const
-  bm_TGtkCellRendererText_strikethrough* = 0x0001'i16
-  bp_TGtkCellRendererText_strikethrough* = 0'i16
-  bm_TGtkCellRendererText_editable* = 0x0002'i16
-  bp_TGtkCellRendererText_editable* = 1'i16
-  bm_TGtkCellRendererText_scale_set* = 0x0004'i16
-  bp_TGtkCellRendererText_scale_set* = 2'i16
-  bm_TGtkCellRendererText_foreground_set* = 0x0008'i16
-  bp_TGtkCellRendererText_foreground_set* = 3'i16
-  bm_TGtkCellRendererText_background_set* = 0x0010'i16
-  bp_TGtkCellRendererText_background_set* = 4'i16
-  bm_TGtkCellRendererText_underline_set* = 0x0020'i16
-  bp_TGtkCellRendererText_underline_set* = 5'i16
-  bm_TGtkCellRendererText_rise_set* = 0x0040'i16
-  bp_TGtkCellRendererText_rise_set* = 6'i16
-  bm_TGtkCellRendererText_strikethrough_set* = 0x0080'i16
-  bp_TGtkCellRendererText_strikethrough_set* = 7'i16
-  bm_TGtkCellRendererText_editable_set* = 0x0100'i16
-  bp_TGtkCellRendererText_editable_set* = 8'i16
-  bm_TGtkCellRendererText_calc_fixed_height* = 0x0200'i16
-  bp_TGtkCellRendererText_calc_fixed_height* = 9'i16
+  bm_TGtkCellRendererText_strikethrough* = 0x0001'u16
+  bp_TGtkCellRendererText_strikethrough* = 0'u16
+  bm_TGtkCellRendererText_editable* = 0x0002'u16
+  bp_TGtkCellRendererText_editable* = 1'u16
+  bm_TGtkCellRendererText_scale_set* = 0x0004'u16
+  bp_TGtkCellRendererText_scale_set* = 2'u16
+  bm_TGtkCellRendererText_foreground_set* = 0x0008'u16
+  bp_TGtkCellRendererText_foreground_set* = 3'u16
+  bm_TGtkCellRendererText_background_set* = 0x0010'u16
+  bp_TGtkCellRendererText_background_set* = 4'u16
+  bm_TGtkCellRendererText_underline_set* = 0x0020'u16
+  bp_TGtkCellRendererText_underline_set* = 5'u16
+  bm_TGtkCellRendererText_rise_set* = 0x0040'u16
+  bp_TGtkCellRendererText_rise_set* = 6'u16
+  bm_TGtkCellRendererText_strikethrough_set* = 0x0080'u16
+  bp_TGtkCellRendererText_strikethrough_set* = 7'u16
+  bm_TGtkCellRendererText_editable_set* = 0x0100'u16
+  bp_TGtkCellRendererText_editable_set* = 8'u16
+  bm_TGtkCellRendererText_calc_fixed_height* = 0x0200'u16
+  bp_TGtkCellRendererText_calc_fixed_height* = 9'u16
 
 proc TYPE_CELL_RENDERER_TEXT*(): GType
 proc CELL_RENDERER_TEXT*(obj: pointer): PCellRendererText
@@ -4900,12 +4902,12 @@ proc cell_renderer_text_new*(): PCellRenderer{.cdecl, dynlib: lib,
 proc text_set_fixed_height_from_font*(renderer: PCellRendererText,
     number_of_rows: gint){.cdecl, dynlib: lib, importc: "gtk_cell_renderer_text_set_fixed_height_from_font".}
 const
-  bm_TGtkCellRendererToggle_active* = 0x0001'i16
-  bp_TGtkCellRendererToggle_active* = 0'i16
-  bm_TGtkCellRendererToggle_activatable* = 0x0002'i16
-  bp_TGtkCellRendererToggle_activatable* = 1'i16
-  bm_TGtkCellRendererToggle_radio* = 0x0004'i16
-  bp_TGtkCellRendererToggle_radio* = 2'i16
+  bm_TGtkCellRendererToggle_active* = 0x0001'u16
+  bp_TGtkCellRendererToggle_active* = 0'u16
+  bm_TGtkCellRendererToggle_activatable* = 0x0002'u16
+  bp_TGtkCellRendererToggle_activatable* = 1'u16
+  bm_TGtkCellRendererToggle_radio* = 0x0004'u16
+  bp_TGtkCellRendererToggle_radio* = 2'u16
 
 proc TYPE_CELL_RENDERER_TOGGLE*(): GType
 proc CELL_RENDERER_TOGGLE*(obj: pointer): PCellRendererToggle
@@ -4955,18 +4957,18 @@ proc deselect*(item: PItem){.cdecl, dynlib: lib,
                                   importc: "gtk_item_deselect".}
 proc toggle*(item: PItem){.cdecl, dynlib: lib, importc: "gtk_item_toggle".}
 const
-  bm_TGtkMenuItem_show_submenu_indicator* = 0x0001'i16
-  bp_TGtkMenuItem_show_submenu_indicator* = 0'i16
-  bm_TGtkMenuItem_submenu_placement* = 0x0002'i16
-  bp_TGtkMenuItem_submenu_placement* = 1'i16
-  bm_TGtkMenuItem_submenu_direction* = 0x0004'i16
-  bp_TGtkMenuItem_submenu_direction* = 2'i16
-  bm_TGtkMenuItem_right_justify* = 0x0008'i16
-  bp_TGtkMenuItem_right_justify* = 3'i16
-  bm_TGtkMenuItem_timer_from_keypress* = 0x0010'i16
-  bp_TGtkMenuItem_timer_from_keypress* = 4'i16
-  bm_TGtkMenuItemClass_hide_on_activate* = 0x0001'i16
-  bp_TGtkMenuItemClass_hide_on_activate* = 0'i16
+  bm_TGtkMenuItem_show_submenu_indicator* = 0x0001'u16
+  bp_TGtkMenuItem_show_submenu_indicator* = 0'u16
+  bm_TGtkMenuItem_submenu_placement* = 0x0002'u16
+  bp_TGtkMenuItem_submenu_placement* = 1'u16
+  bm_TGtkMenuItem_submenu_direction* = 0x0004'u16
+  bp_TGtkMenuItem_submenu_direction* = 2'u16
+  bm_TGtkMenuItem_right_justify* = 0x0008'u16
+  bp_TGtkMenuItem_right_justify* = 3'u16
+  bm_TGtkMenuItem_timer_from_keypress* = 0x0010'u16
+  bp_TGtkMenuItem_timer_from_keypress* = 4'u16
+  bm_TGtkMenuItemClass_hide_on_activate* = 0x0001'u16
+  bp_TGtkMenuItemClass_hide_on_activate* = 0'u16
 
 proc TYPE_MENU_ITEM*(): GType
 proc MENU_ITEM*(obj: pointer): PMenuItem
@@ -5025,12 +5027,12 @@ proc refresh_accel_path*(menu_item: PMenuItem, prefix: cstring,
 proc menu_item_is_selectable*(menu_item: PWidget): gboolean{.cdecl, dynlib: lib,
     importc: "_gtk_menu_item_is_selectable".}
 const
-  bm_TGtkToggleButton_active* = 0x0001'i16
-  bp_TGtkToggleButton_active* = 0'i16
-  bm_TGtkToggleButton_draw_indicator* = 0x0002'i16
-  bp_TGtkToggleButton_draw_indicator* = 1'i16
-  bm_TGtkToggleButton_inconsistent* = 0x0004'i16
-  bp_TGtkToggleButton_inconsistent* = 2'i16
+  bm_TGtkToggleButton_active* = 0x0001'u16
+  bp_TGtkToggleButton_active* = 0'u16
+  bm_TGtkToggleButton_draw_indicator* = 0x0002'u16
+  bp_TGtkToggleButton_draw_indicator* = 1'u16
+  bm_TGtkToggleButton_inconsistent* = 0x0004'u16
+  bp_TGtkToggleButton_inconsistent* = 2'u16
 
 proc TYPE_TOGGLE_BUTTON*(): GType
 proc TOGGLE_BUTTON*(obj: pointer): PToggleButton
@@ -5086,12 +5088,12 @@ proc get_props*(check_button: PCheckButton, indicator_size: Pgint,
                              indicator_spacing: Pgint){.cdecl, dynlib: lib,
     importc: "_gtk_check_button_get_props".}
 const
-  bm_TGtkCheckMenuItem_active* = 0x0001'i16
-  bp_TGtkCheckMenuItem_active* = 0'i16
-  bm_TGtkCheckMenuItem_always_show_toggle* = 0x0002'i16
-  bp_TGtkCheckMenuItem_always_show_toggle* = 1'i16
-  bm_TGtkCheckMenuItem_inconsistent* = 0x0004'i16
-  bp_TGtkCheckMenuItem_inconsistent* = 2'i16
+  bm_TGtkCheckMenuItem_active* = 0x0001'u16
+  bp_TGtkCheckMenuItem_active* = 0'u16
+  bm_TGtkCheckMenuItem_always_show_toggle* = 0x0002'u16
+  bp_TGtkCheckMenuItem_always_show_toggle* = 1'u16
+  bm_TGtkCheckMenuItem_inconsistent* = 0x0004'u16
+  bp_TGtkCheckMenuItem_inconsistent* = 2'u16
 
 proc TYPE_CHECK_MENU_ITEM*(): GType
 proc CHECK_MENU_ITEM*(obj: pointer): PCheckMenuItem
@@ -5175,22 +5177,22 @@ const
   BUTTON_EXPANDS* = 1 shl 2
 
 const
-  bm_TGtkCListColumn_visible* = 0x0001'i16
-  bp_TGtkCListColumn_visible* = 0'i16
-  bm_TGtkCListColumn_width_set* = 0x0002'i16
-  bp_TGtkCListColumn_width_set* = 1'i16
-  bm_TGtkCListColumn_resizeable* = 0x0004'i16
-  bp_TGtkCListColumn_resizeable* = 2'i16
-  bm_TGtkCListColumn_auto_resize* = 0x0008'i16
-  bp_TGtkCListColumn_auto_resize* = 3'i16
-  bm_TGtkCListColumn_button_passive* = 0x0010'i16
-  bp_TGtkCListColumn_button_passive* = 4'i16
-  bm_TGtkCListRow_fg_set* = 0x0001'i16
-  bp_TGtkCListRow_fg_set* = 0'i16
-  bm_TGtkCListRow_bg_set* = 0x0002'i16
-  bp_TGtkCListRow_bg_set* = 1'i16
-  bm_TGtkCListRow_selectable* = 0x0004'i16
-  bp_TGtkCListRow_selectable* = 2'i16
+  bm_TGtkCListColumn_visible* = 0x0001'u16
+  bp_TGtkCListColumn_visible* = 0'u16
+  bm_TGtkCListColumn_width_set* = 0x0002'u16
+  bp_TGtkCListColumn_width_set* = 1'u16
+  bm_TGtkCListColumn_resizeable* = 0x0004'u16
+  bp_TGtkCListColumn_resizeable* = 2'u16
+  bm_TGtkCListColumn_auto_resize* = 0x0008'u16
+  bp_TGtkCListColumn_auto_resize* = 3'u16
+  bm_TGtkCListColumn_button_passive* = 0x0010'u16
+  bp_TGtkCListColumn_button_passive* = 4'u16
+  bm_TGtkCListRow_fg_set* = 0x0001'u16
+  bp_TGtkCListRow_fg_set* = 0'u16
+  bm_TGtkCListRow_bg_set* = 0x0002'u16
+  bp_TGtkCListRow_bg_set* = 1'u16
+  bm_TGtkCListRow_selectable* = 0x0004'u16
+  bp_TGtkCListRow_selectable* = 2'u16
 
 proc TYPE_CLIST*(): GType
 proc CLIST*(obj: pointer): PCList
@@ -5505,16 +5507,16 @@ proc hbox_get_type*(): TType{.cdecl, dynlib: lib, importc: "gtk_hbox_get_type".}
 proc hbox_new*(homogeneous: gboolean, spacing: gint): PHBox{.cdecl, dynlib: lib,
     importc: "gtk_hbox_new".}
 const
-  bm_TGtkCombo_value_in_list* = 0x0001'i16
-  bp_TGtkCombo_value_in_list* = 0'i16
-  bm_TGtkCombo_ok_if_empty* = 0x0002'i16
-  bp_TGtkCombo_ok_if_empty* = 1'i16
-  bm_TGtkCombo_case_sensitive* = 0x0004'i16
-  bp_TGtkCombo_case_sensitive* = 2'i16
-  bm_TGtkCombo_use_arrows* = 0x0008'i16
-  bp_TGtkCombo_use_arrows* = 3'i16
-  bm_TGtkCombo_use_arrows_always* = 0x0010'i16
-  bp_TGtkCombo_use_arrows_always* = 4'i16
+  bm_TGtkCombo_value_in_list* = 0x0001'u16
+  bp_TGtkCombo_value_in_list* = 0'u16
+  bm_TGtkCombo_ok_if_empty* = 0x0002'u16
+  bp_TGtkCombo_ok_if_empty* = 1'u16
+  bm_TGtkCombo_case_sensitive* = 0x0004'u16
+  bp_TGtkCombo_case_sensitive* = 2'u16
+  bm_TGtkCombo_use_arrows* = 0x0008'u16
+  bp_TGtkCombo_use_arrows* = 3'u16
+  bm_TGtkCombo_use_arrows_always* = 0x0010'u16
+  bp_TGtkCombo_use_arrows_always* = 4'u16
 
 proc TYPE_COMBO*(): GType
 proc COMBO*(obj: pointer): PCombo
@@ -5550,16 +5552,16 @@ proc set_popdown_strings*(combo: PCombo, strings: PGList){.cdecl,
 proc disable_activate*(combo: PCombo){.cdecl, dynlib: lib,
     importc: "gtk_combo_disable_activate".}
 const
-  bm_TGtkCTree_line_style* = 0x0003'i16
-  bp_TGtkCTree_line_style* = 0'i16
-  bm_TGtkCTree_expander_style* = 0x000C'i16
-  bp_TGtkCTree_expander_style* = 2'i16
-  bm_TGtkCTree_show_stub* = 0x0010'i16
-  bp_TGtkCTree_show_stub* = 4'i16
-  bm_TGtkCTreeRow_is_leaf* = 0x0001'i16
-  bp_TGtkCTreeRow_is_leaf* = 0'i16
-  bm_TGtkCTreeRow_expanded* = 0x0002'i16
-  bp_TGtkCTreeRow_expanded* = 1'i16
+  bm_TGtkCTree_line_style* = 0x0003'u16
+  bp_TGtkCTree_line_style* = 0'u16
+  bm_TGtkCTree_expander_style* = 0x000C'u16
+  bp_TGtkCTree_expander_style* = 2'u16
+  bm_TGtkCTree_show_stub* = 0x0010'u16
+  bp_TGtkCTree_show_stub* = 4'u16
+  bm_TGtkCTreeRow_is_leaf* = 0x0001'u16
+  bp_TGtkCTreeRow_is_leaf* = 0'u16
+  bm_TGtkCTreeRow_expanded* = 0x0002'u16
+  bp_TGtkCTreeRow_expanded* = 1'u16
 
 proc TYPE_CTREE*(): GType
 proc CTREE*(obj: pointer): PCTree
@@ -5912,20 +5914,20 @@ proc delete_surrounding*(context: PIMContext, offset: gint,
                                     n_chars: gint): gboolean{.cdecl,
     dynlib: lib, importc: "gtk_im_context_delete_surrounding".}
 const
-  bm_TGtkMenuShell_active* = 0x0001'i16
-  bp_TGtkMenuShell_active* = 0'i16
-  bm_TGtkMenuShell_have_grab* = 0x0002'i16
-  bp_TGtkMenuShell_have_grab* = 1'i16
-  bm_TGtkMenuShell_have_xgrab* = 0x0004'i16
-  bp_TGtkMenuShell_have_xgrab* = 2'i16
-  bm_TGtkMenuShell_ignore_leave* = 0x0008'i16
-  bp_TGtkMenuShell_ignore_leave* = 3'i16
-  bm_TGtkMenuShell_menu_flag* = 0x0010'i16
-  bp_TGtkMenuShell_menu_flag* = 4'i16
-  bm_TGtkMenuShell_ignore_enter* = 0x0020'i16
-  bp_TGtkMenuShell_ignore_enter* = 5'i16
-  bm_TGtkMenuShellClass_submenu_placement* = 0x0001'i16
-  bp_TGtkMenuShellClass_submenu_placement* = 0'i16
+  bm_TGtkMenuShell_active* = 0x0001'u16
+  bp_TGtkMenuShell_active* = 0'u16
+  bm_TGtkMenuShell_have_grab* = 0x0002'u16
+  bp_TGtkMenuShell_have_grab* = 1'u16
+  bm_TGtkMenuShell_have_xgrab* = 0x0004'u16
+  bp_TGtkMenuShell_have_xgrab* = 2'u16
+  bm_TGtkMenuShell_ignore_leave* = 0x0008'u16
+  bp_TGtkMenuShell_ignore_leave* = 3'u16
+  bm_TGtkMenuShell_menu_flag* = 0x0010'u16
+  bp_TGtkMenuShell_menu_flag* = 4'u16
+  bm_TGtkMenuShell_ignore_enter* = 0x0020'u16
+  bp_TGtkMenuShell_ignore_enter* = 5'u16
+  bm_TGtkMenuShellClass_submenu_placement* = 0x0001'u16
+  bp_TGtkMenuShellClass_submenu_placement* = 0'u16
 
 proc TYPE_MENU_SHELL*(): GType
 proc MENU_SHELL*(obj: pointer): PMenuShell
@@ -5969,22 +5971,22 @@ proc select_first*(menu_shell: PMenuShell){.cdecl, dynlib: lib,
 proc activate*(menu_shell: PMenuShell){.cdecl, dynlib: lib,
     importc: "_gtk_menu_shell_activate".}
 const
-  bm_TGtkMenu_needs_destruction_ref_count* = 0x0001'i16
-  bp_TGtkMenu_needs_destruction_ref_count* = 0'i16
-  bm_TGtkMenu_torn_off* = 0x0002'i16
-  bp_TGtkMenu_torn_off* = 1'i16
-  bm_TGtkMenu_tearoff_active* = 0x0004'i16
-  bp_TGtkMenu_tearoff_active* = 2'i16
-  bm_TGtkMenu_scroll_fast* = 0x0008'i16
-  bp_TGtkMenu_scroll_fast* = 3'i16
-  bm_TGtkMenu_upper_arrow_visible* = 0x0010'i16
-  bp_TGtkMenu_upper_arrow_visible* = 4'i16
-  bm_TGtkMenu_lower_arrow_visible* = 0x0020'i16
-  bp_TGtkMenu_lower_arrow_visible* = 5'i16
-  bm_TGtkMenu_upper_arrow_prelight* = 0x0040'i16
-  bp_TGtkMenu_upper_arrow_prelight* = 6'i16
-  bm_TGtkMenu_lower_arrow_prelight* = 0x0080'i16
-  bp_TGtkMenu_lower_arrow_prelight* = 7'i16
+  bm_TGtkMenu_needs_destruction_ref_count* = 0x0001'u16
+  bp_TGtkMenu_needs_destruction_ref_count* = 0'u16
+  bm_TGtkMenu_torn_off* = 0x0002'u16
+  bp_TGtkMenu_torn_off* = 1'u16
+  bm_TGtkMenu_tearoff_active* = 0x0004'u16
+  bp_TGtkMenu_tearoff_active* = 2'u16
+  bm_TGtkMenu_scroll_fast* = 0x0008'u16
+  bp_TGtkMenu_scroll_fast* = 3'u16
+  bm_TGtkMenu_upper_arrow_visible* = 0x0010'u16
+  bp_TGtkMenu_upper_arrow_visible* = 4'u16
+  bm_TGtkMenu_lower_arrow_visible* = 0x0020'u16
+  bp_TGtkMenu_lower_arrow_visible* = 5'u16
+  bm_TGtkMenu_upper_arrow_prelight* = 0x0040'u16
+  bp_TGtkMenu_upper_arrow_prelight* = 6'u16
+  bm_TGtkMenu_lower_arrow_prelight* = 0x0080'u16
+  bp_TGtkMenu_lower_arrow_prelight* = 7'u16
 
 proc TYPE_MENU*(): GType
 proc MENU*(obj: pointer): PMenu
@@ -6047,32 +6049,32 @@ proc reorder_child*(menu: PMenu, child: PWidget, position: gint){.cdecl,
 proc set_screen*(menu: PMenu, screen: gdk2.PScreen){.cdecl, dynlib: lib,
     importc: "gtk_menu_set_screen".}
 const
-  bm_TGtkEntry_editable* = 0x0001'i16
-  bp_TGtkEntry_editable* = 0'i16
-  bm_TGtkEntry_visible* = 0x0002'i16
-  bp_TGtkEntry_visible* = 1'i16
-  bm_TGtkEntry_overwrite_mode* = 0x0004'i16
-  bp_TGtkEntry_overwrite_mode* = 2'i16
-  bm_TGtkEntry_in_drag* = 0x0008'i16
-  bp_TGtkEntry_in_drag* = 3'i16
-  bm_TGtkEntry_cache_includes_preedit* = 0x0001'i16
-  bp_TGtkEntry_cache_includes_preedit* = 0'i16
-  bm_TGtkEntry_need_im_reset* = 0x0002'i16
-  bp_TGtkEntry_need_im_reset* = 1'i16
-  bm_TGtkEntry_has_frame* = 0x0004'i16
-  bp_TGtkEntry_has_frame* = 2'i16
-  bm_TGtkEntry_activates_default* = 0x0008'i16
-  bp_TGtkEntry_activates_default* = 3'i16
-  bm_TGtkEntry_cursor_visible* = 0x0010'i16
-  bp_TGtkEntry_cursor_visible* = 4'i16
-  bm_TGtkEntry_in_click* = 0x0020'i16
-  bp_TGtkEntry_in_click* = 5'i16
-  bm_TGtkEntry_is_cell_renderer* = 0x0040'i16
-  bp_TGtkEntry_is_cell_renderer* = 6'i16
-  bm_TGtkEntry_editing_canceled* = 0x0080'i16
-  bp_TGtkEntry_editing_canceled* = 7'i16
-  bm_TGtkEntry_mouse_cursor_obscured* = 0x0100'i16
-  bp_TGtkEntry_mouse_cursor_obscured* = 8'i16
+  bm_TGtkEntry_editable* = 0x0001'u16
+  bp_TGtkEntry_editable* = 0'u16
+  bm_TGtkEntry_visible* = 0x0002'u16
+  bp_TGtkEntry_visible* = 1'u16
+  bm_TGtkEntry_overwrite_mode* = 0x0004'u16
+  bp_TGtkEntry_overwrite_mode* = 2'u16
+  bm_TGtkEntry_in_drag* = 0x0008'u16
+  bp_TGtkEntry_in_drag* = 3'u16
+  bm_TGtkEntry_cache_includes_preedit* = 0x0001'u16
+  bp_TGtkEntry_cache_includes_preedit* = 0'u16
+  bm_TGtkEntry_need_im_reset* = 0x0002'u16
+  bp_TGtkEntry_need_im_reset* = 1'u16
+  bm_TGtkEntry_has_frame* = 0x0004'u16
+  bp_TGtkEntry_has_frame* = 2'u16
+  bm_TGtkEntry_activates_default* = 0x0008'u16
+  bp_TGtkEntry_activates_default* = 3'u16
+  bm_TGtkEntry_cursor_visible* = 0x0010'u16
+  bp_TGtkEntry_cursor_visible* = 4'u16
+  bm_TGtkEntry_in_click* = 0x0020'u16
+  bp_TGtkEntry_in_click* = 5'u16
+  bm_TGtkEntry_is_cell_renderer* = 0x0040'u16
+  bp_TGtkEntry_is_cell_renderer* = 6'u16
+  bm_TGtkEntry_editing_canceled* = 0x0080'u16
+  bp_TGtkEntry_editing_canceled* = 7'u16
+  bm_TGtkEntry_mouse_cursor_obscured* = 0x0100'u16
+  bp_TGtkEntry_mouse_cursor_obscured* = 8'u16
 
 proc TYPE_ENTRY*(): GType
 proc ENTRY*(obj: pointer): PEntry
@@ -6138,6 +6140,8 @@ proc get_width_chars*(entry: PLabel): gint{.cdecl, dynlib: lib,
     importc: "gtk_label_get_width_chars".}
 proc set_text*(entry: PEntry, text: cstring){.cdecl, dynlib: lib,
     importc: "gtk_entry_set_text".}
+proc append_text*(entry: PEntry, text: cstring){.cdecl, dynlib: lib,
+    importc: "gtk_entry_append_text".}
 proc get_text*(entry: PEntry): cstring{.cdecl, dynlib: lib,
     importc: "gtk_entry_get_text".}
 proc get_layout*(entry: PEntry): pango.PLayout{.cdecl, dynlib: lib,
@@ -6434,18 +6438,18 @@ proc gc_get*(depth: gint, colormap: gdk2.PColormap, values: gdk2.PGCValues,
     importc: "gtk_gc_get".}
 proc gc_release*(gc: gdk2.PGC){.cdecl, dynlib: lib, importc: "gtk_gc_release".}
 const
-  bm_TGtkHandleBox_handle_position* = 0x0003'i16
-  bp_TGtkHandleBox_handle_position* = 0'i16
-  bm_TGtkHandleBox_float_window_mapped* = 0x0004'i16
-  bp_TGtkHandleBox_float_window_mapped* = 2'i16
-  bm_TGtkHandleBox_child_detached* = 0x0008'i16
-  bp_TGtkHandleBox_child_detached* = 3'i16
-  bm_TGtkHandleBox_in_drag* = 0x0010'i16
-  bp_TGtkHandleBox_in_drag* = 4'i16
-  bm_TGtkHandleBox_shrink_on_detach* = 0x0020'i16
-  bp_TGtkHandleBox_shrink_on_detach* = 5'i16
-  bm_TGtkHandleBox_snap_edge* = 0x01C0'i16
-  bp_TGtkHandleBox_snap_edge* = 6'i16
+  bm_TGtkHandleBox_handle_position* = 0x0003'u16
+  bp_TGtkHandleBox_handle_position* = 0'u16
+  bm_TGtkHandleBox_float_window_mapped* = 0x0004'u16
+  bp_TGtkHandleBox_float_window_mapped* = 2'u16
+  bm_TGtkHandleBox_child_detached* = 0x0008'u16
+  bp_TGtkHandleBox_child_detached* = 3'u16
+  bm_TGtkHandleBox_in_drag* = 0x0010'u16
+  bp_TGtkHandleBox_in_drag* = 4'u16
+  bm_TGtkHandleBox_shrink_on_detach* = 0x0020'u16
+  bp_TGtkHandleBox_shrink_on_detach* = 5'u16
+  bm_TGtkHandleBox_snap_edge* = 0x01C0'u16
+  bp_TGtkHandleBox_snap_edge* = 6'u16
 
 proc TYPE_HANDLE_BOX*(): GType
 proc HANDLE_BOX*(obj: pointer): PHandleBox
@@ -6463,7 +6467,7 @@ proc in_drag*(a: PHandleBox): guint
 proc set_in_drag*(a: PHandleBox, `in_drag`: guint)
 proc shrink_on_detach*(a: PHandleBox): guint
 proc set_shrink_on_detach*(a: PHandleBox, `shrink_on_detach`: guint)
-proc snap_edge*(a: PHandleBox): gint
+proc snap_edge*(a: PHandleBox): TPositionType
 
 proc handle_box_get_type*(): TType{.cdecl, dynlib: lib,
                                     importc: "gtk_handle_box_get_type".}
@@ -6483,24 +6487,24 @@ proc set_snap_edge*(handle_box: PHandleBox, edge: TPositionType){.
 proc get_snap_edge*(handle_box: PHandleBox): TPositionType{.cdecl,
     dynlib: lib, importc: "gtk_handle_box_get_snap_edge".}
 const
-  bm_TGtkPaned_position_set = 0x0001'i16
-  bp_TGtkPaned_position_set = 0'i16
-  bm_TGtkPaned_in_drag = 0x0002'i16
-  bp_TGtkPaned_in_drag = 1'i16
-  bm_TGtkPaned_child1_shrink = 0x0004'i16
-  bp_TGtkPaned_child1_shrink = 2'i16
-  bm_TGtkPaned_child1_resize = 0x0008'i16
-  bp_TGtkPaned_child1_resize = 3'i16
-  bm_TGtkPaned_child2_shrink = 0x0010'i16
-  bp_TGtkPaned_child2_shrink = 4'i16
-  bm_TGtkPaned_child2_resize = 0x0020'i16
-  bp_TGtkPaned_child2_resize = 5'i16
-  bm_TGtkPaned_orientation = 0x0040'i16
-  bp_TGtkPaned_orientation = 6'i16
-  bm_TGtkPaned_in_recursion = 0x0080'i16
-  bp_TGtkPaned_in_recursion = 7'i16
-  bm_TGtkPaned_handle_prelit = 0x0100'i16
-  bp_TGtkPaned_handle_prelit = 8'i16
+  bm_TGtkPaned_position_set = 0x0001'u16
+  bp_TGtkPaned_position_set = 0'u16
+  bm_TGtkPaned_in_drag = 0x0002'u16
+  bp_TGtkPaned_in_drag = 1'u16
+  bm_TGtkPaned_child1_shrink = 0x0004'u16
+  bp_TGtkPaned_child1_shrink = 2'u16
+  bm_TGtkPaned_child1_resize = 0x0008'u16
+  bp_TGtkPaned_child1_resize = 3'u16
+  bm_TGtkPaned_child2_shrink = 0x0010'u16
+  bp_TGtkPaned_child2_shrink = 4'u16
+  bm_TGtkPaned_child2_resize = 0x0020'u16
+  bp_TGtkPaned_child2_resize = 5'u16
+  bm_TGtkPaned_orientation = 0x0040'u16
+  bp_TGtkPaned_orientation = 6'u16
+  bm_TGtkPaned_in_recursion = 0x0080'u16
+  bp_TGtkPaned_in_recursion = 7'u16
+  bm_TGtkPaned_handle_prelit = 0x0100'u16
+  bp_TGtkPaned_handle_prelit = 8'u16
 
 proc TYPE_PANED*(): GType
 proc PANED*(obj: pointer): PPaned
@@ -6647,8 +6651,8 @@ const
   RC_BG* = 1 shl 1
   RC_TEXT* = 1 shl 2
   RC_BASE* = 1 shl 3
-  bm_TGtkRcStyle_engine_specified* = 0x0001'i16
-  bp_TGtkRcStyle_engine_specified* = 0'i16
+  bm_TGtkRcStyle_engine_specified* = 0x0001'u16
+  bp_TGtkRcStyle_engine_specified* = 0'u16
 
 proc TYPE_RC_STYLE*(): GType
 proc RC_STYLE_get*(anObject: pointer): PRcStyle
@@ -6853,26 +6857,26 @@ proc draw_insertion_cursor*(widget: PWidget, drawable: gdk2.PDrawable, gc: gdk2.
                             draw_arrow: gboolean){.cdecl, dynlib: lib,
     importc: "_gtk_draw_insertion_cursor".}
 const
-  bm_TGtkRange_inverted* = 0x0001'i16
-  bp_TGtkRange_inverted* = 0'i16
-  bm_TGtkRange_flippable* = 0x0002'i16
-  bp_TGtkRange_flippable* = 1'i16
-  bm_TGtkRange_has_stepper_a* = 0x0004'i16
-  bp_TGtkRange_has_stepper_a* = 2'i16
-  bm_TGtkRange_has_stepper_b* = 0x0008'i16
-  bp_TGtkRange_has_stepper_b* = 3'i16
-  bm_TGtkRange_has_stepper_c* = 0x0010'i16
-  bp_TGtkRange_has_stepper_c* = 4'i16
-  bm_TGtkRange_has_stepper_d* = 0x0020'i16
-  bp_TGtkRange_has_stepper_d* = 5'i16
-  bm_TGtkRange_need_recalc* = 0x0040'i16
-  bp_TGtkRange_need_recalc* = 6'i16
-  bm_TGtkRange_slider_size_fixed* = 0x0080'i16
-  bp_TGtkRange_slider_size_fixed* = 7'i16
-  bm_TGtkRange_trough_click_forward* = 0x0001'i16
-  bp_TGtkRange_trough_click_forward* = 0'i16
-  bm_TGtkRange_update_pending* = 0x0002'i16
-  bp_TGtkRange_update_pending* = 1'i16
+  bm_TGtkRange_inverted* = 0x0001'u16
+  bp_TGtkRange_inverted* = 0'u16
+  bm_TGtkRange_flippable* = 0x0002'u16
+  bp_TGtkRange_flippable* = 1'u16
+  bm_TGtkRange_has_stepper_a* = 0x0004'u16
+  bp_TGtkRange_has_stepper_a* = 2'u16
+  bm_TGtkRange_has_stepper_b* = 0x0008'u16
+  bp_TGtkRange_has_stepper_b* = 3'u16
+  bm_TGtkRange_has_stepper_c* = 0x0010'u16
+  bp_TGtkRange_has_stepper_c* = 4'u16
+  bm_TGtkRange_has_stepper_d* = 0x0020'u16
+  bp_TGtkRange_has_stepper_d* = 5'u16
+  bm_TGtkRange_need_recalc* = 0x0040'u16
+  bp_TGtkRange_need_recalc* = 6'u16
+  bm_TGtkRange_slider_size_fixed* = 0x0080'u16
+  bp_TGtkRange_slider_size_fixed* = 7'u16
+  bm_TGtkRange_trough_click_forward* = 0x0001'u16
+  bp_TGtkRange_trough_click_forward* = 0'u16
+  bm_TGtkRange_update_pending* = 0x0002'u16
+  bp_TGtkRange_update_pending* = 1'u16
 
 proc TYPE_RANGE*(): GType
 proc RANGE*(obj: pointer): PRange
@@ -6922,10 +6926,10 @@ proc set_value*(range: PRange, value: gdouble){.cdecl, dynlib: lib,
 proc get_value*(range: PRange): gdouble{.cdecl, dynlib: lib,
     importc: "gtk_range_get_value".}
 const
-  bm_TGtkScale_draw_value* = 0x0001'i16
-  bp_TGtkScale_draw_value* = 0'i16
-  bm_TGtkScale_value_pos* = 0x0006'i16
-  bp_TGtkScale_value_pos* = 1'i16
+  bm_TGtkScale_draw_value* = 0x0001'u16
+  bp_TGtkScale_draw_value* = 0'u16
+  bm_TGtkScale_value_pos* = 0x0006'u16
+  bp_TGtkScale_value_pos* = 1'u16
 
 proc TYPE_SCALE*(): GType
 proc SCALE*(obj: pointer): PScale
@@ -7167,8 +7171,8 @@ proc item_set_image*(image_menu_item: PImageMenuItem, image: PWidget){.
 proc item_get_image*(image_menu_item: PImageMenuItem): PWidget{.
     cdecl, dynlib: lib, importc: "gtk_image_menu_item_get_image".}
 const
-  bm_TGtkIMContextSimple_in_hex_sequence* = 0x0001'i16
-  bp_TGtkIMContextSimple_in_hex_sequence* = 0'i16
+  bm_TGtkIMContextSimple_in_hex_sequence* = 0x0001'u16
+  bp_TGtkIMContextSimple_in_hex_sequence* = 0'u16
 
 proc TYPE_IM_CONTEXT_SIMPLE*(): GType
 proc IM_CONTEXT_SIMPLE*(obj: pointer): PIMContextSimple
@@ -7311,12 +7315,12 @@ proc set_hadjustment*(layout: PLayout, adjustment: PAdjustment){.cdecl,
 proc set_vadjustment*(layout: PLayout, adjustment: PAdjustment){.cdecl,
     dynlib: lib, importc: "gtk_layout_set_vadjustment".}
 const
-  bm_TGtkList_selection_mode* = 0x0003'i16
-  bp_TGtkList_selection_mode* = 0'i16
-  bm_TGtkList_drag_selection* = 0x0004'i16
-  bp_TGtkList_drag_selection* = 2'i16
-  bm_TGtkList_add_mode* = 0x0008'i16
-  bp_TGtkList_add_mode* = 3'i16
+  bm_TGtkList_selection_mode* = 0x0003'u16
+  bp_TGtkList_selection_mode* = 0'u16
+  bm_TGtkList_drag_selection* = 0x0004'u16
+  bp_TGtkList_drag_selection* = 2'u16
+  bm_TGtkList_add_mode* = 0x0008'u16
+  bp_TGtkList_add_mode* = 3'u16
 
 proc TYPE_LIST*(): GType
 proc LIST*(obj: pointer): PList
@@ -7572,8 +7576,8 @@ proc sort_reset_default_sort_func*(tree_model_sort: PTreeModelSort){.
 proc sort_clear_cache*(tree_model_sort: PTreeModelSort){.cdecl,
     dynlib: lib, importc: "gtk_tree_model_sort_clear_cache".}
 const
-  bm_TGtkListStore_columns_dirty* = 0x0001'i16
-  bp_TGtkListStore_columns_dirty* = 0'i16
+  bm_TGtkListStore_columns_dirty* = 0x0001'u16
+  bp_TGtkListStore_columns_dirty* = 0'u16
 
 proc TYPE_LIST_STORE*(): GType
 proc LIST_STORE*(obj: pointer): PListStore
@@ -7719,30 +7723,30 @@ proc MESSAGE_DIALOG_GET_CLASS*(obj: pointer): PMessageDialogClass
 proc message_dialog_get_type*(): TType{.cdecl, dynlib: lib,
                                         importc: "gtk_message_dialog_get_type".}
 const
-  bm_TGtkNotebook_show_tabs* = 0x0001'i16
-  bp_TGtkNotebook_show_tabs* = 0'i16
-  bm_TGtkNotebook_homogeneous* = 0x0002'i16
-  bp_TGtkNotebook_homogeneous* = 1'i16
-  bm_TGtkNotebook_show_border* = 0x0004'i16
-  bp_TGtkNotebook_show_border* = 2'i16
-  bm_TGtkNotebook_tab_pos* = 0x0018'i16
-  bp_TGtkNotebook_tab_pos* = 3'i16
-  bm_TGtkNotebook_scrollable* = 0x0020'i16
-  bp_TGtkNotebook_scrollable* = 5'i16
-  bm_TGtkNotebook_in_child* = 0x00C0'i16
-  bp_TGtkNotebook_in_child* = 6'i16
-  bm_TGtkNotebook_click_child* = 0x0300'i16
-  bp_TGtkNotebook_click_child* = 8'i16
-  bm_TGtkNotebook_button* = 0x0C00'i16
-  bp_TGtkNotebook_button* = 10'i16
-  bm_TGtkNotebook_need_timer* = 0x1000'i16
-  bp_TGtkNotebook_need_timer* = 12'i16
-  bm_TGtkNotebook_child_has_focus* = 0x2000'i16
-  bp_TGtkNotebook_child_has_focus* = 13'i16
-  bm_TGtkNotebook_have_visible_child* = 0x4000'i16
-  bp_TGtkNotebook_have_visible_child* = 14'i16
-  bm_TGtkNotebook_focus_out* = 0x8000'i16
-  bp_TGtkNotebook_focus_out* = 15'i16
+  bm_TGtkNotebook_show_tabs* = 0x0001'u16
+  bp_TGtkNotebook_show_tabs* = 0'u16
+  bm_TGtkNotebook_homogeneous* = 0x0002'u16
+  bp_TGtkNotebook_homogeneous* = 1'u16
+  bm_TGtkNotebook_show_border* = 0x0004'u16
+  bp_TGtkNotebook_show_border* = 2'u16
+  bm_TGtkNotebook_tab_pos* = 0x0018'u16
+  bp_TGtkNotebook_tab_pos* = 3'u16
+  bm_TGtkNotebook_scrollable* = 0x0020'u16
+  bp_TGtkNotebook_scrollable* = 5'u16
+  bm_TGtkNotebook_in_child* = 0x00C0'u16
+  bp_TGtkNotebook_in_child* = 6'u16
+  bm_TGtkNotebook_click_child* = 0x0300'u16
+  bp_TGtkNotebook_click_child* = 8'u16
+  bm_TGtkNotebook_button* = 0x0C00'u16
+  bp_TGtkNotebook_button* = 10'u16
+  bm_TGtkNotebook_need_timer* = 0x1000'u16
+  bp_TGtkNotebook_need_timer* = 12'u16
+  bm_TGtkNotebook_child_has_focus* = 0x2000'u16
+  bp_TGtkNotebook_child_has_focus* = 13'u16
+  bm_TGtkNotebook_have_visible_child* = 0x4000'u16
+  bp_TGtkNotebook_have_visible_child* = 14'u16
+  bm_TGtkNotebook_focus_out* = 0x8000'u16
+  bp_TGtkNotebook_focus_out* = 15'u16
 
 proc TYPE_NOTEBOOK*(): GType
 proc NOTEBOOK*(obj: pointer): PNotebook
@@ -7866,12 +7870,12 @@ proc set_tab_label_packing*(notebook: PNotebook, child: PWidget,
 proc reorder_child*(notebook: PNotebook, child: PWidget, position: gint){.
     cdecl, dynlib: lib, importc: "gtk_notebook_reorder_child".}
 const
-  bm_TGtkOldEditable_has_selection* = 0x0001'i16
-  bp_TGtkOldEditable_has_selection* = 0'i16
-  bm_TGtkOldEditable_editable* = 0x0002'i16
-  bp_TGtkOldEditable_editable* = 1'i16
-  bm_TGtkOldEditable_visible* = 0x0004'i16
-  bp_TGtkOldEditable_visible* = 2'i16
+  bm_TGtkOldEditable_has_selection* = 0x0001'u16
+  bp_TGtkOldEditable_has_selection* = 0'u16
+  bm_TGtkOldEditable_editable* = 0x0002'u16
+  bp_TGtkOldEditable_editable* = 1'u16
+  bm_TGtkOldEditable_visible* = 0x0004'u16
+  bp_TGtkOldEditable_visible* = 2'u16
 
 proc TYPE_OLD_EDITABLE*(): GType
 proc OLD_EDITABLE*(obj: pointer): POldEditable
@@ -7913,8 +7917,8 @@ proc get_history*(option_menu: POptionMenu): gint{.cdecl,
 proc set_history*(option_menu: POptionMenu, index: guint){.cdecl,
     dynlib: lib, importc: "gtk_option_menu_set_history".}
 const
-  bm_TGtkPixmap_build_insensitive* = 0x0001'i16
-  bp_TGtkPixmap_build_insensitive* = 0'i16
+  bm_TGtkPixmap_build_insensitive* = 0x0001'u16
+  bp_TGtkPixmap_build_insensitive* = 0'u16
 
 proc TYPE_PIXMAP*(): GType
 proc PIXMAP*(obj: pointer): PPixmap
@@ -7935,8 +7939,8 @@ proc get*(pixmap: PPixmap, val: var gdk2.PPixmap, mask: var gdk2.PBitmap){.
 proc set_build_insensitive*(pixmap: PPixmap, build: gboolean){.cdecl,
     dynlib: lib, importc: "gtk_pixmap_set_build_insensitive".}
 const
-  bm_TGtkPlug_same_app* = 0x0001'i16
-  bp_TGtkPlug_same_app* = 0'i16
+  bm_TGtkPlug_same_app* = 0x0001'u16
+  bp_TGtkPlug_same_app* = 0'u16
 
 proc TYPE_PLUG*(): GType
 proc PLUG*(obj: pointer): PPlug
@@ -7959,10 +7963,10 @@ proc add_to_socket*(plug: PPlug, socket: PSocket){.cdecl, dynlib: lib,
 proc remove_from_socket*(plug: PPlug, socket: PSocket){.cdecl, dynlib: lib,
     importc: "_gtk_plug_remove_from_socket".}
 const
-  bm_TGtkPreview_type* = 0x0001'i16
-  bp_TGtkPreview_type* = 0'i16
-  bm_TGtkPreview_expand* = 0x0002'i16
-  bp_TGtkPreview_expand* = 1'i16
+  bm_TGtkPreview_type* = 0x0001'u16
+  bp_TGtkPreview_type* = 0'u16
+  bm_TGtkPreview_expand* = 0x0002'u16
+  bp_TGtkPreview_expand* = 1'u16
 
 proc TYPE_PREVIEW*(): GType
 proc PREVIEW*(obj: pointer): PPreview
@@ -8004,12 +8008,12 @@ proc preview_get_info*(): PPreviewInfo{.cdecl, dynlib: lib,
                                         importc: "gtk_preview_get_info".}
 proc preview_reset*(){.cdecl, dynlib: lib, importc: "gtk_preview_reset".}
 const
-  bm_TGtkProgress_show_text* = 0x0001'i16
-  bp_TGtkProgress_show_text* = 0'i16
-  bm_TGtkProgress_activity_mode* = 0x0002'i16
-  bp_TGtkProgress_activity_mode* = 1'i16
-  bm_TGtkProgress_use_text_format* = 0x0004'i16
-  bp_TGtkProgress_use_text_format* = 2'i16
+  bm_TGtkProgress_show_text* = 0x0001'u16
+  bp_TGtkProgress_show_text* = 0'u16
+  bm_TGtkProgress_activity_mode* = 0x0002'u16
+  bp_TGtkProgress_activity_mode* = 1'u16
+  bm_TGtkProgress_use_text_format* = 0x0004'u16
+  bp_TGtkProgress_use_text_format* = 2'u16
 
 proc show_text*(a: PProgress): guint
 proc set_show_text*(a: PProgress, `show_text`: guint)
@@ -8018,8 +8022,8 @@ proc set_activity_mode*(a: PProgress, `activity_mode`: guint)
 proc use_text_format*(a: PProgress): guint
 proc set_use_text_format*(a: PProgress, `use_text_format`: guint)
 const
-  bm_TGtkProgressBar_activity_dir* = 0x0001'i16
-  bp_TGtkProgressBar_activity_dir* = 0'i16
+  bm_TGtkProgressBar_activity_dir* = 0x0001'u16
+  bp_TGtkProgressBar_activity_dir* = 0'u16
 
 proc TYPE_PROGRESS_BAR*(): GType
 proc PROGRESS_BAR*(obj: pointer): PProgressBar
@@ -8095,18 +8099,18 @@ proc item_get_group*(radio_menu_item: PRadioMenuItem): PGSList{.
 proc item_set_group*(radio_menu_item: PRadioMenuItem, group: PGSList){.
     cdecl, dynlib: lib, importc: "gtk_radio_menu_item_set_group".}
 const
-  bm_TGtkScrolledWindow_hscrollbar_policy* = 0x0003'i16
-  bp_TGtkScrolledWindow_hscrollbar_policy* = 0'i16
-  bm_TGtkScrolledWindow_vscrollbar_policy* = 0x000C'i16
-  bp_TGtkScrolledWindow_vscrollbar_policy* = 2'i16
-  bm_TGtkScrolledWindow_hscrollbar_visible* = 0x0010'i16
-  bp_TGtkScrolledWindow_hscrollbar_visible* = 4'i16
-  bm_TGtkScrolledWindow_vscrollbar_visible* = 0x0020'i16
-  bp_TGtkScrolledWindow_vscrollbar_visible* = 5'i16
-  bm_TGtkScrolledWindow_window_placement* = 0x00C0'i16
-  bp_TGtkScrolledWindow_window_placement* = 6'i16
-  bm_TGtkScrolledWindow_focus_out* = 0x0100'i16
-  bp_TGtkScrolledWindow_focus_out* = 8'i16
+  bm_TGtkScrolledWindow_hscrollbar_policy* = 0x0003'u16
+  bp_TGtkScrolledWindow_hscrollbar_policy* = 0'u16
+  bm_TGtkScrolledWindow_vscrollbar_policy* = 0x000C'u16
+  bp_TGtkScrolledWindow_vscrollbar_policy* = 2'u16
+  bm_TGtkScrolledWindow_hscrollbar_visible* = 0x0010'u16
+  bp_TGtkScrolledWindow_hscrollbar_visible* = 4'u16
+  bm_TGtkScrolledWindow_vscrollbar_visible* = 0x0020'u16
+  bp_TGtkScrolledWindow_vscrollbar_visible* = 5'u16
+  bm_TGtkScrolledWindow_window_placement* = 0x00C0'u16
+  bp_TGtkScrolledWindow_window_placement* = 6'u16
+  bm_TGtkScrolledWindow_focus_out* = 0x0100'u16
+  bp_TGtkScrolledWindow_focus_out* = 8'u16
 
 proc TYPE_SCROLLED_WINDOW*(): GType
 proc SCROLLED_WINDOW*(obj: pointer): PScrolledWindow
@@ -8233,10 +8237,10 @@ proc separator_menu_item_get_type*(): GType{.cdecl, dynlib: lib,
 proc separator_menu_item_new*(): PSeparatorMenuItem{.cdecl, dynlib: lib,
     importc: "gtk_separator_menu_item_new".}
 const
-  bm_TGtkSizeGroup_have_width* = 0x0001'i16
-  bp_TGtkSizeGroup_have_width* = 0'i16
-  bm_TGtkSizeGroup_have_height* = 0x0002'i16
-  bp_TGtkSizeGroup_have_height* = 1'i16
+  bm_TGtkSizeGroup_have_width* = 0x0001'u16
+  bp_TGtkSizeGroup_have_width* = 0'u16
+  bm_TGtkSizeGroup_have_height* = 0x0002'u16
+  bp_TGtkSizeGroup_have_height* = 1'u16
 
 proc TYPE_SIZE_GROUP*(): GType
 proc SIZE_GROUP*(obj: pointer): PSizeGroup
@@ -8268,16 +8272,16 @@ proc size_group_compute_requisition*(widget: PWidget, requisition: PRequisition)
 proc size_group_queue_resize*(widget: PWidget){.cdecl, dynlib: lib,
     importc: "_gtk_size_group_queue_resize".}
 const
-  bm_TGtkSocket_same_app* = 0x0001'i16
-  bp_TGtkSocket_same_app* = 0'i16
-  bm_TGtkSocket_focus_in* = 0x0002'i16
-  bp_TGtkSocket_focus_in* = 1'i16
-  bm_TGtkSocket_have_size* = 0x0004'i16
-  bp_TGtkSocket_have_size* = 2'i16
-  bm_TGtkSocket_need_map* = 0x0008'i16
-  bp_TGtkSocket_need_map* = 3'i16
-  bm_TGtkSocket_is_mapped* = 0x0010'i16
-  bp_TGtkSocket_is_mapped* = 4'i16
+  bm_TGtkSocket_same_app* = 0x0001'u16
+  bp_TGtkSocket_same_app* = 0'u16
+  bm_TGtkSocket_focus_in* = 0x0002'u16
+  bp_TGtkSocket_focus_in* = 1'u16
+  bm_TGtkSocket_have_size* = 0x0004'u16
+  bp_TGtkSocket_have_size* = 2'u16
+  bm_TGtkSocket_need_map* = 0x0008'u16
+  bp_TGtkSocket_need_map* = 3'u16
+  bm_TGtkSocket_is_mapped* = 0x0010'u16
+  bp_TGtkSocket_is_mapped* = 4'u16
 
 proc TYPE_SOCKET*(): GType
 proc SOCKET*(obj: pointer): PSocket
@@ -8304,24 +8308,24 @@ proc get_id*(socket: PSocket): gdk2.TNativeWindow{.cdecl, dynlib: lib,
     importc: "gtk_socket_get_id".}
 const
   INPUT_ERROR* = - (1)
-  bm_TGtkSpinButton_in_child* = 0x00000003'i32
-  bp_TGtkSpinButton_in_child* = 0'i32
-  bm_TGtkSpinButton_click_child* = 0x0000000C'i32
-  bp_TGtkSpinButton_click_child* = 2'i32
-  bm_TGtkSpinButton_button* = 0x00000030'i32
-  bp_TGtkSpinButton_button* = 4'i32
-  bm_TGtkSpinButton_need_timer* = 0x00000040'i32
-  bp_TGtkSpinButton_need_timer* = 6'i32
-  bm_TGtkSpinButton_timer_calls* = 0x00000380'i32
-  bp_TGtkSpinButton_timer_calls* = 7'i32
-  bm_TGtkSpinButton_digits* = 0x000FFC00'i32
-  bp_TGtkSpinButton_digits* = 10'i32
-  bm_TGtkSpinButton_numeric* = 0x00100000'i32
-  bp_TGtkSpinButton_numeric* = 20'i32
-  bm_TGtkSpinButton_wrap* = 0x00200000'i32
-  bp_TGtkSpinButton_wrap* = 21'i32
-  bm_TGtkSpinButton_snap_to_ticks* = 0x00400000'i32
-  bp_TGtkSpinButton_snap_to_ticks* = 22'i32
+  bm_TGtkSpinButton_in_child* = 0x00000003'u32
+  bp_TGtkSpinButton_in_child* = 0'u32
+  bm_TGtkSpinButton_click_child* = 0x0000000C'u32
+  bp_TGtkSpinButton_click_child* = 2'u32
+  bm_TGtkSpinButton_button* = 0x00000030'u32
+  bp_TGtkSpinButton_button* = 4'u32
+  bm_TGtkSpinButton_need_timer* = 0x00000040'u32
+  bp_TGtkSpinButton_need_timer* = 6'u32
+  bm_TGtkSpinButton_timer_calls* = 0x00000380'u32
+  bp_TGtkSpinButton_timer_calls* = 7'u32
+  bm_TGtkSpinButton_digits* = 0x000FFC00'u32
+  bp_TGtkSpinButton_digits* = 10'u32
+  bm_TGtkSpinButton_numeric* = 0x00100000'u32
+  bp_TGtkSpinButton_numeric* = 20'u32
+  bm_TGtkSpinButton_wrap* = 0x00200000'u32
+  bp_TGtkSpinButton_wrap* = 21'u32
+  bm_TGtkSpinButton_snap_to_ticks* = 0x00400000'u32
+  bp_TGtkSpinButton_snap_to_ticks* = 22'u32
 
 proc TYPE_SPIN_BUTTON*(): GType
 proc SPIN_BUTTON*(obj: pointer): PSpinButton
@@ -8508,8 +8512,8 @@ proc IS_STATUSBAR*(obj: pointer): bool
 proc IS_STATUSBAR_CLASS*(klass: pointer): bool
 proc STATUSBAR_GET_CLASS*(obj: pointer): PStatusbarClass
 const
-  bm_TGtkStatusbar_has_resize_grip* = 0x0001'i16
-  bp_TGtkStatusbar_has_resize_grip* = 0'i16
+  bm_TGtkStatusbar_has_resize_grip* = 0x0001'u16
+  bp_TGtkStatusbar_has_resize_grip* = 0'u16
 
 proc has_resize_grip*(a: PStatusbar): guint
 proc set_has_resize_grip*(a: PStatusbar, `has_resize_grip`: guint)
@@ -8532,30 +8536,30 @@ proc set_has_resize_grip*(statusbar: PStatusbar, setting: gboolean){.
 proc get_has_resize_grip*(statusbar: PStatusbar): gboolean{.cdecl,
     dynlib: lib, importc: "gtk_statusbar_get_has_resize_grip".}
 const
-  bm_TGtkTable_homogeneous* = 0x0001'i16
-  bp_TGtkTable_homogeneous* = 0'i16
-  bm_TGtkTableChild_xexpand* = 0x0001'i16
-  bp_TGtkTableChild_xexpand* = 0'i16
-  bm_TGtkTableChild_yexpand* = 0x0002'i16
-  bp_TGtkTableChild_yexpand* = 1'i16
-  bm_TGtkTableChild_xshrink* = 0x0004'i16
-  bp_TGtkTableChild_xshrink* = 2'i16
-  bm_TGtkTableChild_yshrink* = 0x0008'i16
-  bp_TGtkTableChild_yshrink* = 3'i16
-  bm_TGtkTableChild_xfill* = 0x0010'i16
-  bp_TGtkTableChild_xfill* = 4'i16
-  bm_TGtkTableChild_yfill* = 0x0020'i16
-  bp_TGtkTableChild_yfill* = 5'i16
-  bm_TGtkTableRowCol_need_expand* = 0x0001'i16
-  bp_TGtkTableRowCol_need_expand* = 0'i16
-  bm_TGtkTableRowCol_need_shrink* = 0x0002'i16
-  bp_TGtkTableRowCol_need_shrink* = 1'i16
-  bm_TGtkTableRowCol_expand* = 0x0004'i16
-  bp_TGtkTableRowCol_expand* = 2'i16
-  bm_TGtkTableRowCol_shrink* = 0x0008'i16
-  bp_TGtkTableRowCol_shrink* = 3'i16
-  bm_TGtkTableRowCol_empty* = 0x0010'i16
-  bp_TGtkTableRowCol_empty* = 4'i16
+  bm_TGtkTable_homogeneous* = 0x0001'u16
+  bp_TGtkTable_homogeneous* = 0'u16
+  bm_TGtkTableChild_xexpand* = 0x0001'u16
+  bp_TGtkTableChild_xexpand* = 0'u16
+  bm_TGtkTableChild_yexpand* = 0x0002'u16
+  bp_TGtkTableChild_yexpand* = 1'u16
+  bm_TGtkTableChild_xshrink* = 0x0004'u16
+  bp_TGtkTableChild_xshrink* = 2'u16
+  bm_TGtkTableChild_yshrink* = 0x0008'u16
+  bp_TGtkTableChild_yshrink* = 3'u16
+  bm_TGtkTableChild_xfill* = 0x0010'u16
+  bp_TGtkTableChild_xfill* = 4'u16
+  bm_TGtkTableChild_yfill* = 0x0020'u16
+  bp_TGtkTableChild_yfill* = 5'u16
+  bm_TGtkTableRowCol_need_expand* = 0x0001'u16
+  bp_TGtkTableRowCol_need_expand* = 0'u16
+  bm_TGtkTableRowCol_need_shrink* = 0x0002'u16
+  bp_TGtkTableRowCol_need_shrink* = 1'u16
+  bm_TGtkTableRowCol_expand* = 0x0004'u16
+  bp_TGtkTableRowCol_expand* = 2'u16
+  bm_TGtkTableRowCol_shrink* = 0x0008'u16
+  bp_TGtkTableRowCol_shrink* = 3'u16
+  bm_TGtkTableRowCol_empty* = 0x0010'u16
+  bp_TGtkTableRowCol_empty* = 4'u16
 
 proc TYPE_TABLE*(): GType
 proc TABLE*(obj: pointer): PTable
@@ -8622,8 +8626,8 @@ proc set_homogeneous*(table: PTable, homogeneous: gboolean){.cdecl,
 proc get_homogeneous*(table: PTable): gboolean{.cdecl, dynlib: lib,
     importc: "gtk_table_get_homogeneous".}
 const
-  bm_TGtkTearoffMenuItem_torn_off* = 0x0001'i16
-  bp_TGtkTearoffMenuItem_torn_off* = 0'i16
+  bm_TGtkTearoffMenuItem_torn_off* = 0x0001'u16
+  bp_TGtkTearoffMenuItem_torn_off* = 0'u16
 
 proc TYPE_TEAROFF_MENU_ITEM*(): GType
 proc TEAROFF_MENU_ITEM*(obj: pointer): PTearoffMenuItem
@@ -8638,12 +8642,12 @@ proc tearoff_menu_item_get_type*(): TType{.cdecl, dynlib: lib,
 proc tearoff_menu_item_new*(): PTearoffMenuItem{.cdecl, dynlib: lib,
     importc: "gtk_tearoff_menu_item_new".}
 const
-  bm_TGtkText_line_wrap* = 0x0001'i16
-  bp_TGtkText_line_wrap* = 0'i16
-  bm_TGtkText_word_wrap* = 0x0002'i16
-  bp_TGtkText_word_wrap* = 1'i16
-  bm_TGtkText_use_wchar* = 0x0004'i16
-  bp_TGtkText_use_wchar* = 2'i16
+  bm_TGtkText_line_wrap* = 0x0001'u16
+  bp_TGtkText_line_wrap* = 0'u16
+  bm_TGtkText_word_wrap* = 0x0002'u16
+  bp_TGtkText_word_wrap* = 1'u16
+  bm_TGtkText_use_wchar* = 0x0004'u16
+  bp_TGtkText_use_wchar* = 2'u16
 
 proc TYPE_TEXT*(): GType
 proc TEXT*(obj: pointer): PText
@@ -8885,54 +8889,54 @@ proc reference*(values: PTextAttributes){.cdecl, dynlib: lib,
 proc text_attributes_get_type*(): GType{.cdecl, dynlib: lib,
     importc: "gtk_text_attributes_get_type".}
 const
-  bm_TGtkTextTag_bg_color_set* = 0x00000001'i32
-  bp_TGtkTextTag_bg_color_set* = 0'i32
-  bm_TGtkTextTag_bg_stipple_set* = 0x00000002'i32
-  bp_TGtkTextTag_bg_stipple_set* = 1'i32
-  bm_TGtkTextTag_fg_color_set* = 0x00000004'i32
-  bp_TGtkTextTag_fg_color_set* = 2'i32
-  bm_TGtkTextTag_scale_set* = 0x00000008'i32
-  bp_TGtkTextTag_scale_set* = 3'i32
-  bm_TGtkTextTag_fg_stipple_set* = 0x00000010'i32
-  bp_TGtkTextTag_fg_stipple_set* = 4'i32
-  bm_TGtkTextTag_justification_set* = 0x00000020'i32
-  bp_TGtkTextTag_justification_set* = 5'i32
-  bm_TGtkTextTag_left_margin_set* = 0x00000040'i32
-  bp_TGtkTextTag_left_margin_set* = 6'i32
-  bm_TGtkTextTag_indent_set* = 0x00000080'i32
-  bp_TGtkTextTag_indent_set* = 7'i32
-  bm_TGtkTextTag_rise_set* = 0x00000100'i32
-  bp_TGtkTextTag_rise_set* = 8'i32
-  bm_TGtkTextTag_strikethrough_set* = 0x00000200'i32
-  bp_TGtkTextTag_strikethrough_set* = 9'i32
-  bm_TGtkTextTag_right_margin_set* = 0x00000400'i32
-  bp_TGtkTextTag_right_margin_set* = 10'i32
-  bm_TGtkTextTag_pixels_above_lines_set* = 0x00000800'i32
-  bp_TGtkTextTag_pixels_above_lines_set* = 11'i32
-  bm_TGtkTextTag_pixels_below_lines_set* = 0x00001000'i32
-  bp_TGtkTextTag_pixels_below_lines_set* = 12'i32
-  bm_TGtkTextTag_pixels_inside_wrap_set* = 0x00002000'i32
-  bp_TGtkTextTag_pixels_inside_wrap_set* = 13'i32
-  bm_TGtkTextTag_tabs_set* = 0x00004000'i32
-  bp_TGtkTextTag_tabs_set* = 14'i32
-  bm_TGtkTextTag_underline_set* = 0x00008000'i32
-  bp_TGtkTextTag_underline_set* = 15'i32
-  bm_TGtkTextTag_wrap_mode_set* = 0x00010000'i32
-  bp_TGtkTextTag_wrap_mode_set* = 16'i32
-  bm_TGtkTextTag_bg_full_height_set* = 0x00020000'i32
-  bp_TGtkTextTag_bg_full_height_set* = 17'i32
-  bm_TGtkTextTag_invisible_set* = 0x00040000'i32
-  bp_TGtkTextTag_invisible_set* = 18'i32
-  bm_TGtkTextTag_editable_set* = 0x00080000'i32
-  bp_TGtkTextTag_editable_set* = 19'i32
-  bm_TGtkTextTag_language_set* = 0x00100000'i32
-  bp_TGtkTextTag_language_set* = 20'i32
-  bm_TGtkTextTag_pad1* = 0x00200000'i32
-  bp_TGtkTextTag_pad1* = 21'i32
-  bm_TGtkTextTag_pad2* = 0x00400000'i32
-  bp_TGtkTextTag_pad2* = 22'i32
-  bm_TGtkTextTag_pad3* = 0x00800000'i32
-  bp_TGtkTextTag_pad3* = 23'i32
+  bm_TGtkTextTag_bg_color_set* = 0x00000001'u32
+  bp_TGtkTextTag_bg_color_set* = 0'u32
+  bm_TGtkTextTag_bg_stipple_set* = 0x00000002'u32
+  bp_TGtkTextTag_bg_stipple_set* = 1'u32
+  bm_TGtkTextTag_fg_color_set* = 0x00000004'u32
+  bp_TGtkTextTag_fg_color_set* = 2'u32
+  bm_TGtkTextTag_scale_set* = 0x00000008'u32
+  bp_TGtkTextTag_scale_set* = 3'u32
+  bm_TGtkTextTag_fg_stipple_set* = 0x00000010'u32
+  bp_TGtkTextTag_fg_stipple_set* = 4'u32
+  bm_TGtkTextTag_justification_set* = 0x00000020'u32
+  bp_TGtkTextTag_justification_set* = 5'u32
+  bm_TGtkTextTag_left_margin_set* = 0x00000040'u32
+  bp_TGtkTextTag_left_margin_set* = 6'u32
+  bm_TGtkTextTag_indent_set* = 0x00000080'u32
+  bp_TGtkTextTag_indent_set* = 7'u32
+  bm_TGtkTextTag_rise_set* = 0x00000100'u32
+  bp_TGtkTextTag_rise_set* = 8'u32
+  bm_TGtkTextTag_strikethrough_set* = 0x00000200'u32
+  bp_TGtkTextTag_strikethrough_set* = 9'u32
+  bm_TGtkTextTag_right_margin_set* = 0x00000400'u32
+  bp_TGtkTextTag_right_margin_set* = 10'u32
+  bm_TGtkTextTag_pixels_above_lines_set* = 0x00000800'u32
+  bp_TGtkTextTag_pixels_above_lines_set* = 11'u32
+  bm_TGtkTextTag_pixels_below_lines_set* = 0x00001000'u32
+  bp_TGtkTextTag_pixels_below_lines_set* = 12'u32
+  bm_TGtkTextTag_pixels_inside_wrap_set* = 0x00002000'u32
+  bp_TGtkTextTag_pixels_inside_wrap_set* = 13'u32
+  bm_TGtkTextTag_tabs_set* = 0x00004000'u32
+  bp_TGtkTextTag_tabs_set* = 14'u32
+  bm_TGtkTextTag_underline_set* = 0x00008000'u32
+  bp_TGtkTextTag_underline_set* = 15'u32
+  bm_TGtkTextTag_wrap_mode_set* = 0x00010000'u32
+  bp_TGtkTextTag_wrap_mode_set* = 16'u32
+  bm_TGtkTextTag_bg_full_height_set* = 0x00020000'u32
+  bp_TGtkTextTag_bg_full_height_set* = 17'u32
+  bm_TGtkTextTag_invisible_set* = 0x00040000'u32
+  bp_TGtkTextTag_invisible_set* = 18'u32
+  bm_TGtkTextTag_editable_set* = 0x00080000'u32
+  bp_TGtkTextTag_editable_set* = 19'u32
+  bm_TGtkTextTag_language_set* = 0x00100000'u32
+  bp_TGtkTextTag_language_set* = 20'u32
+  bm_TGtkTextTag_pad1* = 0x00200000'u32
+  bp_TGtkTextTag_pad1* = 21'u32
+  bm_TGtkTextTag_pad2* = 0x00400000'u32
+  bp_TGtkTextTag_pad2* = 22'u32
+  bm_TGtkTextTag_pad3* = 0x00800000'u32
+  bp_TGtkTextTag_pad3* = 23'u32
 
 proc bg_color_set*(a: PTextTag): guint
 proc set_bg_color_set*(a: PTextTag, `bg_color_set`: guint)
@@ -8986,24 +8990,24 @@ proc set_pad2*(a: PTextTag, `pad2`: guint)
 proc pad3*(a: PTextTag): guint
 proc set_pad3*(a: PTextTag, `pad3`: guint)
 const
-  bm_TGtkTextAppearance_underline* = 0x000F'i16
-  bp_TGtkTextAppearance_underline* = 0'i16
-  bm_TGtkTextAppearance_strikethrough* = 0x0010'i16
-  bp_TGtkTextAppearance_strikethrough* = 4'i16
-  bm_TGtkTextAppearance_draw_bg* = 0x0020'i16
-  bp_TGtkTextAppearance_draw_bg* = 5'i16
-  bm_TGtkTextAppearance_inside_selection* = 0x0040'i16
-  bp_TGtkTextAppearance_inside_selection* = 6'i16
-  bm_TGtkTextAppearance_is_text* = 0x0080'i16
-  bp_TGtkTextAppearance_is_text* = 7'i16
-  bm_TGtkTextAppearance_pad1* = 0x0100'i16
-  bp_TGtkTextAppearance_pad1* = 8'i16
-  bm_TGtkTextAppearance_pad2* = 0x0200'i16
-  bp_TGtkTextAppearance_pad2* = 9'i16
-  bm_TGtkTextAppearance_pad3* = 0x0400'i16
-  bp_TGtkTextAppearance_pad3* = 10'i16
-  bm_TGtkTextAppearance_pad4* = 0x0800'i16
-  bp_TGtkTextAppearance_pad4* = 11'i16
+  bm_TGtkTextAppearance_underline* = 0x000F'u16
+  bp_TGtkTextAppearance_underline* = 0'u16
+  bm_TGtkTextAppearance_strikethrough* = 0x0010'u16
+  bp_TGtkTextAppearance_strikethrough* = 4'u16
+  bm_TGtkTextAppearance_draw_bg* = 0x0020'u16
+  bp_TGtkTextAppearance_draw_bg* = 5'u16
+  bm_TGtkTextAppearance_inside_selection* = 0x0040'u16
+  bp_TGtkTextAppearance_inside_selection* = 6'u16
+  bm_TGtkTextAppearance_is_text* = 0x0080'u16
+  bp_TGtkTextAppearance_is_text* = 7'u16
+  bm_TGtkTextAppearance_pad1* = 0x0100'u16
+  bp_TGtkTextAppearance_pad1* = 8'u16
+  bm_TGtkTextAppearance_pad2* = 0x0200'u16
+  bp_TGtkTextAppearance_pad2* = 9'u16
+  bm_TGtkTextAppearance_pad3* = 0x0400'u16
+  bp_TGtkTextAppearance_pad3* = 10'u16
+  bm_TGtkTextAppearance_pad4* = 0x0800'u16
+  bp_TGtkTextAppearance_pad4* = 11'u16
 
 proc underline*(a: PTextAppearance): guint
 proc set_underline*(a: PTextAppearance, `underline`: guint)
@@ -9024,22 +9028,22 @@ proc set_pad3*(a: PTextAppearance, `pad3`: guint)
 proc pad4*(a: PTextAppearance): guint
 proc set_pad4*(a: PTextAppearance, `pad4`: guint)
 const
-  bm_TGtkTextAttributes_invisible* = 0x0001'i16
-  bp_TGtkTextAttributes_invisible* = 0'i16
-  bm_TGtkTextAttributes_bg_full_height* = 0x0002'i16
-  bp_TGtkTextAttributes_bg_full_height* = 1'i16
-  bm_TGtkTextAttributes_editable* = 0x0004'i16
-  bp_TGtkTextAttributes_editable* = 2'i16
-  bm_TGtkTextAttributes_realized* = 0x0008'i16
-  bp_TGtkTextAttributes_realized* = 3'i16
-  bm_TGtkTextAttributes_pad1* = 0x0010'i16
-  bp_TGtkTextAttributes_pad1* = 4'i16
-  bm_TGtkTextAttributes_pad2* = 0x0020'i16
-  bp_TGtkTextAttributes_pad2* = 5'i16
-  bm_TGtkTextAttributes_pad3* = 0x0040'i16
-  bp_TGtkTextAttributes_pad3* = 6'i16
-  bm_TGtkTextAttributes_pad4* = 0x0080'i16
-  bp_TGtkTextAttributes_pad4* = 7'i16
+  bm_TGtkTextAttributes_invisible* = 0x0001'u16
+  bp_TGtkTextAttributes_invisible* = 0'u16
+  bm_TGtkTextAttributes_bg_full_height* = 0x0002'u16
+  bp_TGtkTextAttributes_bg_full_height* = 1'u16
+  bm_TGtkTextAttributes_editable* = 0x0004'u16
+  bp_TGtkTextAttributes_editable* = 2'u16
+  bm_TGtkTextAttributes_realized* = 0x0008'u16
+  bp_TGtkTextAttributes_realized* = 3'u16
+  bm_TGtkTextAttributes_pad1* = 0x0010'u16
+  bp_TGtkTextAttributes_pad1* = 4'u16
+  bm_TGtkTextAttributes_pad2* = 0x0020'u16
+  bp_TGtkTextAttributes_pad2* = 5'u16
+  bm_TGtkTextAttributes_pad3* = 0x0040'u16
+  bp_TGtkTextAttributes_pad3* = 6'u16
+  bm_TGtkTextAttributes_pad4* = 0x0080'u16
+  bp_TGtkTextAttributes_pad4* = 7'u16
 
 proc invisible*(a: PTextAttributes): guint
 proc set_invisible*(a: PTextAttributes, `invisible`: guint)
@@ -9103,10 +9107,10 @@ proc get_buffer*(mark: PTextMark): PTextBuffer{.cdecl, dynlib: lib,
 proc get_left_gravity*(mark: PTextMark): gboolean{.cdecl, dynlib: lib,
     importc: "gtk_text_mark_get_left_gravity".}
 const
-  bm_TGtkTextMarkBody_visible* = 0x0001'i16
-  bp_TGtkTextMarkBody_visible* = 0'i16
-  bm_TGtkTextMarkBody_not_deleteable* = 0x0002'i16
-  bp_TGtkTextMarkBody_not_deleteable* = 1'i16
+  bm_TGtkTextMarkBody_visible* = 0x0001'u16
+  bp_TGtkTextMarkBody_visible* = 0'u16
+  bm_TGtkTextMarkBody_not_deleteable* = 0x0002'u16
+  bp_TGtkTextMarkBody_not_deleteable* = 1'u16
 
 proc visible*(a: PTextMarkBody): guint
 proc set_visible*(a: PTextMarkBody, `visible`: guint)
@@ -9282,15 +9286,15 @@ proc first_could_contain_tag*(tree: PTextBTree, tag: PTextTag): PTextLine{.
 proc last_could_contain_tag*(tree: PTextBTree, tag: PTextTag): PTextLine{.
     cdecl, dynlib: lib, importc: "_gtk_text_btree_last_could_contain_tag".}
 const
-  bm_TGtkTextLineData_width* = 0x00FFFFFF'i32
-  bp_TGtkTextLineData_width* = 0'i32
-  bm_TGtkTextLineData_valid* = 0xFF000000'i32
-  bp_TGtkTextLineData_valid* = 24'i32
+  bm_TGtkTextLineData_width* = 0x00FFFFFF'u32
+  bp_TGtkTextLineData_width* = 0'u32
+  bm_TGtkTextLineData_valid* = 0xFF000000'u32
+  bp_TGtkTextLineData_valid* = 24'u32
 
-proc width*(a: PTextLineData): gint
-proc set_width*(a: PTextLineData, NewWidth: gint)
-proc valid*(a: PTextLineData): gint
-proc set_valid*(a: PTextLineData, `valid`: gint)
+proc width*(a: PTextLineData): guint
+proc set_width*(a: PTextLineData, NewWidth: guint)
+proc valid*(a: PTextLineData): guint
+proc set_valid*(a: PTextLineData, `valid`: guint)
 proc get_number*(line: PTextLine): gint{.cdecl, dynlib: lib,
     importc: "_gtk_text_line_get_number".}
 proc char_has_tag*(line: PTextLine, tree: PTextBTree,
@@ -9369,8 +9373,8 @@ proc release_mark_segment*(tree: PTextBTree,
 proc notify_will_remove_tag*(tree: PTextBTree, tag: PTextTag){.cdecl,
     dynlib: lib, importc: "_gtk_text_btree_notify_will_remove_tag".}
 const
-  bm_TGtkTextBuffer_modified* = 0x0001'i16
-  bp_TGtkTextBuffer_modified* = 0'i16
+  bm_TGtkTextBuffer_modified* = 0x0001'u16
+  bp_TGtkTextBuffer_modified* = 0'u16
 
 proc TYPE_TEXT_BUFFER*(): GType
 proc TEXT_BUFFER*(obj: pointer): PTextBuffer
@@ -9544,20 +9548,20 @@ proc IS_TEXT_LAYOUT*(obj: pointer): bool
 proc IS_TEXT_LAYOUT_CLASS*(klass: pointer): bool
 proc TEXT_LAYOUT_GET_CLASS*(obj: pointer): PTextLayoutClass
 const
-  bm_TGtkTextLayout_cursor_visible* = 0x0001'i16
-  bp_TGtkTextLayout_cursor_visible* = 0'i16
-  bm_TGtkTextLayout_cursor_direction* = 0x0006'i16
-  bp_TGtkTextLayout_cursor_direction* = 1'i16
+  bm_TGtkTextLayout_cursor_visible* = 0x0001'u16
+  bp_TGtkTextLayout_cursor_visible* = 0'u16
+  bm_TGtkTextLayout_cursor_direction* = 0x0006'u16
+  bp_TGtkTextLayout_cursor_direction* = 1'u16
 
 proc cursor_visible*(a: PTextLayout): guint
 proc set_cursor_visible*(a: PTextLayout, `cursor_visible`: guint)
-proc cursor_direction*(a: PTextLayout): gint
+proc cursor_direction*(a: PTextLayout): guint
 
 const
-  bm_TGtkTextCursorDisplay_is_strong* = 0x0001'i16
-  bp_TGtkTextCursorDisplay_is_strong* = 0'i16
-  bm_TGtkTextCursorDisplay_is_weak* = 0x0002'i16
-  bp_TGtkTextCursorDisplay_is_weak* = 1'i16
+  bm_TGtkTextCursorDisplay_is_strong* = 0x0001'u16
+  bp_TGtkTextCursorDisplay_is_strong* = 0'u16
+  bm_TGtkTextCursorDisplay_is_weak* = 0x0002'u16
+  bp_TGtkTextCursorDisplay_is_weak* = 1'u16
 
 proc is_strong*(a: PTextCursorDisplay): guint
 proc set_is_strong*(a: PTextCursorDisplay, `is_strong`: guint)
@@ -9680,22 +9684,22 @@ proc text_anchored_child_set_layout*(child: PWidget, layout: PTextLayout){.
 proc spew*(layout: PTextLayout){.cdecl, dynlib: lib,
     importc: "gtk_text_layout_spew".}
 const                         # GTK_TEXT_VIEW_PRIORITY_VALIDATE* = GDK_PRIORITY_REDRAW + 5
-  bm_TGtkTextView_editable* = 0x0001'i16
-  bp_TGtkTextView_editable* = 0'i16
-  bm_TGtkTextView_overwrite_mode* = 0x0002'i16
-  bp_TGtkTextView_overwrite_mode* = 1'i16
-  bm_TGtkTextView_cursor_visible* = 0x0004'i16
-  bp_TGtkTextView_cursor_visible* = 2'i16
-  bm_TGtkTextView_need_im_reset* = 0x0008'i16
-  bp_TGtkTextView_need_im_reset* = 3'i16
-  bm_TGtkTextView_just_selected_element* = 0x0010'i16
-  bp_TGtkTextView_just_selected_element* = 4'i16
-  bm_TGtkTextView_disable_scroll_on_focus* = 0x0020'i16
-  bp_TGtkTextView_disable_scroll_on_focus* = 5'i16
-  bm_TGtkTextView_onscreen_validated* = 0x0040'i16
-  bp_TGtkTextView_onscreen_validated* = 6'i16
-  bm_TGtkTextView_mouse_cursor_obscured* = 0x0080'i16
-  bp_TGtkTextView_mouse_cursor_obscured* = 7'i16
+  bm_TGtkTextView_editable* = 0x0001'u16
+  bp_TGtkTextView_editable* = 0'u16
+  bm_TGtkTextView_overwrite_mode* = 0x0002'u16
+  bp_TGtkTextView_overwrite_mode* = 1'u16
+  bm_TGtkTextView_cursor_visible* = 0x0004'u16
+  bp_TGtkTextView_cursor_visible* = 2'u16
+  bm_TGtkTextView_need_im_reset* = 0x0008'u16
+  bp_TGtkTextView_need_im_reset* = 3'u16
+  bm_TGtkTextView_just_selected_element* = 0x0010'u16
+  bp_TGtkTextView_just_selected_element* = 4'u16
+  bm_TGtkTextView_disable_scroll_on_focus* = 0x0020'u16
+  bp_TGtkTextView_disable_scroll_on_focus* = 5'u16
+  bm_TGtkTextView_onscreen_validated* = 0x0040'u16
+  bp_TGtkTextView_onscreen_validated* = 6'u16
+  bm_TGtkTextView_mouse_cursor_obscured* = 0x0080'u16
+  bp_TGtkTextView_mouse_cursor_obscured* = 7'u16
 
 proc TYPE_TEXT_VIEW*(): GType
 proc TEXT_VIEW*(obj: pointer): PTextView
@@ -9852,10 +9856,10 @@ proc get_tabs*(text_view: PTextView): pango.PTabArray{.cdecl,
 proc get_default_attributes*(text_view: PTextView): PTextAttributes{.
     cdecl, dynlib: lib, importc: "gtk_text_view_get_default_attributes".}
 const
-  bm_TGtkTipsQuery_emit_always* = 0x0001'i16
-  bp_TGtkTipsQuery_emit_always* = 0'i16
-  bm_TGtkTipsQuery_in_query* = 0x0002'i16
-  bp_TGtkTipsQuery_in_query* = 1'i16
+  bm_TGtkTipsQuery_emit_always* = 0x0001'u16
+  bp_TGtkTipsQuery_emit_always* = 0'u16
+  bm_TGtkTipsQuery_in_query* = 0x0002'u16
+  bp_TGtkTipsQuery_in_query* = 1'u16
 
 proc TYPE_TIPS_QUERY*(): GType
 proc TIPS_QUERY*(obj: pointer): PTipsQuery
@@ -9881,14 +9885,14 @@ proc set_labels*(tips_query: PTipsQuery, label_inactive: cstring,
                             label_no_tip: cstring){.cdecl, dynlib: lib,
     importc: "gtk_tips_query_set_labels".}
 const
-  bm_TGtkTooltips_delay* = 0x3FFFFFFF'i32
-  bp_TGtkTooltips_delay* = 0'i32
-  bm_TGtkTooltips_enabled* = 0x40000000'i32
-  bp_TGtkTooltips_enabled* = 30'i32
-  bm_TGtkTooltips_have_grab* = 0x80000000'i32
-  bp_TGtkTooltips_have_grab* = 31'i32
-  bm_TGtkTooltips_use_sticky_delay* = 0x00000001'i32
-  bp_TGtkTooltips_use_sticky_delay* = 0'i32
+  bm_TGtkTooltips_delay* = 0x3FFFFFFF'u32
+  bp_TGtkTooltips_delay* = 0'u32
+  bm_TGtkTooltips_enabled* = 0x40000000'u32
+  bp_TGtkTooltips_enabled* = 30'u32
+  bm_TGtkTooltips_have_grab* = 0x80000000'u32
+  bp_TGtkTooltips_have_grab* = 31'u32
+  bm_TGtkTooltips_use_sticky_delay* = 0x00000001'u32
+  bp_TGtkTooltips_use_sticky_delay* = 0'u32
 
 proc TYPE_TOOLTIPS*(): GType
 proc TOOLTIPS*(obj: pointer): PTooltips
@@ -9921,10 +9925,10 @@ proc force_window*(tooltips: PTooltips){.cdecl, dynlib: lib,
 proc tooltips_toggle_keyboard_mode*(widget: PWidget){.cdecl, dynlib: lib,
     importc: "_gtk_tooltips_toggle_keyboard_mode".}
 const
-  bm_TGtkToolbar_style_set* = 0x0001'i16
-  bp_TGtkToolbar_style_set* = 0'i16
-  bm_TGtkToolbar_icon_size_set* = 0x0002'i16
-  bp_TGtkToolbar_icon_size_set* = 1'i16
+  bm_TGtkToolbar_style_set* = 0x0001'u16
+  bp_TGtkToolbar_style_set* = 0'u16
+  bm_TGtkToolbar_icon_size_set* = 0x0002'u16
+  bp_TGtkToolbar_icon_size_set* = 1'u16
 
 proc TYPE_TOOLBAR*(): GType
 proc TOOLBAR*(obj: pointer): PToolbar
@@ -10018,12 +10022,12 @@ proc get_icon_size*(toolbar: PToolbar): TIconSize{.cdecl, dynlib: lib,
 proc get_tooltips*(toolbar: PToolbar): gboolean{.cdecl, dynlib: lib,
     importc: "gtk_toolbar_get_tooltips".}
 const
-  bm_TGtkTree_selection_mode* = 0x0003'i16
-  bp_TGtkTree_selection_mode* = 0'i16
-  bm_TGtkTree_view_mode* = 0x0004'i16
-  bp_TGtkTree_view_mode* = 2'i16
-  bm_TGtkTree_view_line* = 0x0008'i16
-  bp_TGtkTree_view_line* = 3'i16
+  bm_TGtkTree_selection_mode* = 0x0003'u16
+  bp_TGtkTree_selection_mode* = 0'u16
+  bm_TGtkTree_view_mode* = 0x0004'u16
+  bp_TGtkTree_view_mode* = 2'u16
+  bm_TGtkTree_view_line* = 0x0008'u16
+  bp_TGtkTree_view_line* = 3'u16
 
 proc TYPE_TREE*(): GType
 proc TREE*(obj: pointer): PTree
@@ -10104,8 +10108,8 @@ proc tree_set_row_drag_data*(selection_data: PSelectionData,
                              tree_model: PTreeModel, path: PTreePath): gboolean{.
     cdecl, dynlib: lib, importc: "gtk_tree_set_row_drag_data".}
 const
-  bm_TGtkTreeItem_expanded* = 0x0001'i16
-  bp_TGtkTreeItem_expanded* = 0'i16
+  bm_TGtkTreeItem_expanded* = 0x0001'u16
+  bp_TGtkTreeItem_expanded* = 0'u16
 
 proc TYPE_TREE_ITEM*(): GType
 proc TREE_ITEM*(obj: pointer): PTreeItem
@@ -10183,8 +10187,8 @@ proc select_range*(selection: PTreeSelection,
                                   start_path: PTreePath, end_path: PTreePath){.
     cdecl, dynlib: lib, importc: "gtk_tree_selection_select_range".}
 const
-  bm_TGtkTreeStore_columns_dirty* = 0x0001'i16
-  bp_TGtkTreeStore_columns_dirty* = 0'i16
+  bm_TGtkTreeStore_columns_dirty* = 0x0001'u16
+  bp_TGtkTreeStore_columns_dirty* = 0'u16
 
 proc TYPE_TREE_STORE*(): GType
 proc TREE_STORE*(obj: pointer): PTreeStore
@@ -10229,22 +10233,22 @@ proc iter_depth*(tree_store: PTreeStore, iter: PTreeIter): gint{.
 proc clear*(tree_store: PTreeStore){.cdecl, dynlib: lib,
     importc: "gtk_tree_store_clear".}
 const
-  bm_TGtkTreeViewColumn_visible* = 0x0001'i16
-  bp_TGtkTreeViewColumn_visible* = 0'i16
-  bm_TGtkTreeViewColumn_resizable* = 0x0002'i16
-  bp_TGtkTreeViewColumn_resizable* = 1'i16
-  bm_TGtkTreeViewColumn_clickable* = 0x0004'i16
-  bp_TGtkTreeViewColumn_clickable* = 2'i16
-  bm_TGtkTreeViewColumn_dirty* = 0x0008'i16
-  bp_TGtkTreeViewColumn_dirty* = 3'i16
-  bm_TGtkTreeViewColumn_show_sort_indicator* = 0x0010'i16
-  bp_TGtkTreeViewColumn_show_sort_indicator* = 4'i16
-  bm_TGtkTreeViewColumn_maybe_reordered* = 0x0020'i16
-  bp_TGtkTreeViewColumn_maybe_reordered* = 5'i16
-  bm_TGtkTreeViewColumn_reorderable* = 0x0040'i16
-  bp_TGtkTreeViewColumn_reorderable* = 6'i16
-  bm_TGtkTreeViewColumn_use_resized_width* = 0x0080'i16
-  bp_TGtkTreeViewColumn_use_resized_width* = 7'i16
+  bm_TGtkTreeViewColumn_visible* = 0x0001'u16
+  bp_TGtkTreeViewColumn_visible* = 0'u16
+  bm_TGtkTreeViewColumn_resizable* = 0x0002'u16
+  bp_TGtkTreeViewColumn_resizable* = 1'u16
+  bm_TGtkTreeViewColumn_clickable* = 0x0004'u16
+  bp_TGtkTreeViewColumn_clickable* = 2'u16
+  bm_TGtkTreeViewColumn_dirty* = 0x0008'u16
+  bp_TGtkTreeViewColumn_dirty* = 3'u16
+  bm_TGtkTreeViewColumn_show_sort_indicator* = 0x0010'u16
+  bp_TGtkTreeViewColumn_show_sort_indicator* = 4'u16
+  bm_TGtkTreeViewColumn_maybe_reordered* = 0x0020'u16
+  bp_TGtkTreeViewColumn_maybe_reordered* = 5'u16
+  bm_TGtkTreeViewColumn_reorderable* = 0x0040'u16
+  bp_TGtkTreeViewColumn_reorderable* = 6'u16
+  bm_TGtkTreeViewColumn_use_resized_width* = 0x0080'u16
+  bp_TGtkTreeViewColumn_use_resized_width* = 7'u16
 
 proc TYPE_TREE_VIEW_COLUMN*(): GType
 proc TREE_VIEW_COLUMN*(obj: pointer): PTreeViewColumn
@@ -10403,10 +10407,10 @@ const
       RBNODE_INVALID or RBNODE_COLUMN_INVALID or RBNODE_DESCENDANTS_INVALID
 
 const
-  bm_TGtkRBNode_flags* = 0x3FFF'i16
-  bp_TGtkRBNode_flags* = 0'i16
-  bm_TGtkRBNode_parity* = 0x4000'i16
-  bp_TGtkRBNode_parity* = 14'i16
+  bm_TGtkRBNode_flags* = 0x3FFF'u16
+  bp_TGtkRBNode_flags* = 0'u16
+  bm_TGtkRBNode_parity* = 0x4000'u16
+  bp_TGtkRBNode_parity* = 14'u16
 
 proc flags*(a: PRBNode): guint
 proc set_flags*(a: PRBNode, `flags`: guint)
@@ -10490,24 +10494,24 @@ proc COLUMN_REQUESTED_WIDTH*(column: PTreeViewColumn): int32
 proc DRAW_EXPANDERS*(tree_view: PTreeView): bool
 proc COLUMN_DRAG_DEAD_MULTIPLIER*(tree_view: PTreeView): int32
 const
-  bm_TGtkTreeViewPrivate_scroll_to_use_align* = 0x0001'i16
-  bp_TGtkTreeViewPrivate_scroll_to_use_align* = 0'i16
-  bm_TGtkTreeViewPrivate_fixed_height_check* = 0x0002'i16
-  bp_TGtkTreeViewPrivate_fixed_height_check* = 1'i16
-  bm_TGtkTreeViewPrivate_reorderable* = 0x0004'i16
-  bp_TGtkTreeViewPrivate_reorderable* = 2'i16
-  bm_TGtkTreeViewPrivate_header_has_focus* = 0x0008'i16
-  bp_TGtkTreeViewPrivate_header_has_focus* = 3'i16
-  bm_TGtkTreeViewPrivate_drag_column_window_state* = 0x0070'i16
-  bp_TGtkTreeViewPrivate_drag_column_window_state* = 4'i16
-  bm_TGtkTreeViewPrivate_has_rules* = 0x0080'i16
-  bp_TGtkTreeViewPrivate_has_rules* = 7'i16
-  bm_TGtkTreeViewPrivate_mark_rows_col_dirty* = 0x0100'i16
-  bp_TGtkTreeViewPrivate_mark_rows_col_dirty* = 8'i16
-  bm_TGtkTreeViewPrivate_enable_search* = 0x0200'i16
-  bp_TGtkTreeViewPrivate_enable_search* = 9'i16
-  bm_TGtkTreeViewPrivate_disable_popdown* = 0x0400'i16
-  bp_TGtkTreeViewPrivate_disable_popdown* = 10'i16
+  bm_TGtkTreeViewPrivate_scroll_to_use_align* = 0x0001'u16
+  bp_TGtkTreeViewPrivate_scroll_to_use_align* = 0'u16
+  bm_TGtkTreeViewPrivate_fixed_height_check* = 0x0002'u16
+  bp_TGtkTreeViewPrivate_fixed_height_check* = 1'u16
+  bm_TGtkTreeViewPrivate_reorderable* = 0x0004'u16
+  bp_TGtkTreeViewPrivate_reorderable* = 2'u16
+  bm_TGtkTreeViewPrivate_header_has_focus* = 0x0008'u16
+  bp_TGtkTreeViewPrivate_header_has_focus* = 3'u16
+  bm_TGtkTreeViewPrivate_drag_column_window_state* = 0x0070'u16
+  bp_TGtkTreeViewPrivate_drag_column_window_state* = 4'u16
+  bm_TGtkTreeViewPrivate_has_rules* = 0x0080'u16
+  bp_TGtkTreeViewPrivate_has_rules* = 7'u16
+  bm_TGtkTreeViewPrivate_mark_rows_col_dirty* = 0x0100'u16
+  bp_TGtkTreeViewPrivate_mark_rows_col_dirty* = 8'u16
+  bm_TGtkTreeViewPrivate_enable_search* = 0x0200'u16
+  bp_TGtkTreeViewPrivate_enable_search* = 9'u16
+  bm_TGtkTreeViewPrivate_disable_popdown* = 0x0400'u16
+  bp_TGtkTreeViewPrivate_disable_popdown* = 10'u16
 
 proc scroll_to_use_align*(a: PTreeViewPrivate): guint
 proc set_scroll_to_use_align*(a: PTreeViewPrivate,
@@ -10882,7 +10886,7 @@ proc OBJECT_FLAGS*(obj: pointer): guint32 =
   result = (gtk2.`OBJECT`(obj)).flags
 
 proc OBJECT_FLOATING*(obj: pointer): gboolean =
-  result = ((OBJECT_FLAGS(obj)) and cint(FLOATING)) != 0'i32
+  result = ((OBJECT_FLAGS(obj)) and guint32(FLOATING)) != 0'u32
 
 proc OBJECT_SET_FLAGS*(obj: pointer, flag: guint32) =
   gtk2.`OBJECT`(obj).flags = gtk2.`OBJECT`(obj).flags or flag
@@ -11072,71 +11076,71 @@ proc WIDGET_GET_CLASS*(obj: pointer): PWidgetClass =
 proc WIDGET_TYPE*(wid: pointer): GType =
   result = OBJECT_TYPE(wid)
 
-proc WIDGET_STATE*(wid: pointer): int32 =
+proc WIDGET_STATE*(wid: pointer): uint32 =
   result = (WIDGET(wid)).state
 
-proc WIDGET_SAVED_STATE*(wid: pointer): int32 =
+proc WIDGET_SAVED_STATE*(wid: pointer): uint32 =
   result = (WIDGET(wid)).saved_state
 
 proc WIDGET_FLAGS*(wid: pointer): guint32 =
   result = OBJECT_FLAGS(wid)
 
 proc WIDGET_TOPLEVEL*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(TOPLEVEL)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(TOPLEVEL)) != 0'u32
 
 proc WIDGET_NO_WINDOW*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(NO_WINDOW)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(NO_WINDOW)) != 0'u32
 
 proc WIDGET_REALIZED*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(constREALIZED)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(constREALIZED)) != 0'u32
 
 proc WIDGET_MAPPED*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(MAPPED)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(MAPPED)) != 0'u32
 
 proc WIDGET_VISIBLE*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(constVISIBLE)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(constVISIBLE)) != 0'u32
 
 proc WIDGET_DRAWABLE*(wid: pointer): gboolean =
   result = (WIDGET_VISIBLE(wid)) and (WIDGET_MAPPED(wid))
 
 proc WIDGET_SENSITIVE*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(SENSITIVE)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(SENSITIVE)) != 0'u32
 
 proc WIDGET_PARENT_SENSITIVE*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(PARENT_SENSITIVE)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(PARENT_SENSITIVE)) != 0'u32
 
 proc WIDGET_IS_SENSITIVE*(wid: pointer): gboolean =
   result = (WIDGET_SENSITIVE(wid)) and (WIDGET_PARENT_SENSITIVE(wid))
 
 proc WIDGET_CAN_FOCUS*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(CAN_FOCUS)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(CAN_FOCUS)) != 0'u32
 
 proc WIDGET_HAS_FOCUS*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(constHAS_FOCUS)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(constHAS_FOCUS)) != 0'u32
 
 proc WIDGET_CAN_DEFAULT*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(CAN_DEFAULT)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(CAN_DEFAULT)) != 0'u32
 
 proc WIDGET_HAS_DEFAULT*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(HAS_DEFAULT)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(HAS_DEFAULT)) != 0'u32
 
 proc WIDGET_HAS_GRAB*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(HAS_GRAB)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(HAS_GRAB)) != 0'u32
 
 proc WIDGET_RC_STYLE*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(RC_STYLE)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(RC_STYLE)) != 0'u32
 
 proc WIDGET_COMPOSITE_CHILD*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(COMPOSITE_CHILD)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(COMPOSITE_CHILD)) != 0'u32
 
 proc WIDGET_APP_PAINTABLE*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(APP_PAINTABLE)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(APP_PAINTABLE)) != 0'u32
 
 proc WIDGET_RECEIVES_DEFAULT*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(RECEIVES_DEFAULT)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(RECEIVES_DEFAULT)) != 0'u32
 
 proc WIDGET_DOUBLE_BUFFERED*(wid: pointer): gboolean =
-  result = ((WIDGET_FLAGS(wid)) and cint(DOUBLE_BUFFERED)) != 0'i32
+  result = ((WIDGET_FLAGS(wid)) and uint32(DOUBLE_BUFFERED)) != 0'u32
 
 proc TYPE_REQUISITION*(): GType =
   result = requisition_get_type()
@@ -11147,16 +11151,16 @@ proc x_set*(a: PWidgetAuxInfo): guint =
 
 proc set_x_set*(a: PWidgetAuxInfo, `x_set`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`x_set` shl bp_TGtkWidgetAuxInfo_x_set) and
+      (uint16(`x_set` shl bp_TGtkWidgetAuxInfo_x_set) and
       bm_TGtkWidgetAuxInfo_x_set)
 
 proc y_set*(a: PWidgetAuxInfo): guint =
-  result = (a.flag0 and bm_TGtkWidgetAuxInfo_y_set) shr
-      bp_TGtkWidgetAuxInfo_y_set
+  result = ((a.flag0 and bm_TGtkWidgetAuxInfo_y_set) shr
+      bp_TGtkWidgetAuxInfo_y_set).guint
 
 proc set_y_set*(a: PWidgetAuxInfo, `y_set`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`y_set` shl bp_TGtkWidgetAuxInfo_y_set) and
+      (uint16(`y_set` shl bp_TGtkWidgetAuxInfo_y_set) and
       bm_TGtkWidgetAuxInfo_y_set)
 
 proc widget_set_visual*(widget, visual: pointer) =
@@ -11230,7 +11234,7 @@ proc accel_flags*(a: PAccelKey): guint =
 
 proc set_accel_flags*(a: PAccelKey, `accel_flags`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`accel_flags` shl bp_TGtkAccelKey_accel_flags) and
+      (uint16(`accel_flags` shl bp_TGtkAccelKey_accel_flags) and
       bm_TGtkAccelKey_accel_flags)
 
 proc reference*(AccelGroup: PAccelGroup) =
@@ -11259,7 +11263,7 @@ proc CONTAINER_GET_CLASS*(obj: pointer): PContainerClass =
 
 proc IS_RESIZE_CONTAINER*(widget: pointer): bool =
   result = (IS_CONTAINER(widget)) and
-      ((resize_mode(cast[PContainer](widget))) != cint(RESIZE_PARENT))
+      ((resize_mode(cast[PContainer](widget))) != uint32(RESIZE_PARENT))
 
 proc border_width*(a: PContainer): guint =
   result = (a.Container_flag0 and bm_TGtkContainer_border_width) shr
@@ -11536,31 +11540,31 @@ proc jtype*(a: PLabel): guint =
 
 proc set_jtype*(a: PLabel, `jtype`: guint) =
   a.Labelflag0 = a.Labelflag0 or
-      (int16(`jtype` shl bp_TGtkLabel_jtype) and bm_TGtkLabel_jtype)
+      (uint16(`jtype` shl bp_TGtkLabel_jtype) and bm_TGtkLabel_jtype)
 
 proc wrap*(a: PLabel): guint =
-  result = (a.Labelflag0 and bm_TGtkLabel_wrap) shr bp_TGtkLabel_wrap
+  result = ((a.Labelflag0 and bm_TGtkLabel_wrap) shr bp_TGtkLabel_wrap).guint
 
 proc set_wrap*(a: PLabel, `wrap`: guint) =
   a.Labelflag0 = a.Labelflag0 or
-      (int16(`wrap` shl bp_TGtkLabel_wrap) and bm_TGtkLabel_wrap)
+      (uint16(`wrap` shl bp_TGtkLabel_wrap) and bm_TGtkLabel_wrap)
 
 proc use_underline*(a: PLabel): guint =
-  result = (a.Labelflag0 and bm_TGtkLabel_use_underline) shr
-      bp_TGtkLabel_use_underline
+  result = ((a.Labelflag0 and bm_TGtkLabel_use_underline) shr
+      bp_TGtkLabel_use_underline).guint
 
 proc set_use_underline*(a: PLabel, `use_underline`: guint) =
   a.Labelflag0 = a.Labelflag0 or
-      (int16(`use_underline` shl bp_TGtkLabel_use_underline) and
+      (uint16(`use_underline` shl bp_TGtkLabel_use_underline) and
       bm_TGtkLabel_use_underline)
 
 proc use_markup*(a: PLabel): guint =
-  result = (a.Labelflag0 and bm_TGtkLabel_use_markup) shr
-      bp_TGtkLabel_use_markup
+  result = ((a.Labelflag0 and bm_TGtkLabel_use_markup) shr
+      bp_TGtkLabel_use_markup).guint
 
 proc set_use_markup*(a: PLabel, `use_markup`: guint) =
   a.Labelflag0 = a.Labelflag0 or
-      (int16(`use_markup` shl bp_TGtkLabel_use_markup) and
+      (uint16(`use_markup` shl bp_TGtkLabel_use_markup) and
       bm_TGtkLabel_use_markup)
 
 proc TYPE_ACCEL_LABEL*(): GType =
@@ -11587,7 +11591,7 @@ proc latin1_to_char*(a: PAccelLabelClass): guint =
 
 proc set_latin1_to_char*(a: PAccelLabelClass, `latin1_to_char`: guint) =
   a.AccelLabelClassflag0 = a.AccelLabelClassflag0 or
-      (int16(`latin1_to_char` shl bp_TGtkAccelLabelClass_latin1_to_char) and
+      (uint16(`latin1_to_char` shl bp_TGtkAccelLabelClass_latin1_to_char) and
       bm_TGtkAccelLabelClass_latin1_to_char)
 
 proc accelerator_width*(accel_label: PAccelLabel): guint =
@@ -11707,7 +11711,7 @@ proc parsed*(a: PBindingSet): guint =
 
 proc set_parsed*(a: PBindingSet, `parsed`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`parsed` shl bp_TGtkBindingSet_parsed) and
+      (uint16(`parsed` shl bp_TGtkBindingSet_parsed) and
       bm_TGtkBindingSet_parsed)
 
 proc destroyed*(a: PBindingEntry): guint =
@@ -11716,16 +11720,16 @@ proc destroyed*(a: PBindingEntry): guint =
 
 proc set_destroyed*(a: PBindingEntry, `destroyed`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`destroyed` shl bp_TGtkBindingEntry_destroyed) and
+      (uint16(`destroyed` shl bp_TGtkBindingEntry_destroyed) and
       bm_TGtkBindingEntry_destroyed)
 
 proc in_emission*(a: PBindingEntry): guint =
-  result = (a.flag0 and bm_TGtkBindingEntry_in_emission) shr
-      bp_TGtkBindingEntry_in_emission
+  result = ((a.flag0 and bm_TGtkBindingEntry_in_emission) shr
+      bp_TGtkBindingEntry_in_emission).guint
 
 proc set_in_emission*(a: PBindingEntry, `in_emission`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`in_emission` shl bp_TGtkBindingEntry_in_emission) and
+      (uint16(`in_emission` shl bp_TGtkBindingEntry_in_emission) and
       bm_TGtkBindingEntry_in_emission)
 
 proc entry_add*(binding_set: PBindingSet, keyval: guint,
@@ -11755,7 +11759,7 @@ proc homogeneous*(a: PBox): guint =
 
 proc set_homogeneous*(a: PBox, `homogeneous`: guint) =
   a.box_flag0 = a.box_flag0 or
-      (int16(`homogeneous` shl bp_TGtkBox_homogeneous) and
+      (uint16(`homogeneous` shl bp_TGtkBox_homogeneous) and
       bm_TGtkBox_homogeneous)
 
 proc expand*(a: PBoxChild): guint =
@@ -11763,29 +11767,29 @@ proc expand*(a: PBoxChild): guint =
 
 proc set_expand*(a: PBoxChild, `expand`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`expand` shl bp_TGtkBoxChild_expand) and bm_TGtkBoxChild_expand)
+      (uint16(`expand` shl bp_TGtkBoxChild_expand) and bm_TGtkBoxChild_expand)
 
 proc fill*(a: PBoxChild): guint =
-  result = (a.flag0 and bm_TGtkBoxChild_fill) shr bp_TGtkBoxChild_fill
+  result = ((a.flag0 and bm_TGtkBoxChild_fill) shr bp_TGtkBoxChild_fill).guint
 
 proc set_fill*(a: PBoxChild, `fill`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`fill` shl bp_TGtkBoxChild_fill) and bm_TGtkBoxChild_fill)
+      (uint16(`fill` shl bp_TGtkBoxChild_fill) and bm_TGtkBoxChild_fill)
 
 proc pack*(a: PBoxChild): guint =
-  result = (a.flag0 and bm_TGtkBoxChild_pack) shr bp_TGtkBoxChild_pack
+  result = ((a.flag0 and bm_TGtkBoxChild_pack) shr bp_TGtkBoxChild_pack).guint
 
 proc set_pack*(a: PBoxChild, `pack`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`pack` shl bp_TGtkBoxChild_pack) and bm_TGtkBoxChild_pack)
+      (uint16(`pack` shl bp_TGtkBoxChild_pack) and bm_TGtkBoxChild_pack)
 
 proc is_secondary*(a: PBoxChild): guint =
-  result = (a.flag0 and bm_TGtkBoxChild_is_secondary) shr
-      bp_TGtkBoxChild_is_secondary
+  result = ((a.flag0 and bm_TGtkBoxChild_is_secondary) shr
+      bp_TGtkBoxChild_is_secondary).guint
 
 proc set_is_secondary*(a: PBoxChild, `is_secondary`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`is_secondary` shl bp_TGtkBoxChild_is_secondary) and
+      (uint16(`is_secondary` shl bp_TGtkBoxChild_is_secondary) and
       bm_TGtkBoxChild_is_secondary)
 
 proc TYPE_BUTTON_BOX*(): GType =
@@ -11836,64 +11840,64 @@ proc constructed*(a: PButton): guint =
 
 proc set_constructed*(a: PButton, `constructed`: guint) =
   a.button_flag0 = a.button_flag0 or
-      (int16(`constructed` shl bp_TGtkButton_constructed) and
+      (uint16(`constructed` shl bp_TGtkButton_constructed) and
       bm_TGtkButton_constructed)
 
 proc in_button*(a: PButton): guint =
-  result = (a.button_flag0 and bm_TGtkButton_in_button) shr
-      bp_TGtkButton_in_button
+  result = ((a.button_flag0 and bm_TGtkButton_in_button) shr
+      bp_TGtkButton_in_button).guint
 
 proc set_in_button*(a: PButton, `in_button`: guint) =
   a.button_flag0 = a.button_flag0 or
-      (int16(`in_button` shl bp_TGtkButton_in_button) and
+      (uint16(`in_button` shl bp_TGtkButton_in_button) and
       bm_TGtkButton_in_button)
 
 proc button_down*(a: PButton): guint =
-  result = (a.button_flag0 and bm_TGtkButton_button_down) shr
-      bp_TGtkButton_button_down
+  result = ((a.button_flag0 and bm_TGtkButton_button_down) shr
+      bp_TGtkButton_button_down).guint
 
 proc set_button_down*(a: PButton, `button_down`: guint) =
   a.button_flag0 = a.button_flag0 or
-      (int16(`button_down` shl bp_TGtkButton_button_down) and
+      (uint16(`button_down` shl bp_TGtkButton_button_down) and
       bm_TGtkButton_button_down)
 
 proc relief*(a: PButton): guint =
-  result = (a.button_flag0 and bm_TGtkButton_relief) shr bp_TGtkButton_relief
+  result = ((a.button_flag0 and bm_TGtkButton_relief) shr bp_TGtkButton_relief).guint
 
 proc use_underline*(a: PButton): guint =
-  result = (a.button_flag0 and bm_TGtkButton_use_underline) shr
-      bp_TGtkButton_use_underline
+  result = ((a.button_flag0 and bm_TGtkButton_use_underline) shr
+      bp_TGtkButton_use_underline).guint
 
 proc set_use_underline*(a: PButton, `use_underline`: guint) =
   a.button_flag0 = a.button_flag0 or
-      (int16(`use_underline` shl bp_TGtkButton_use_underline) and
+      (uint16(`use_underline` shl bp_TGtkButton_use_underline) and
       bm_TGtkButton_use_underline)
 
 proc use_stock*(a: PButton): guint =
-  result = (a.button_flag0 and bm_TGtkButton_use_stock) shr
-      bp_TGtkButton_use_stock
+  result = ((a.button_flag0 and bm_TGtkButton_use_stock) shr
+      bp_TGtkButton_use_stock).guint
 
 proc set_use_stock*(a: PButton, `use_stock`: guint) =
   a.button_flag0 = a.button_flag0 or
-      (int16(`use_stock` shl bp_TGtkButton_use_stock) and
+      (uint16(`use_stock` shl bp_TGtkButton_use_stock) and
       bm_TGtkButton_use_stock)
 
 proc depressed*(a: PButton): guint =
-  result = (a.button_flag0 and bm_TGtkButton_depressed) shr
-      bp_TGtkButton_depressed
+  result = ((a.button_flag0 and bm_TGtkButton_depressed) shr
+      bp_TGtkButton_depressed).guint
 
 proc set_depressed*(a: PButton, `depressed`: guint) =
   a.button_flag0 = a.button_flag0 or
-      (int16(`depressed` shl bp_TGtkButton_depressed) and
+      (uint16(`depressed` shl bp_TGtkButton_depressed) and
       bm_TGtkButton_depressed)
 
 proc depress_on_activate*(a: PButton): guint =
-  result = (a.button_flag0 and bm_TGtkButton_depress_on_activate) shr
-      bp_TGtkButton_depress_on_activate
+  result = ((a.button_flag0 and bm_TGtkButton_depress_on_activate) shr
+      bp_TGtkButton_depress_on_activate).guint
 
 proc set_depress_on_activate*(a: PButton, `depress_on_activate`: guint) =
   a.button_flag0 = a.button_flag0 or
-      (int16(`depress_on_activate` shl bp_TGtkButton_depress_on_activate) and
+      (uint16(`depress_on_activate` shl bp_TGtkButton_depress_on_activate) and
       bm_TGtkButton_depress_on_activate)
 
 proc TYPE_CALENDAR*(): GType =
@@ -11956,7 +11960,7 @@ proc mode*(a: PCellRenderer): guint =
 
 proc set_mode*(a: PCellRenderer, `mode`: guint) =
   a.CellRendererflag0 = a.CellRendererflag0 or
-      (int16(`mode` shl bp_TGtkCellRenderer_mode) and
+      (uint16(`mode` shl bp_TGtkCellRenderer_mode) and
       bm_TGtkCellRenderer_mode)
 
 proc visible*(a: PCellRenderer): guint =
@@ -11965,7 +11969,7 @@ proc visible*(a: PCellRenderer): guint =
 
 proc set_visible*(a: PCellRenderer, `visible`: guint) =
   a.CellRendererflag0 = a.CellRendererflag0 or
-      (int16(`visible` shl bp_TGtkCellRenderer_visible) and
+      (uint16(`visible` shl bp_TGtkCellRenderer_visible) and
       bm_TGtkCellRenderer_visible)
 
 proc is_expander*(a: PCellRenderer): guint =
@@ -11974,7 +11978,7 @@ proc is_expander*(a: PCellRenderer): guint =
 
 proc set_is_expander*(a: PCellRenderer, `is_expander`: guint) =
   a.CellRendererflag0 = a.CellRendererflag0 or
-      (int16(`is_expander` shl bp_TGtkCellRenderer_is_expander) and
+      (uint16(`is_expander` shl bp_TGtkCellRenderer_is_expander) and
       bm_TGtkCellRenderer_is_expander)
 
 proc is_expanded*(a: PCellRenderer): guint =
@@ -11983,7 +11987,7 @@ proc is_expanded*(a: PCellRenderer): guint =
 
 proc set_is_expanded*(a: PCellRenderer, `is_expanded`: guint) =
   a.CellRendererflag0 = a.CellRendererflag0 or
-      (int16(`is_expanded` shl bp_TGtkCellRenderer_is_expanded) and
+      (uint16(`is_expanded` shl bp_TGtkCellRenderer_is_expanded) and
       bm_TGtkCellRenderer_is_expanded)
 
 proc cell_background_set*(a: PCellRenderer): guint =
@@ -11992,7 +11996,7 @@ proc cell_background_set*(a: PCellRenderer): guint =
 
 proc set_cell_background_set*(a: PCellRenderer, `cell_background_set`: guint) =
   a.CellRendererflag0 = a.CellRendererflag0 or
-      (int16(`cell_background_set` shl
+      (uint16(`cell_background_set` shl
       bp_TGtkCellRenderer_cell_background_set) and
       bm_TGtkCellRenderer_cell_background_set)
 
@@ -12022,7 +12026,7 @@ proc strikethrough*(a: PCellRendererText): guint =
 
 proc set_strikethrough*(a: PCellRendererText, `strikethrough`: guint) =
   a.CellRendererTextflag0 = a.CellRendererTextflag0 or
-      (int16(`strikethrough` shl bp_TGtkCellRendererText_strikethrough) and
+      (uint16(`strikethrough` shl bp_TGtkCellRendererText_strikethrough) and
       bm_TGtkCellRendererText_strikethrough)
 
 proc editable*(a: PCellRendererText): guint =
@@ -12031,7 +12035,7 @@ proc editable*(a: PCellRendererText): guint =
 
 proc set_editable*(a: PCellRendererText, `editable`: guint) =
   a.CellRendererTextflag0 = a.CellRendererTextflag0 or
-      (int16(`editable` shl bp_TGtkCellRendererText_editable) and
+      (uint16(`editable` shl bp_TGtkCellRendererText_editable) and
       bm_TGtkCellRendererText_editable)
 
 proc scale_set*(a: PCellRendererText): guint =
@@ -12040,7 +12044,7 @@ proc scale_set*(a: PCellRendererText): guint =
 
 proc set_scale_set*(a: PCellRendererText, `scale_set`: guint) =
   a.CellRendererTextflag0 = a.CellRendererTextflag0 or
-      (int16(`scale_set` shl bp_TGtkCellRendererText_scale_set) and
+      (uint16(`scale_set` shl bp_TGtkCellRendererText_scale_set) and
       bm_TGtkCellRendererText_scale_set)
 
 proc foreground_set*(a: PCellRendererText): guint =
@@ -12050,7 +12054,7 @@ proc foreground_set*(a: PCellRendererText): guint =
 
 proc set_foreground_set*(a: PCellRendererText, `foreground_set`: guint) =
   a.CellRendererTextflag0 = a.CellRendererTextflag0 or
-      (int16(`foreground_set` shl bp_TGtkCellRendererText_foreground_set) and
+      (uint16(`foreground_set` shl bp_TGtkCellRendererText_foreground_set) and
       bm_TGtkCellRendererText_foreground_set)
 
 proc background_set*(a: PCellRendererText): guint =
@@ -12060,7 +12064,7 @@ proc background_set*(a: PCellRendererText): guint =
 
 proc set_background_set*(a: PCellRendererText, `background_set`: guint) =
   a.CellRendererTextflag0 = a.CellRendererTextflag0 or
-      (int16(`background_set` shl bp_TGtkCellRendererText_background_set) and
+      (uint16(`background_set` shl bp_TGtkCellRendererText_background_set) and
       bm_TGtkCellRendererText_background_set)
 
 proc underline_set*(a: PCellRendererText): guint =
@@ -12069,7 +12073,7 @@ proc underline_set*(a: PCellRendererText): guint =
 
 proc set_underline_set*(a: PCellRendererText, `underline_set`: guint) =
   a.CellRendererTextflag0 = a.CellRendererTextflag0 or
-      (int16(`underline_set` shl bp_TGtkCellRendererText_underline_set) and
+      (uint16(`underline_set` shl bp_TGtkCellRendererText_underline_set) and
       bm_TGtkCellRendererText_underline_set)
 
 proc rise_set*(a: PCellRendererText): guint =
@@ -12078,7 +12082,7 @@ proc rise_set*(a: PCellRendererText): guint =
 
 proc set_rise_set*(a: PCellRendererText, `rise_set`: guint) =
   a.CellRendererTextflag0 = a.CellRendererTextflag0 or
-      (int16(`rise_set` shl bp_TGtkCellRendererText_rise_set) and
+      (uint16(`rise_set` shl bp_TGtkCellRendererText_rise_set) and
       bm_TGtkCellRendererText_rise_set)
 
 proc strikethrough_set*(a: PCellRendererText): guint =
@@ -12088,7 +12092,7 @@ proc strikethrough_set*(a: PCellRendererText): guint =
 
 proc set_strikethrough_set*(a: PCellRendererText, `strikethrough_set`: guint) =
   a.CellRendererTextflag0 = a.CellRendererTextflag0 or
-      (int16(`strikethrough_set` shl
+      (uint16(`strikethrough_set` shl
       bp_TGtkCellRendererText_strikethrough_set) and
       bm_TGtkCellRendererText_strikethrough_set)
 
@@ -12098,7 +12102,7 @@ proc editable_set*(a: PCellRendererText): guint =
 
 proc set_editable_set*(a: PCellRendererText, `editable_set`: guint) =
   a.CellRendererTextflag0 = a.CellRendererTextflag0 or
-      (int16(`editable_set` shl bp_TGtkCellRendererText_editable_set) and
+      (uint16(`editable_set` shl bp_TGtkCellRendererText_editable_set) and
       bm_TGtkCellRendererText_editable_set)
 
 proc calc_fixed_height*(a: PCellRendererText): guint =
@@ -12108,7 +12112,7 @@ proc calc_fixed_height*(a: PCellRendererText): guint =
 
 proc set_calc_fixed_height*(a: PCellRendererText, `calc_fixed_height`: guint) =
   a.CellRendererTextflag0 = a.CellRendererTextflag0 or
-      (int16(`calc_fixed_height` shl
+      (uint16(`calc_fixed_height` shl
       bp_TGtkCellRendererText_calc_fixed_height) and
       bm_TGtkCellRendererText_calc_fixed_height)
 
@@ -12138,7 +12142,7 @@ proc active*(a: PCellRendererToggle): guint =
 
 proc set_active*(a: PCellRendererToggle, `active`: guint) =
   a.CellRendererToggleflag0 = a.CellRendererToggleflag0 or
-      (int16(`active` shl bp_TGtkCellRendererToggle_active) and
+      (uint16(`active` shl bp_TGtkCellRendererToggle_active) and
       bm_TGtkCellRendererToggle_active)
 
 proc activatable*(a: PCellRendererToggle): guint =
@@ -12148,7 +12152,7 @@ proc activatable*(a: PCellRendererToggle): guint =
 
 proc set_activatable*(a: PCellRendererToggle, `activatable`: guint) =
   a.CellRendererToggleflag0 = a.CellRendererToggleflag0 or
-      (int16(`activatable` shl bp_TGtkCellRendererToggle_activatable) and
+      (uint16(`activatable` shl bp_TGtkCellRendererToggle_activatable) and
       bm_TGtkCellRendererToggle_activatable)
 
 proc radio*(a: PCellRendererToggle): guint =
@@ -12157,7 +12161,7 @@ proc radio*(a: PCellRendererToggle): guint =
 
 proc set_radio*(a: PCellRendererToggle, `radio`: guint) =
   a.CellRendererToggleflag0 = a.CellRendererToggleflag0 or
-      (int16(`radio` shl bp_TGtkCellRendererToggle_radio) and
+      (uint16(`radio` shl bp_TGtkCellRendererToggle_radio) and
       bm_TGtkCellRendererToggle_radio)
 
 proc TYPE_CELL_RENDERER_PIXBUF*(): GType =
@@ -12223,7 +12227,7 @@ proc show_submenu_indicator*(a: PMenuItem): guint =
 proc set_show_submenu_indicator*(a: PMenuItem,
                                  `show_submenu_indicator`: guint) =
   a.MenuItemflag0 = a.MenuItemflag0 or
-      (int16(`show_submenu_indicator` shl
+      (uint16(`show_submenu_indicator` shl
       bp_TGtkMenuItem_show_submenu_indicator) and
       bm_TGtkMenuItem_show_submenu_indicator)
 
@@ -12233,7 +12237,7 @@ proc submenu_placement*(a: PMenuItem): guint =
 
 proc set_submenu_placement*(a: PMenuItem, `submenu_placement`: guint) =
   a.MenuItemflag0 = a.MenuItemflag0 or
-      (int16(`submenu_placement` shl bp_TGtkMenuItem_submenu_placement) and
+      (uint16(`submenu_placement` shl bp_TGtkMenuItem_submenu_placement) and
       bm_TGtkMenuItem_submenu_placement)
 
 proc submenu_direction*(a: PMenuItem): guint =
@@ -12242,7 +12246,7 @@ proc submenu_direction*(a: PMenuItem): guint =
 
 proc set_submenu_direction*(a: PMenuItem, `submenu_direction`: guint) =
   a.MenuItemflag0 = a.MenuItemflag0 or
-      (int16(`submenu_direction` shl bp_TGtkMenuItem_submenu_direction) and
+      (uint16(`submenu_direction` shl bp_TGtkMenuItem_submenu_direction) and
       bm_TGtkMenuItem_submenu_direction)
 
 proc right_justify*(a: PMenuItem): guint =
@@ -12251,7 +12255,7 @@ proc right_justify*(a: PMenuItem): guint =
 
 proc set_right_justify*(a: PMenuItem, `right_justify`: guint) =
   a.MenuItemflag0 = a.MenuItemflag0 or
-      (int16(`right_justify` shl bp_TGtkMenuItem_right_justify) and
+      (uint16(`right_justify` shl bp_TGtkMenuItem_right_justify) and
       bm_TGtkMenuItem_right_justify)
 
 proc timer_from_keypress*(a: PMenuItem): guint =
@@ -12260,7 +12264,7 @@ proc timer_from_keypress*(a: PMenuItem): guint =
 
 proc set_timer_from_keypress*(a: PMenuItem, `timer_from_keypress`: guint) =
   a.MenuItemflag0 = a.MenuItemflag0 or
-      (int16(`timer_from_keypress` shl bp_TGtkMenuItem_timer_from_keypress) and
+      (uint16(`timer_from_keypress` shl bp_TGtkMenuItem_timer_from_keypress) and
       bm_TGtkMenuItem_timer_from_keypress)
 
 proc hide_on_activate*(a: PMenuItemClass): guint =
@@ -12269,7 +12273,7 @@ proc hide_on_activate*(a: PMenuItemClass): guint =
 
 proc set_hide_on_activate*(a: PMenuItemClass, `hide_on_activate`: guint) =
   a.MenuItemClassflag0 = a.MenuItemClassflag0 or
-      (int16(`hide_on_activate` shl bp_TGtkMenuItemClass_hide_on_activate) and
+      (uint16(`hide_on_activate` shl bp_TGtkMenuItemClass_hide_on_activate) and
       bm_TGtkMenuItemClass_hide_on_activate)
 
 proc right_justify*(menu_item: PMenuItem) =
@@ -12299,7 +12303,7 @@ proc active*(a: PToggleButton): guint =
 
 proc set_active*(a: PToggleButton, `active`: guint) =
   a.Togglebutton_flag0 = a.Togglebutton_flag0 or
-      (int16(`active` shl bp_TGtkToggleButton_active) and
+      (uint16(`active` shl bp_TGtkToggleButton_active) and
       bm_TGtkToggleButton_active)
 
 proc draw_indicator*(a: PToggleButton): guint =
@@ -12308,7 +12312,7 @@ proc draw_indicator*(a: PToggleButton): guint =
 
 proc set_draw_indicator*(a: PToggleButton, `draw_indicator`: guint) =
   a.Togglebutton_flag0 = a.Togglebutton_flag0 or
-      (int16(`draw_indicator` shl bp_TGtkToggleButton_draw_indicator) and
+      (uint16(`draw_indicator` shl bp_TGtkToggleButton_draw_indicator) and
       bm_TGtkToggleButton_draw_indicator)
 
 proc inconsistent*(a: PToggleButton): guint =
@@ -12317,7 +12321,7 @@ proc inconsistent*(a: PToggleButton): guint =
 
 proc set_inconsistent*(a: PToggleButton, `inconsistent`: guint) =
   a.Togglebutton_flag0 = a.Togglebutton_flag0 or
-      (int16(`inconsistent` shl bp_TGtkToggleButton_inconsistent) and
+      (uint16(`inconsistent` shl bp_TGtkToggleButton_inconsistent) and
       bm_TGtkToggleButton_inconsistent)
 
 proc TYPE_CHECK_BUTTON*(): GType =
@@ -12363,7 +12367,7 @@ proc active*(a: PCheckMenuItem): guint =
 
 proc set_active*(a: PCheckMenuItem, `active`: guint) =
   a.CheckMenuItemflag0 = a.CheckMenuItemflag0 or
-      (int16(`active` shl bp_TGtkCheckMenuItem_active) and
+      (uint16(`active` shl bp_TGtkCheckMenuItem_active) and
       bm_TGtkCheckMenuItem_active)
 
 proc always_show_toggle*(a: PCheckMenuItem): guint =
@@ -12372,7 +12376,7 @@ proc always_show_toggle*(a: PCheckMenuItem): guint =
 
 proc set_always_show_toggle*(a: PCheckMenuItem, `always_show_toggle`: guint) =
   a.CheckMenuItemflag0 = a.CheckMenuItemflag0 or
-      (int16(`always_show_toggle` shl bp_TGtkCheckMenuItem_always_show_toggle) and
+      (uint16(`always_show_toggle` shl bp_TGtkCheckMenuItem_always_show_toggle) and
       bm_TGtkCheckMenuItem_always_show_toggle)
 
 proc inconsistent*(a: PCheckMenuItem): guint =
@@ -12381,7 +12385,7 @@ proc inconsistent*(a: PCheckMenuItem): guint =
 
 proc set_inconsistent*(a: PCheckMenuItem, `inconsistent`: guint) =
   a.CheckMenuItemflag0 = a.CheckMenuItemflag0 or
-      (int16(`inconsistent` shl bp_TGtkCheckMenuItem_inconsistent) and
+      (uint16(`inconsistent` shl bp_TGtkCheckMenuItem_inconsistent) and
       bm_TGtkCheckMenuItem_inconsistent)
 
 proc TYPE_CLIST*(): GType =
@@ -12403,7 +12407,7 @@ proc CLIST_GET_CLASS*(obj: pointer): PCListClass =
   result = cast[PCListClass](CHECK_GET_CLASS(obj, TYPE_CLIST()))
 
 proc CLIST_FLAGS*(clist: pointer): guint16 =
-  result = toU16(CLIST(clist).flags)
+  result = CLIST(clist).flags.uint16
 
 proc SET_FLAG*(clist: PCList, flag: guint16) =
   clist.flags = CLIST(clist).flags or (flag)
@@ -12412,34 +12416,34 @@ proc UNSET_FLAG*(clist: PCList, flag: guint16) =
   clist.flags = CLIST(clist).flags and not (flag)
 
 proc CLIST_IN_DRAG_get*(clist: pointer): bool =
-  result = ((CLIST_FLAGS(clist)) and cint(CLIST_IN_DRAG)) != 0'i32
+  result = ((CLIST_FLAGS(clist)) and uint16(CLIST_IN_DRAG)) != 0'u32
 
 proc CLIST_ROW_HEIGHT_SET_get*(clist: pointer): bool =
-  result = ((CLIST_FLAGS(clist)) and cint(CLIST_ROW_HEIGHT_SET)) != 0'i32
+  result = ((CLIST_FLAGS(clist)) and uint16(CLIST_ROW_HEIGHT_SET)) != 0'u16
 
 proc CLIST_SHOW_TITLES_get*(clist: pointer): bool =
-  result = ((CLIST_FLAGS(clist)) and cint(CLIST_SHOW_TITLES)) != 0'i32
+  result = ((CLIST_FLAGS(clist)) and uint16(CLIST_SHOW_TITLES)) != 0'u16
 
 proc CLIST_ADD_MODE_get*(clist: pointer): bool =
-  result = ((CLIST_FLAGS(clist)) and cint(CLIST_ADD_MODE)) != 0'i32
+  result = ((CLIST_FLAGS(clist)) and uint16(CLIST_ADD_MODE)) != 0'u16
 
 proc CLIST_AUTO_SORT_get*(clist: pointer): bool =
-  result = ((CLIST_FLAGS(clist)) and cint(CLIST_AUTO_SORT)) != 0'i32
+  result = ((CLIST_FLAGS(clist)) and uint16(CLIST_AUTO_SORT)) != 0'u16
 
 proc CLIST_AUTO_RESIZE_BLOCKED_get*(clist: pointer): bool =
-  result = ((CLIST_FLAGS(clist)) and cint(CLIST_AUTO_RESIZE_BLOCKED)) != 0'i32
+  result = ((CLIST_FLAGS(clist)) and uint16(CLIST_AUTO_RESIZE_BLOCKED)) != 0'u16
 
 proc CLIST_REORDERABLE_get*(clist: pointer): bool =
-  result = ((CLIST_FLAGS(clist)) and cint(CLIST_REORDERABLE)) != 0'i32
+  result = ((CLIST_FLAGS(clist)) and uint16(CLIST_REORDERABLE)) != 0'u16
 
 proc CLIST_USE_DRAG_ICONS_get*(clist: pointer): bool =
-  result = ((CLIST_FLAGS(clist)) and cint(CLIST_USE_DRAG_ICONS)) != 0'i32
+  result = ((CLIST_FLAGS(clist)) and uint16(CLIST_USE_DRAG_ICONS)) != 0'u16
 
 proc CLIST_DRAW_DRAG_LINE_get*(clist: pointer): bool =
-  result = ((CLIST_FLAGS(clist)) and cint(CLIST_DRAW_DRAG_LINE)) != 0'i32
+  result = ((CLIST_FLAGS(clist)) and uint16(CLIST_DRAW_DRAG_LINE)) != 0'u16
 
 proc CLIST_DRAW_DRAG_RECT_get*(clist: pointer): bool =
-  result = ((CLIST_FLAGS(clist)) and cint(CLIST_DRAW_DRAG_RECT)) != 0'i32
+  result = ((CLIST_FLAGS(clist)) and uint16(CLIST_DRAW_DRAG_RECT)) != 0'u16
 
 proc CLIST_ROW_get*(glist: PGList): PCListRow =
   result = cast[PCListRow](glist.data)
@@ -12463,7 +12467,7 @@ proc visible*(a: PCListColumn): guint =
 
 proc set_visible*(a: PCListColumn, `visible`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`visible` shl bp_TGtkCListColumn_visible) and
+      (uint16(`visible` shl bp_TGtkCListColumn_visible) and
       bm_TGtkCListColumn_visible)
 
 proc width_set*(a: PCListColumn): guint =
@@ -12472,7 +12476,7 @@ proc width_set*(a: PCListColumn): guint =
 
 proc set_width_set*(a: PCListColumn, `width_set`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`width_set` shl bp_TGtkCListColumn_width_set) and
+      (uint16(`width_set` shl bp_TGtkCListColumn_width_set) and
       bm_TGtkCListColumn_width_set)
 
 proc resizeable*(a: PCListColumn): guint =
@@ -12481,7 +12485,7 @@ proc resizeable*(a: PCListColumn): guint =
 
 proc set_resizeable*(a: PCListColumn, `resizeable`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`resizeable` shl bp_TGtkCListColumn_resizeable) and
+      (uint16(`resizeable` shl bp_TGtkCListColumn_resizeable) and
       bm_TGtkCListColumn_resizeable)
 
 proc auto_resize*(a: PCListColumn): guint =
@@ -12490,7 +12494,7 @@ proc auto_resize*(a: PCListColumn): guint =
 
 proc set_auto_resize*(a: PCListColumn, `auto_resize`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`auto_resize` shl bp_TGtkCListColumn_auto_resize) and
+      (uint16(`auto_resize` shl bp_TGtkCListColumn_auto_resize) and
       bm_TGtkCListColumn_auto_resize)
 
 proc button_passive*(a: PCListColumn): guint =
@@ -12499,7 +12503,7 @@ proc button_passive*(a: PCListColumn): guint =
 
 proc set_button_passive*(a: PCListColumn, `button_passive`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`button_passive` shl bp_TGtkCListColumn_button_passive) and
+      (uint16(`button_passive` shl bp_TGtkCListColumn_button_passive) and
       bm_TGtkCListColumn_button_passive)
 
 proc fg_set*(a: PCListRow): guint =
@@ -12507,14 +12511,14 @@ proc fg_set*(a: PCListRow): guint =
 
 proc set_fg_set*(a: PCListRow, `fg_set`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`fg_set` shl bp_TGtkCListRow_fg_set) and bm_TGtkCListRow_fg_set)
+      (uint16(`fg_set` shl bp_TGtkCListRow_fg_set) and bm_TGtkCListRow_fg_set)
 
 proc bg_set*(a: PCListRow): guint =
   result = (a.flag0 and bm_TGtkCListRow_bg_set) shr bp_TGtkCListRow_bg_set
 
 proc set_bg_set*(a: PCListRow, `bg_set`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`bg_set` shl bp_TGtkCListRow_bg_set) and bm_TGtkCListRow_bg_set)
+      (uint16(`bg_set` shl bp_TGtkCListRow_bg_set) and bm_TGtkCListRow_bg_set)
 
 proc selectable*(a: PCListRow): guint =
   result = (a.flag0 and bm_TGtkCListRow_selectable) shr
@@ -12522,7 +12526,7 @@ proc selectable*(a: PCListRow): guint =
 
 proc set_selectable*(a: PCListRow, `selectable`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`selectable` shl bp_TGtkCListRow_selectable) and
+      (uint16(`selectable` shl bp_TGtkCListRow_selectable) and
       bm_TGtkCListRow_selectable)
 
 proc TYPE_DIALOG*(): GType =
@@ -12644,7 +12648,7 @@ proc value_in_list*(a: PCombo): guint =
 
 proc set_value_in_list*(a: PCombo, `value_in_list`: guint) =
   a.Comboflag0 = a.Comboflag0 or
-      (int16(`value_in_list` shl bp_TGtkCombo_value_in_list) and
+      (uint16(`value_in_list` shl bp_TGtkCombo_value_in_list) and
       bm_TGtkCombo_value_in_list)
 
 proc ok_if_empty*(a: PCombo): guint =
@@ -12653,7 +12657,7 @@ proc ok_if_empty*(a: PCombo): guint =
 
 proc set_ok_if_empty*(a: PCombo, `ok_if_empty`: guint) =
   a.Comboflag0 = a.Comboflag0 or
-      (int16(`ok_if_empty` shl bp_TGtkCombo_ok_if_empty) and
+      (uint16(`ok_if_empty` shl bp_TGtkCombo_ok_if_empty) and
       bm_TGtkCombo_ok_if_empty)
 
 proc case_sensitive*(a: PCombo): guint =
@@ -12662,7 +12666,7 @@ proc case_sensitive*(a: PCombo): guint =
 
 proc set_case_sensitive*(a: PCombo, `case_sensitive`: guint) =
   a.Comboflag0 = a.Comboflag0 or
-      (int16(`case_sensitive` shl bp_TGtkCombo_case_sensitive) and
+      (uint16(`case_sensitive` shl bp_TGtkCombo_case_sensitive) and
       bm_TGtkCombo_case_sensitive)
 
 proc use_arrows*(a: PCombo): guint =
@@ -12671,7 +12675,7 @@ proc use_arrows*(a: PCombo): guint =
 
 proc set_use_arrows*(a: PCombo, `use_arrows`: guint) =
   a.Comboflag0 = a.Comboflag0 or
-      (int16(`use_arrows` shl bp_TGtkCombo_use_arrows) and
+      (uint16(`use_arrows` shl bp_TGtkCombo_use_arrows) and
       bm_TGtkCombo_use_arrows)
 
 proc use_arrows_always*(a: PCombo): guint =
@@ -12680,7 +12684,7 @@ proc use_arrows_always*(a: PCombo): guint =
 
 proc set_use_arrows_always*(a: PCombo, `use_arrows_always`: guint) =
   a.Comboflag0 = a.Comboflag0 or
-      (int16(`use_arrows_always` shl bp_TGtkCombo_use_arrows_always) and
+      (uint16(`use_arrows_always` shl bp_TGtkCombo_use_arrows_always) and
       bm_TGtkCombo_use_arrows_always)
 
 proc TYPE_CTREE*(): GType =
@@ -12725,7 +12729,7 @@ proc line_style*(a: PCTree): guint =
 
 proc set_line_style*(a: PCTree, `line_style`: guint) =
   a.CTreeflag0 = a.CTreeflag0 or
-      (int16(`line_style` shl bp_TGtkCTree_line_style) and
+      (uint16(`line_style` shl bp_TGtkCTree_line_style) and
       bm_TGtkCTree_line_style)
 
 proc expander_style*(a: PCTree): guint =
@@ -12734,7 +12738,7 @@ proc expander_style*(a: PCTree): guint =
 
 proc set_expander_style*(a: PCTree, `expander_style`: guint) =
   a.CTreeflag0 = a.CTreeflag0 or
-      (int16(`expander_style` shl bp_TGtkCTree_expander_style) and
+      (uint16(`expander_style` shl bp_TGtkCTree_expander_style) and
       bm_TGtkCTree_expander_style)
 
 proc show_stub*(a: PCTree): guint =
@@ -12743,7 +12747,7 @@ proc show_stub*(a: PCTree): guint =
 
 proc set_show_stub*(a: PCTree, `show_stub`: guint) =
   a.CTreeflag0 = a.CTreeflag0 or
-      (int16(`show_stub` shl bp_TGtkCTree_show_stub) and
+      (uint16(`show_stub` shl bp_TGtkCTree_show_stub) and
       bm_TGtkCTree_show_stub)
 
 proc is_leaf*(a: PCTreeRow): guint =
@@ -12752,7 +12756,7 @@ proc is_leaf*(a: PCTreeRow): guint =
 
 proc set_is_leaf*(a: PCTreeRow, `is_leaf`: guint) =
   a.CTreeRow_flag0 = a.CTreeRow_flag0 or
-      (int16(`is_leaf` shl bp_TGtkCTreeRow_is_leaf) and
+      (uint16(`is_leaf` shl bp_TGtkCTreeRow_is_leaf) and
       bm_TGtkCTreeRow_is_leaf)
 
 proc expanded*(a: PCTreeRow): guint =
@@ -12761,7 +12765,7 @@ proc expanded*(a: PCTreeRow): guint =
 
 proc set_expanded*(a: PCTreeRow, `expanded`: guint) =
   a.CTreeRow_flag0 = a.CTreeRowflag0 or
-      (int16(`expanded` shl bp_TGtkCTreeRow_expanded) and
+      (uint16(`expanded` shl bp_TGtkCTreeRow_expanded) and
       bm_TGtkCTreeRow_expanded)
 
 proc ctree_set_reorderable*(t: pointer, r: bool) =
@@ -12864,7 +12868,7 @@ proc active*(a: PMenuShell): guint =
 
 proc set_active*(a: PMenuShell, `active`: guint) =
   a.MenuShellflag0 = a.MenuShellflag0 or
-      (int16(`active` shl bp_TGtkMenuShell_active) and
+      (uint16(`active` shl bp_TGtkMenuShell_active) and
       bm_TGtkMenuShell_active)
 
 proc have_grab*(a: PMenuShell): guint =
@@ -12873,7 +12877,7 @@ proc have_grab*(a: PMenuShell): guint =
 
 proc set_have_grab*(a: PMenuShell, `have_grab`: guint) =
   a.MenuShellflag0 = a.MenuShellflag0 or
-      (int16(`have_grab` shl bp_TGtkMenuShell_have_grab) and
+      (uint16(`have_grab` shl bp_TGtkMenuShell_have_grab) and
       bm_TGtkMenuShell_have_grab)
 
 proc have_xgrab*(a: PMenuShell): guint =
@@ -12882,7 +12886,7 @@ proc have_xgrab*(a: PMenuShell): guint =
 
 proc set_have_xgrab*(a: PMenuShell, `have_xgrab`: guint) =
   a.MenuShellflag0 = a.MenuShellflag0 or
-      (int16(`have_xgrab` shl bp_TGtkMenuShell_have_xgrab) and
+      (uint16(`have_xgrab` shl bp_TGtkMenuShell_have_xgrab) and
       bm_TGtkMenuShell_have_xgrab)
 
 proc ignore_leave*(a: PMenuShell): guint =
@@ -12891,7 +12895,7 @@ proc ignore_leave*(a: PMenuShell): guint =
 
 proc set_ignore_leave*(a: PMenuShell, `ignore_leave`: guint) =
   a.MenuShellflag0 = a.MenuShellflag0 or
-      (int16(`ignore_leave` shl bp_TGtkMenuShell_ignore_leave) and
+      (uint16(`ignore_leave` shl bp_TGtkMenuShell_ignore_leave) and
       bm_TGtkMenuShell_ignore_leave)
 
 proc menu_flag*(a: PMenuShell): guint =
@@ -12900,7 +12904,7 @@ proc menu_flag*(a: PMenuShell): guint =
 
 proc set_menu_flag*(a: PMenuShell, `menu_flag`: guint) =
   a.MenuShellflag0 = a.MenuShellflag0 or
-      (int16(`menu_flag` shl bp_TGtkMenuShell_menu_flag) and
+      (uint16(`menu_flag` shl bp_TGtkMenuShell_menu_flag) and
       bm_TGtkMenuShell_menu_flag)
 
 proc ignore_enter*(a: PMenuShell): guint =
@@ -12909,7 +12913,7 @@ proc ignore_enter*(a: PMenuShell): guint =
 
 proc set_ignore_enter*(a: PMenuShell, `ignore_enter`: guint) =
   a.MenuShellflag0 = a.MenuShellflag0 or
-      (int16(`ignore_enter` shl bp_TGtkMenuShell_ignore_enter) and
+      (uint16(`ignore_enter` shl bp_TGtkMenuShell_ignore_enter) and
       bm_TGtkMenuShell_ignore_enter)
 
 proc submenu_placement*(a: PMenuShellClass): guint =
@@ -12918,7 +12922,7 @@ proc submenu_placement*(a: PMenuShellClass): guint =
 
 proc set_submenu_placement*(a: PMenuShellClass, `submenu_placement`: guint) =
   a.MenuShellClassflag0 = a.MenuShellClassflag0 or
-      (int16(`submenu_placement` shl bp_TGtkMenuShellClass_submenu_placement) and
+      (uint16(`submenu_placement` shl bp_TGtkMenuShellClass_submenu_placement) and
       bm_TGtkMenuShellClass_submenu_placement)
 
 proc TYPE_MENU*(): GType =
@@ -12946,7 +12950,7 @@ proc needs_destruction_ref_count*(a: PMenu): guint =
 proc set_needs_destruction_ref_count*(a: PMenu,
                                       `needs_destruction_ref_count`: guint) =
   a.Menuflag0 = a.Menuflag0 or
-      (int16(`needs_destruction_ref_count` shl
+      (uint16(`needs_destruction_ref_count` shl
       bp_TGtkMenu_needs_destruction_ref_count) and
       bm_TGtkMenu_needs_destruction_ref_count)
 
@@ -12955,7 +12959,7 @@ proc torn_off*(a: PMenu): guint =
 
 proc set_torn_off*(a: PMenu, `torn_off`: guint) =
   a.Menuflag0 = a.Menuflag0 or
-      (int16(`torn_off` shl bp_TGtkMenu_torn_off) and bm_TGtkMenu_torn_off)
+      (uint16(`torn_off` shl bp_TGtkMenu_torn_off) and bm_TGtkMenu_torn_off)
 
 proc tearoff_active*(a: PMenu): guint =
   result = (a.Menuflag0 and bm_TGtkMenu_tearoff_active) shr
@@ -12963,7 +12967,7 @@ proc tearoff_active*(a: PMenu): guint =
 
 proc set_tearoff_active*(a: PMenu, `tearoff_active`: guint) =
   a.Menuflag0 = a.Menuflag0 or
-      (int16(`tearoff_active` shl bp_TGtkMenu_tearoff_active) and
+      (uint16(`tearoff_active` shl bp_TGtkMenu_tearoff_active) and
       bm_TGtkMenu_tearoff_active)
 
 proc scroll_fast*(a: PMenu): guint =
@@ -12972,7 +12976,7 @@ proc scroll_fast*(a: PMenu): guint =
 
 proc set_scroll_fast*(a: PMenu, `scroll_fast`: guint) =
   a.Menuflag0 = a.Menuflag0 or
-      (int16(`scroll_fast` shl bp_TGtkMenu_scroll_fast) and
+      (uint16(`scroll_fast` shl bp_TGtkMenu_scroll_fast) and
       bm_TGtkMenu_scroll_fast)
 
 proc upper_arrow_visible*(a: PMenu): guint =
@@ -12981,7 +12985,7 @@ proc upper_arrow_visible*(a: PMenu): guint =
 
 proc set_upper_arrow_visible*(a: PMenu, `upper_arrow_visible`: guint) =
   a.Menuflag0 = a.Menuflag0 or
-      (int16(`upper_arrow_visible` shl bp_TGtkMenu_upper_arrow_visible) and
+      (uint16(`upper_arrow_visible` shl bp_TGtkMenu_upper_arrow_visible) and
       bm_TGtkMenu_upper_arrow_visible)
 
 proc lower_arrow_visible*(a: PMenu): guint =
@@ -12990,7 +12994,7 @@ proc lower_arrow_visible*(a: PMenu): guint =
 
 proc set_lower_arrow_visible*(a: PMenu, `lower_arrow_visible`: guint) =
   a.Menuflag0 = a.Menuflag0 or
-      (int16(`lower_arrow_visible` shl bp_TGtkMenu_lower_arrow_visible) and
+      (uint16(`lower_arrow_visible` shl bp_TGtkMenu_lower_arrow_visible) and
       bm_TGtkMenu_lower_arrow_visible)
 
 proc upper_arrow_prelight*(a: PMenu): guint =
@@ -12999,7 +13003,7 @@ proc upper_arrow_prelight*(a: PMenu): guint =
 
 proc set_upper_arrow_prelight*(a: PMenu, `upper_arrow_prelight`: guint) =
   a.Menuflag0 = a.Menuflag0 or
-      (int16(`upper_arrow_prelight` shl bp_TGtkMenu_upper_arrow_prelight) and
+      (uint16(`upper_arrow_prelight` shl bp_TGtkMenu_upper_arrow_prelight) and
       bm_TGtkMenu_upper_arrow_prelight)
 
 proc lower_arrow_prelight*(a: PMenu): guint =
@@ -13008,7 +13012,7 @@ proc lower_arrow_prelight*(a: PMenu): guint =
 
 proc set_lower_arrow_prelight*(a: PMenu, `lower_arrow_prelight`: guint) =
   a.Menuflag0 = a.Menuflag0 or
-      (int16(`lower_arrow_prelight` shl bp_TGtkMenu_lower_arrow_prelight) and
+      (uint16(`lower_arrow_prelight` shl bp_TGtkMenu_lower_arrow_prelight) and
       bm_TGtkMenu_lower_arrow_prelight)
 
 proc menu_append*(menu, child: PWidget) =
@@ -13043,14 +13047,14 @@ proc editable*(a: PEntry): guint =
 
 proc set_editable*(a: PEntry, `editable`: guint) =
   a.Entryflag0 = a.Entryflag0 or
-      (int16(`editable` shl bp_TGtkEntry_editable) and bm_TGtkEntry_editable)
+      (uint16(`editable` shl bp_TGtkEntry_editable) and bm_TGtkEntry_editable)
 
 proc visible*(a: PEntry): guint =
   result = (a.Entryflag0 and bm_TGtkEntry_visible) shr bp_TGtkEntry_visible
 
 proc set_visible*(a: PEntry, `visible`: guint) =
   a.Entryflag0 = a.Entryflag0 or
-      (int16(`visible` shl bp_TGtkEntry_visible) and bm_TGtkEntry_visible)
+      (uint16(`visible` shl bp_TGtkEntry_visible) and bm_TGtkEntry_visible)
 
 proc overwrite_mode*(a: PEntry): guint =
   result = (a.Entryflag0 and bm_TGtkEntry_overwrite_mode) shr
@@ -13058,7 +13062,7 @@ proc overwrite_mode*(a: PEntry): guint =
 
 proc set_overwrite_mode*(a: PEntry, `overwrite_mode`: guint) =
   a.Entryflag0 = a.Entryflag0 or
-      (int16(`overwrite_mode` shl bp_TGtkEntry_overwrite_mode) and
+      (uint16(`overwrite_mode` shl bp_TGtkEntry_overwrite_mode) and
       bm_TGtkEntry_overwrite_mode)
 
 proc in_drag*(a: PEntry): guint =
@@ -13066,7 +13070,7 @@ proc in_drag*(a: PEntry): guint =
 
 proc set_in_drag*(a: PEntry, `in_drag`: guint) =
   a.Entryflag0 = a.Entryflag0 or
-      (int16(`in_drag` shl bp_TGtkEntry_in_drag) and bm_TGtkEntry_in_drag)
+      (uint16(`in_drag` shl bp_TGtkEntry_in_drag) and bm_TGtkEntry_in_drag)
 
 proc cache_includes_preedit*(a: PEntry): guint =
   result = (a.flag1 and bm_TGtkEntry_cache_includes_preedit) shr
@@ -13074,7 +13078,7 @@ proc cache_includes_preedit*(a: PEntry): guint =
 
 proc set_cache_includes_preedit*(a: PEntry, `cache_includes_preedit`: guint) =
   a.flag1 = a.flag1 or
-      (int16(`cache_includes_preedit` shl bp_TGtkEntry_cache_includes_preedit) and
+      (uint16(`cache_includes_preedit` shl bp_TGtkEntry_cache_includes_preedit) and
       bm_TGtkEntry_cache_includes_preedit)
 
 proc need_im_reset*(a: PEntry): guint =
@@ -13083,7 +13087,7 @@ proc need_im_reset*(a: PEntry): guint =
 
 proc set_need_im_reset*(a: PEntry, `need_im_reset`: guint) =
   a.flag1 = a.flag1 or
-      (int16(`need_im_reset` shl bp_TGtkEntry_need_im_reset) and
+      (uint16(`need_im_reset` shl bp_TGtkEntry_need_im_reset) and
       bm_TGtkEntry_need_im_reset)
 
 proc has_frame*(a: PEntry): guint =
@@ -13091,7 +13095,7 @@ proc has_frame*(a: PEntry): guint =
 
 proc set_has_frame*(a: PEntry, `has_frame`: guint) =
   a.flag1 = a.flag1 or
-      (int16(`has_frame` shl bp_TGtkEntry_has_frame) and
+      (uint16(`has_frame` shl bp_TGtkEntry_has_frame) and
       bm_TGtkEntry_has_frame)
 
 proc activates_default*(a: PEntry): guint =
@@ -13100,7 +13104,7 @@ proc activates_default*(a: PEntry): guint =
 
 proc set_activates_default*(a: PEntry, `activates_default`: guint) =
   a.flag1 = a.flag1 or
-      (int16(`activates_default` shl bp_TGtkEntry_activates_default) and
+      (uint16(`activates_default` shl bp_TGtkEntry_activates_default) and
       bm_TGtkEntry_activates_default)
 
 proc cursor_visible*(a: PEntry): guint =
@@ -13109,7 +13113,7 @@ proc cursor_visible*(a: PEntry): guint =
 
 proc set_cursor_visible*(a: PEntry, `cursor_visible`: guint) =
   a.flag1 = a.flag1 or
-      (int16(`cursor_visible` shl bp_TGtkEntry_cursor_visible) and
+      (uint16(`cursor_visible` shl bp_TGtkEntry_cursor_visible) and
       bm_TGtkEntry_cursor_visible)
 
 proc in_click*(a: PEntry): guint =
@@ -13117,7 +13121,7 @@ proc in_click*(a: PEntry): guint =
 
 proc set_in_click*(a: PEntry, `in_click`: guint) =
   a.flag1 = a.flag1 or
-      (int16(`in_click` shl bp_TGtkEntry_in_click) and bm_TGtkEntry_in_click)
+      (uint16(`in_click` shl bp_TGtkEntry_in_click) and bm_TGtkEntry_in_click)
 
 proc is_cell_renderer*(a: PEntry): guint =
   result = (a.flag1 and bm_TGtkEntry_is_cell_renderer) shr
@@ -13125,7 +13129,7 @@ proc is_cell_renderer*(a: PEntry): guint =
 
 proc set_is_cell_renderer*(a: PEntry, `is_cell_renderer`: guint) =
   a.flag1 = a.flag1 or
-      (int16(`is_cell_renderer` shl bp_TGtkEntry_is_cell_renderer) and
+      (uint16(`is_cell_renderer` shl bp_TGtkEntry_is_cell_renderer) and
       bm_TGtkEntry_is_cell_renderer)
 
 proc editing_canceled*(a: PEntry): guint =
@@ -13134,7 +13138,7 @@ proc editing_canceled*(a: PEntry): guint =
 
 proc set_editing_canceled*(a: PEntry, `editing_canceled`: guint) =
   a.flag1 = a.flag1 or
-      (int16(`editing_canceled` shl bp_TGtkEntry_editing_canceled) and
+      (uint16(`editing_canceled` shl bp_TGtkEntry_editing_canceled) and
       bm_TGtkEntry_editing_canceled)
 
 proc mouse_cursor_obscured*(a: PEntry): guint =
@@ -13143,7 +13147,7 @@ proc mouse_cursor_obscured*(a: PEntry): guint =
 
 proc set_mouse_cursor_obscured*(a: PEntry, `mouse_cursor_obscured`: guint) =
   a.flag1 = a.flag1 or
-      (int16(`mouse_cursor_obscured` shl bp_TGtkEntry_mouse_cursor_obscured) and
+      (uint16(`mouse_cursor_obscured` shl bp_TGtkEntry_mouse_cursor_obscured) and
       bm_TGtkEntry_mouse_cursor_obscured)
 
 proc TYPE_EVENT_BOX*(): GType =
@@ -13284,7 +13288,7 @@ proc handle_position*(a: PHandleBox): guint =
 when false:
   proc set_handle_position*(a: PHandleBox, `handle_position`: guint) =
     a.Handlebox_flag0 = a.Handlebox_flag0 or
-        (int16(`handle_position` shl bp_TGtkHandleBox_handle_position) and
+        (uint16(`handle_position` shl bp_TGtkHandleBox_handle_position) and
         bm_TGtkHandleBox_handle_position)
 
 proc float_window_mapped*(a: PHandleBox): guint =
@@ -13293,7 +13297,7 @@ proc float_window_mapped*(a: PHandleBox): guint =
 
 proc set_float_window_mapped*(a: PHandleBox, `float_window_mapped`: guint) =
   a.Handlebox_flag0 = a.Handlebox_flag0 or
-      (int16(`float_window_mapped` shl bp_TGtkHandleBox_float_window_mapped) and
+      (uint16(`float_window_mapped` shl bp_TGtkHandleBox_float_window_mapped) and
       bm_TGtkHandleBox_float_window_mapped)
 
 proc child_detached*(a: PHandleBox): guint =
@@ -13302,7 +13306,7 @@ proc child_detached*(a: PHandleBox): guint =
 
 proc set_child_detached*(a: PHandleBox, `child_detached`: guint) =
   a.Handlebox_flag0 = a.Handlebox_flag0 or
-      (int16(`child_detached` shl bp_TGtkHandleBox_child_detached) and
+      (uint16(`child_detached` shl bp_TGtkHandleBox_child_detached) and
       bm_TGtkHandleBox_child_detached)
 
 proc in_drag*(a: PHandleBox): guint =
@@ -13311,7 +13315,7 @@ proc in_drag*(a: PHandleBox): guint =
 
 proc set_in_drag*(a: PHandleBox, `in_drag`: guint) =
   a.Handlebox_flag0 = a.Handlebox_flag0 or
-      (int16(`in_drag` shl bp_TGtkHandleBox_in_drag) and
+      (uint16(`in_drag` shl bp_TGtkHandleBox_in_drag) and
       bm_TGtkHandleBox_in_drag)
 
 proc shrink_on_detach*(a: PHandleBox): guint =
@@ -13320,18 +13324,19 @@ proc shrink_on_detach*(a: PHandleBox): guint =
 
 proc set_shrink_on_detach*(a: PHandleBox, `shrink_on_detach`: guint) =
   a.Handlebox_flag0 = a.Handlebox_flag0 or
-      (int16(`shrink_on_detach` shl bp_TGtkHandleBox_shrink_on_detach) and
+      (uint16(`shrink_on_detach` shl bp_TGtkHandleBox_shrink_on_detach) and
       bm_TGtkHandleBox_shrink_on_detach)
 
-proc snap_edge*(a: PHandleBox): gint =
-  result = (a.Handlebox_flag0 and bm_TGtkHandleBox_snap_edge) shr
-      bp_TGtkHandleBox_snap_edge
+# set_snap_edge was in a when false. snap_edge put in when false as the actual return type should be GtkPositionType not gint
+#when false:
+proc snap_edge*(a: PHandleBox): TPositionType =
+  result = ((a.Handlebox_flag0 and bm_TGtkHandleBox_snap_edge) shr
+      bp_TGtkHandleBox_snap_edge).TPositionType
 
-when false:
-  proc set_snap_edge*(a: PHandleBox, `snap_edge`: gint) =
-    a.Handlebox_flag0 = a.Handlebox_flag0 or
-        (int16(`snap_edge` shl bp_TGtkHandleBox_snap_edge) and
-        bm_TGtkHandleBox_snap_edge)
+proc set_snap_edge*(a: PHandleBox, `snap_edge`: TPositionType) =
+  a.Handlebox_flag0 = a.Handlebox_flag0 or
+      (uint16(`snap_edge` shl bp_TGtkHandleBox_snap_edge) and
+      bm_TGtkHandleBox_snap_edge)
 
 proc TYPE_PANED*(): GType =
   result = paned_get_type()
@@ -13357,7 +13362,7 @@ proc position_set*(a: PPaned): guint =
 
 proc set_position_set*(a: PPaned, `position_set`: guint) =
   a.Panedflag0 = a.Panedflag0 or
-      (int16(`position_set` shl bp_TGtkPaned_position_set) and
+      (uint16(`position_set` shl bp_TGtkPaned_position_set) and
       bm_TGtkPaned_position_set)
 
 proc in_drag*(a: PPaned): guint =
@@ -13365,7 +13370,7 @@ proc in_drag*(a: PPaned): guint =
 
 proc set_in_drag*(a: PPaned, `in_drag`: guint) =
   a.Panedflag0 = a.Panedflag0 or
-      (int16(`in_drag` shl bp_TGtkPaned_in_drag) and bm_TGtkPaned_in_drag)
+      (uint16(`in_drag` shl bp_TGtkPaned_in_drag) and bm_TGtkPaned_in_drag)
 
 proc child1_shrink*(a: PPaned): guint =
   result = (a.Panedflag0 and bm_TGtkPaned_child1_shrink) shr
@@ -13373,7 +13378,7 @@ proc child1_shrink*(a: PPaned): guint =
 
 proc set_child1_shrink*(a: PPaned, `child1_shrink`: guint) =
   a.Panedflag0 = a.Panedflag0 or
-      (int16(`child1_shrink` shl bp_TGtkPaned_child1_shrink) and
+      (uint16(`child1_shrink` shl bp_TGtkPaned_child1_shrink) and
       bm_TGtkPaned_child1_shrink)
 
 proc child1_resize*(a: PPaned): guint =
@@ -13382,7 +13387,7 @@ proc child1_resize*(a: PPaned): guint =
 
 proc set_child1_resize*(a: PPaned, `child1_resize`: guint) =
   a.Panedflag0 = a.Panedflag0 or
-      (int16(`child1_resize` shl bp_TGtkPaned_child1_resize) and
+      (uint16(`child1_resize` shl bp_TGtkPaned_child1_resize) and
       bm_TGtkPaned_child1_resize)
 
 proc child2_shrink*(a: PPaned): guint =
@@ -13391,7 +13396,7 @@ proc child2_shrink*(a: PPaned): guint =
 
 proc set_child2_shrink*(a: PPaned, `child2_shrink`: guint) =
   a.Panedflag0 = a.Panedflag0 or
-      (int16(`child2_shrink` shl bp_TGtkPaned_child2_shrink) and
+      (uint16(`child2_shrink` shl bp_TGtkPaned_child2_shrink) and
       bm_TGtkPaned_child2_shrink)
 
 proc child2_resize*(a: PPaned): guint =
@@ -13400,7 +13405,7 @@ proc child2_resize*(a: PPaned): guint =
 
 proc set_child2_resize*(a: PPaned, `child2_resize`: guint) =
   a.Panedflag0 = a.Panedflag0 or
-      (int16(`child2_resize` shl bp_TGtkPaned_child2_resize) and
+      (uint16(`child2_resize` shl bp_TGtkPaned_child2_resize) and
       bm_TGtkPaned_child2_resize)
 
 proc orientation*(a: PPaned): guint =
@@ -13409,7 +13414,7 @@ proc orientation*(a: PPaned): guint =
 
 proc set_orientation*(a: PPaned, `orientation`: guint) =
   a.Panedflag0 = a.Panedflag0 or
-      (int16(`orientation` shl bp_TGtkPaned_orientation) and
+      (uint16(`orientation` shl bp_TGtkPaned_orientation) and
       bm_TGtkPaned_orientation)
 
 proc in_recursion*(a: PPaned): guint =
@@ -13418,7 +13423,7 @@ proc in_recursion*(a: PPaned): guint =
 
 proc set_in_recursion*(a: PPaned, `in_recursion`: guint) =
   a.Panedflag0 = a.Panedflag0 or
-      (int16(`in_recursion` shl bp_TGtkPaned_in_recursion) and
+      (uint16(`in_recursion` shl bp_TGtkPaned_in_recursion) and
       bm_TGtkPaned_in_recursion)
 
 proc handle_prelit*(a: PPaned): guint =
@@ -13427,7 +13432,7 @@ proc handle_prelit*(a: PPaned): guint =
 
 proc set_handle_prelit*(a: PPaned, `handle_prelit`: guint) =
   a.Panedflag0 = a.Panedflag0 or
-      (int16(`handle_prelit` shl bp_TGtkPaned_handle_prelit) and
+      (uint16(`handle_prelit` shl bp_TGtkPaned_handle_prelit) and
       bm_TGtkPaned_handle_prelit)
 
 proc paned_gutter_size*(p: pointer, s: gint) =
@@ -13550,7 +13555,7 @@ proc engine_specified*(a: PRcStyle): guint =
 
 proc set_engine_specified*(a: PRcStyle, `engine_specified`: guint) =
   a.RcStyleflag0 = a.RcStyleflag0 or
-      (int16(`engine_specified` shl bp_TGtkRcStyle_engine_specified) and
+      (uint16(`engine_specified` shl bp_TGtkRcStyle_engine_specified) and
       bm_TGtkRcStyle_engine_specified)
 
 proc TYPE_STYLE*(): GType =
@@ -13575,7 +13580,7 @@ proc TYPE_BORDER*(): GType =
   result = border_get_type()
 
 proc STYLE_ATTACHED*(style: pointer): bool =
-  result = ((STYLE(style)).attach_count) > 0'i32
+  result = ((STYLE(style)).attach_count) > 0'u32
 
 proc apply_default_pixmap*(style: PStyle, window: gdk2.PWindow,
                                  state_type: TStateType, area: gdk2.PRectangle,
@@ -13606,7 +13611,7 @@ proc inverted*(a: PRange): guint =
 
 proc set_inverted*(a: PRange, `inverted`: guint) =
   a.Rangeflag0 = a.Rangeflag0 or
-      (int16(`inverted` shl bp_TGtkRange_inverted) and bm_TGtkRange_inverted)
+      (uint16(`inverted` shl bp_TGtkRange_inverted) and bm_TGtkRange_inverted)
 
 proc flippable*(a: PRange): guint =
   result = (a.Rangeflag0 and bm_TGtkRange_flippable) shr
@@ -13614,7 +13619,7 @@ proc flippable*(a: PRange): guint =
 
 proc set_flippable*(a: PRange, `flippable`: guint) =
   a.Rangeflag0 = a.Rangeflag0 or
-      (int16(`flippable` shl bp_TGtkRange_flippable) and
+      (uint16(`flippable` shl bp_TGtkRange_flippable) and
       bm_TGtkRange_flippable)
 
 proc has_stepper_a*(a: PRange): guint =
@@ -13623,7 +13628,7 @@ proc has_stepper_a*(a: PRange): guint =
 
 proc set_has_stepper_a*(a: PRange, `has_stepper_a`: guint) =
   a.Rangeflag0 = a.Rangeflag0 or
-      (int16(`has_stepper_a` shl bp_TGtkRange_has_stepper_a) and
+      (uint16(`has_stepper_a` shl bp_TGtkRange_has_stepper_a) and
       bm_TGtkRange_has_stepper_a)
 
 proc has_stepper_b*(a: PRange): guint =
@@ -13632,7 +13637,7 @@ proc has_stepper_b*(a: PRange): guint =
 
 proc set_has_stepper_b*(a: PRange, `has_stepper_b`: guint) =
   a.Rangeflag0 = a.Rangeflag0 or
-      (int16(`has_stepper_b` shl bp_TGtkRange_has_stepper_b) and
+      (uint16(`has_stepper_b` shl bp_TGtkRange_has_stepper_b) and
       bm_TGtkRange_has_stepper_b)
 
 proc has_stepper_c*(a: PRange): guint =
@@ -13641,7 +13646,7 @@ proc has_stepper_c*(a: PRange): guint =
 
 proc set_has_stepper_c*(a: PRange, `has_stepper_c`: guint) =
   a.Rangeflag0 = a.Rangeflag0 or
-      (int16(`has_stepper_c` shl bp_TGtkRange_has_stepper_c) and
+      (uint16(`has_stepper_c` shl bp_TGtkRange_has_stepper_c) and
       bm_TGtkRange_has_stepper_c)
 
 proc has_stepper_d*(a: PRange): guint =
@@ -13650,7 +13655,7 @@ proc has_stepper_d*(a: PRange): guint =
 
 proc set_has_stepper_d*(a: PRange, `has_stepper_d`: guint) =
   a.Rangeflag0 = a.Rangeflag0 or
-      (int16(`has_stepper_d` shl bp_TGtkRange_has_stepper_d) and
+      (uint16(`has_stepper_d` shl bp_TGtkRange_has_stepper_d) and
       bm_TGtkRange_has_stepper_d)
 
 proc need_recalc*(a: PRange): guint =
@@ -13659,7 +13664,7 @@ proc need_recalc*(a: PRange): guint =
 
 proc set_need_recalc*(a: PRange, `need_recalc`: guint) =
   a.Rangeflag0 = a.Rangeflag0 or
-      (int16(`need_recalc` shl bp_TGtkRange_need_recalc) and
+      (uint16(`need_recalc` shl bp_TGtkRange_need_recalc) and
       bm_TGtkRange_need_recalc)
 
 proc slider_size_fixed*(a: PRange): guint =
@@ -13668,7 +13673,7 @@ proc slider_size_fixed*(a: PRange): guint =
 
 proc set_slider_size_fixed*(a: PRange, `slider_size_fixed`: guint) =
   a.Rangeflag0 = a.Rangeflag0 or
-      (int16(`slider_size_fixed` shl bp_TGtkRange_slider_size_fixed) and
+      (uint16(`slider_size_fixed` shl bp_TGtkRange_slider_size_fixed) and
       bm_TGtkRange_slider_size_fixed)
 
 proc trough_click_forward*(a: PRange): guint =
@@ -13677,7 +13682,7 @@ proc trough_click_forward*(a: PRange): guint =
 
 proc set_trough_click_forward*(a: PRange, `trough_click_forward`: guint) =
   a.flag1 = a.flag1 or
-      (int16(`trough_click_forward` shl bp_TGtkRange_trough_click_forward) and
+      (uint16(`trough_click_forward` shl bp_TGtkRange_trough_click_forward) and
       bm_TGtkRange_trough_click_forward)
 
 proc update_pending*(a: PRange): guint =
@@ -13686,7 +13691,7 @@ proc update_pending*(a: PRange): guint =
 
 proc set_update_pending*(a: PRange, `update_pending`: guint) =
   a.flag1 = a.flag1 or
-      (int16(`update_pending` shl bp_TGtkRange_update_pending) and
+      (uint16(`update_pending` shl bp_TGtkRange_update_pending) and
       bm_TGtkRange_update_pending)
 
 proc TYPE_SCALE*(): GType =
@@ -13713,7 +13718,7 @@ proc draw_value*(a: PScale): guint =
 
 proc set_draw_value*(a: PScale, `draw_value`: guint) =
   a.Scaleflag0 = a.Scaleflag0 or
-      (int16(`draw_value` shl bp_TGtkScale_draw_value) and
+      (uint16(`draw_value` shl bp_TGtkScale_draw_value) and
       bm_TGtkScale_draw_value)
 
 proc value_pos*(a: PScale): guint =
@@ -13723,7 +13728,7 @@ proc value_pos*(a: PScale): guint =
 when false:
   proc set_value_pos*(a: PScale, `value_pos`: guint) =
     a.Scaleflag0 = a.Scaleflag0 or
-        (int16(`value_pos` shl bp_TGtkScale_value_pos) and
+        (uint16(`value_pos` shl bp_TGtkScale_value_pos) and
         bm_TGtkScale_value_pos)
 
 proc TYPE_HSCALE*(): GType =
@@ -13906,7 +13911,7 @@ proc in_hex_sequence*(a: PIMContextSimple): guint =
 
 proc set_in_hex_sequence*(a: PIMContextSimple, `in_hex_sequence`: guint) =
   a.IMContextSimpleflag0 = a.IMContextSimpleflag0 or
-      (int16(`in_hex_sequence` shl bp_TGtkIMContextSimple_in_hex_sequence) and
+      (uint16(`in_hex_sequence` shl bp_TGtkIMContextSimple_in_hex_sequence) and
       bm_TGtkIMContextSimple_in_hex_sequence)
 
 proc TYPE_IM_MULTICONTEXT*(): GType =
@@ -14026,7 +14031,7 @@ proc selection_mode*(a: PList): guint =
 when false:
   proc set_selection_mode*(a: PList, `selection_mode`: guint) =
     a.Listflag0 = a.Listflag0 or
-        (int16(`selection_mode` shl bp_TGtkList_selection_mode) and
+        (uint16(`selection_mode` shl bp_TGtkList_selection_mode) and
         bm_TGtkList_selection_mode)
 
 proc drag_selection*(a: PList): guint =
@@ -14035,7 +14040,7 @@ proc drag_selection*(a: PList): guint =
 
 proc set_drag_selection*(a: PList, `drag_selection`: guint) =
   a.Listflag0 = a.Listflag0 or
-      (int16(`drag_selection` shl bp_TGtkList_drag_selection) and
+      (uint16(`drag_selection` shl bp_TGtkList_drag_selection) and
       bm_TGtkList_drag_selection)
 
 proc add_mode*(a: PList): guint =
@@ -14043,7 +14048,7 @@ proc add_mode*(a: PList): guint =
 
 proc set_add_mode*(a: PList, `add_mode`: guint) =
   a.Listflag0 = a.Listflag0 or
-      (int16(`add_mode` shl bp_TGtkList_add_mode) and bm_TGtkList_add_mode)
+      (uint16(`add_mode` shl bp_TGtkList_add_mode) and bm_TGtkList_add_mode)
 
 proc list_item_get_type(): GType{.importc: "gtk_list_item_get_type", cdecl,
                                   dynlib: lib.}
@@ -14158,7 +14163,7 @@ proc columns_dirty*(a: PListStore): guint =
 
 proc set_columns_dirty*(a: PListStore, `columns_dirty`: guint) =
   a.ListStoreflag0 = a.ListStoreflag0 or
-      (int16(`columns_dirty` shl bp_TGtkListStore_columns_dirty) and
+      (uint16(`columns_dirty` shl bp_TGtkListStore_columns_dirty) and
       bm_TGtkListStore_columns_dirty)
 
 proc TYPE_MENU_BAR*(): GType =
@@ -14231,7 +14236,7 @@ proc show_tabs*(a: PNotebook): guint =
 
 proc set_show_tabs*(a: PNotebook, `show_tabs`: guint) =
   a.Notebookflag0 = a.Notebookflag0 or
-      (int16(`show_tabs` shl bp_TGtkNotebook_show_tabs) and
+      (uint16(`show_tabs` shl bp_TGtkNotebook_show_tabs) and
       bm_TGtkNotebook_show_tabs)
 
 proc homogeneous*(a: PNotebook): guint =
@@ -14240,7 +14245,7 @@ proc homogeneous*(a: PNotebook): guint =
 
 proc set_homogeneous*(a: PNotebook, `homogeneous`: guint) =
   a.Notebookflag0 = a.Notebookflag0 or
-      (int16(`homogeneous` shl bp_TGtkNotebook_homogeneous) and
+      (uint16(`homogeneous` shl bp_TGtkNotebook_homogeneous) and
       bm_TGtkNotebook_homogeneous)
 
 proc show_border*(a: PNotebook): guint =
@@ -14249,7 +14254,7 @@ proc show_border*(a: PNotebook): guint =
 
 proc set_show_border*(a: PNotebook, `show_border`: guint) =
   a.Notebookflag0 = a.Notebookflag0 or
-      (int16(`show_border` shl bp_TGtkNotebook_show_border) and
+      (uint16(`show_border` shl bp_TGtkNotebook_show_border) and
       bm_TGtkNotebook_show_border)
 
 proc tab_pos*(a: PNotebook): guint =
@@ -14258,7 +14263,7 @@ proc tab_pos*(a: PNotebook): guint =
 
 proc set_tab_pos*(a: PNotebook, `tab_pos`: guint) =
   a.Notebookflag0 = a.Notebookflag0 or
-      (int16(`tab_pos` shl bp_TGtkNotebook_tab_pos) and
+      (uint16(`tab_pos` shl bp_TGtkNotebook_tab_pos) and
       bm_TGtkNotebook_tab_pos)
 
 proc scrollable*(a: PNotebook): guint =
@@ -14267,7 +14272,7 @@ proc scrollable*(a: PNotebook): guint =
 
 proc set_scrollable*(a: PNotebook, `scrollable`: guint) =
   a.Notebookflag0 = a.Notebookflag0 or
-      (int16(`scrollable` shl bp_TGtkNotebook_scrollable) and
+      (uint16(`scrollable` shl bp_TGtkNotebook_scrollable) and
       bm_TGtkNotebook_scrollable)
 
 proc in_child*(a: PNotebook): guint =
@@ -14277,7 +14282,7 @@ proc in_child*(a: PNotebook): guint =
 when false:
   proc set_in_child*(a: PNotebook, `in_child`: guint) =
     a.Notebookflag0 = a.Notebookflag0 or
-        (int16(`in_child` shl bp_TGtkNotebook_in_child) and
+        (uint16(`in_child` shl bp_TGtkNotebook_in_child) and
         bm_TGtkNotebook_in_child)
 
 proc click_child*(a: PNotebook): guint =
@@ -14286,7 +14291,7 @@ proc click_child*(a: PNotebook): guint =
 
 proc set_click_child*(a: PNotebook, `click_child`: guint) =
   a.Notebookflag0 = a.Notebookflag0 or
-      (int16(`click_child` shl bp_TGtkNotebook_click_child) and
+      (uint16(`click_child` shl bp_TGtkNotebook_click_child) and
       bm_TGtkNotebook_click_child)
 
 proc button*(a: PNotebook): guint =
@@ -14295,7 +14300,7 @@ proc button*(a: PNotebook): guint =
 
 proc set_button*(a: PNotebook, `button`: guint) =
   a.Notebookflag0 = a.Notebookflag0 or
-      (int16(`button` shl bp_TGtkNotebook_button) and bm_TGtkNotebook_button)
+      (uint16(`button` shl bp_TGtkNotebook_button) and bm_TGtkNotebook_button)
 
 proc need_timer*(a: PNotebook): guint =
   result = (a.Notebookflag0 and bm_TGtkNotebook_need_timer) shr
@@ -14303,7 +14308,7 @@ proc need_timer*(a: PNotebook): guint =
 
 proc set_need_timer*(a: PNotebook, `need_timer`: guint) =
   a.Notebookflag0 = a.Notebookflag0 or
-      (int16(`need_timer` shl bp_TGtkNotebook_need_timer) and
+      (uint16(`need_timer` shl bp_TGtkNotebook_need_timer) and
       bm_TGtkNotebook_need_timer)
 
 proc child_has_focus*(a: PNotebook): guint =
@@ -14312,7 +14317,7 @@ proc child_has_focus*(a: PNotebook): guint =
 
 proc set_child_has_focus*(a: PNotebook, `child_has_focus`: guint) =
   a.Notebookflag0 = a.Notebookflag0 or
-      (int16(`child_has_focus` shl bp_TGtkNotebook_child_has_focus) and
+      (uint16(`child_has_focus` shl bp_TGtkNotebook_child_has_focus) and
       bm_TGtkNotebook_child_has_focus)
 
 proc have_visible_child*(a: PNotebook): guint =
@@ -14321,7 +14326,7 @@ proc have_visible_child*(a: PNotebook): guint =
 
 proc set_have_visible_child*(a: PNotebook, `have_visible_child`: guint) =
   a.Notebookflag0 = a.Notebookflag0 or
-      (int16(`have_visible_child` shl bp_TGtkNotebook_have_visible_child) and
+      (uint16(`have_visible_child` shl bp_TGtkNotebook_have_visible_child) and
       bm_TGtkNotebook_have_visible_child)
 
 proc focus_out*(a: PNotebook): guint =
@@ -14330,7 +14335,7 @@ proc focus_out*(a: PNotebook): guint =
 
 proc set_focus_out*(a: PNotebook, `focus_out`: guint) =
   a.Notebookflag0 = a.Notebookflag0 or
-      (int16(`focus_out` shl bp_TGtkNotebook_focus_out) and
+      (uint16(`focus_out` shl bp_TGtkNotebook_focus_out) and
       bm_TGtkNotebook_focus_out)
 
 proc TYPE_OLD_EDITABLE*(): GType =
@@ -14357,7 +14362,7 @@ proc has_selection*(a: POldEditable): guint =
 
 proc set_has_selection*(a: POldEditable, `has_selection`: guint) =
   a.OldEditableflag0 = a.OldEditableflag0 or
-      (int16(`has_selection` shl bp_TGtkOldEditable_has_selection) and
+      (uint16(`has_selection` shl bp_TGtkOldEditable_has_selection) and
       bm_TGtkOldEditable_has_selection)
 
 proc editable*(a: POldEditable): guint =
@@ -14366,7 +14371,7 @@ proc editable*(a: POldEditable): guint =
 
 proc set_editable*(a: POldEditable, `editable`: guint) =
   a.OldEditableflag0 = a.OldEditableflag0 or
-      (int16(`editable` shl bp_TGtkOldEditable_editable) and
+      (uint16(`editable` shl bp_TGtkOldEditable_editable) and
       bm_TGtkOldEditable_editable)
 
 proc visible*(a: POldEditable): guint =
@@ -14375,7 +14380,7 @@ proc visible*(a: POldEditable): guint =
 
 proc set_visible*(a: POldEditable, `visible`: guint) =
   a.OldEditableflag0 = a.OldEditableflag0 or
-      (int16(`visible` shl bp_TGtkOldEditable_visible) and
+      (uint16(`visible` shl bp_TGtkOldEditable_visible) and
       bm_TGtkOldEditable_visible)
 
 proc TYPE_OPTION_MENU*(): GType =
@@ -14420,7 +14425,7 @@ proc build_insensitive*(a: PPixmap): guint =
 
 proc set_build_insensitive*(a: PPixmap, `build_insensitive`: guint) =
   a.Pixmapflag0 = a.Pixmapflag0 or
-      (int16(`build_insensitive` shl bp_TGtkPixmap_build_insensitive) and
+      (uint16(`build_insensitive` shl bp_TGtkPixmap_build_insensitive) and
       bm_TGtkPixmap_build_insensitive)
 
 proc TYPE_PLUG*(): GType =
@@ -14446,7 +14451,7 @@ proc same_app*(a: PPlug): guint =
 
 proc set_same_app*(a: PPlug, `same_app`: guint) =
   a.Plugflag0 = a.Plugflag0 or
-      (int16(`same_app` shl bp_TGtkPlug_same_app) and bm_TGtkPlug_same_app)
+      (uint16(`same_app` shl bp_TGtkPlug_same_app) and bm_TGtkPlug_same_app)
 
 proc TYPE_PREVIEW*(): GType =
   result = preview_get_type()
@@ -14471,7 +14476,7 @@ proc get_type*(a: PPreview): guint =
 
 proc set_type*(a: PPreview, `type`: guint) =
   a.Previewflag0 = a.Previewflag0 or
-      (int16(`type` shl bp_TGtkPreview_type) and bm_TGtkPreview_type)
+      (uint16(`type` shl bp_TGtkPreview_type) and bm_TGtkPreview_type)
 
 proc get_expand*(a: PPreview): guint =
   result = (a.Previewflag0 and bm_TGtkPreview_expand) shr
@@ -14479,7 +14484,7 @@ proc get_expand*(a: PPreview): guint =
 
 proc set_expand*(a: PPreview, `expand`: guint) =
   a.Previewflag0 = a.Previewflag0 or
-      (int16(`expand` shl bp_TGtkPreview_expand) and bm_TGtkPreview_expand)
+      (uint16(`expand` shl bp_TGtkPreview_expand) and bm_TGtkPreview_expand)
 
 proc progress_get_type(): GType{.importc: "gtk_progress_get_type", cdecl,
                                  dynlib: lib.}
@@ -14507,7 +14512,7 @@ proc show_text*(a: PProgress): guint =
 
 proc set_show_text*(a: PProgress, `show_text`: guint) =
   a.Progressflag0 = a.Progressflag0 or
-      (int16(`show_text` shl bp_TGtkProgress_show_text) and
+      (uint16(`show_text` shl bp_TGtkProgress_show_text) and
       bm_TGtkProgress_show_text)
 
 proc activity_mode*(a: PProgress): guint =
@@ -14516,7 +14521,7 @@ proc activity_mode*(a: PProgress): guint =
 
 proc set_activity_mode*(a: PProgress, `activity_mode`: guint) =
   a.Progressflag0 = a.Progressflag0 or
-      (int16(`activity_mode` shl bp_TGtkProgress_activity_mode) and
+      (uint16(`activity_mode` shl bp_TGtkProgress_activity_mode) and
       bm_TGtkProgress_activity_mode)
 
 proc use_text_format*(a: PProgress): guint =
@@ -14525,7 +14530,7 @@ proc use_text_format*(a: PProgress): guint =
 
 proc set_use_text_format*(a: PProgress, `use_text_format`: guint) =
   a.Progressflag0 = a.Progressflag0 or
-      (int16(`use_text_format` shl bp_TGtkProgress_use_text_format) and
+      (uint16(`use_text_format` shl bp_TGtkProgress_use_text_format) and
       bm_TGtkProgress_use_text_format)
 
 proc TYPE_PROGRESS_BAR*(): GType =
@@ -14552,7 +14557,7 @@ proc activity_dir*(a: PProgressBar): guint =
 
 proc set_activity_dir*(a: PProgressBar, `activity_dir`: guint) =
   a.ProgressBarflag0 = a.ProgressBarflag0 or
-      (int16(`activity_dir` shl bp_TGtkProgressBar_activity_dir) and
+      (uint16(`activity_dir` shl bp_TGtkProgressBar_activity_dir) and
       bm_TGtkProgressBar_activity_dir)
 
 proc TYPE_RADIO_BUTTON*(): GType =
@@ -14618,7 +14623,7 @@ proc hscrollbar_policy*(a: PScrolledWindow): guint =
 
 proc set_hscrollbar_policy*(a: PScrolledWindow, `hscrollbar_policy`: guint) =
   a.Scrolledwindow_flag0 = a.Scrolledwindow_flag0 or
-      (int16(`hscrollbar_policy` shl bp_TGtkScrolledWindow_hscrollbar_policy) and
+      (uint16(`hscrollbar_policy` shl bp_TGtkScrolledWindow_hscrollbar_policy) and
       bm_TGtkScrolledWindow_hscrollbar_policy)
 
 proc vscrollbar_policy*(a: PScrolledWindow): guint =
@@ -14627,7 +14632,7 @@ proc vscrollbar_policy*(a: PScrolledWindow): guint =
 
 proc set_vscrollbar_policy*(a: PScrolledWindow, `vscrollbar_policy`: guint) =
   a.Scrolledwindow_flag0 = a.Scrolledwindow_flag0 or
-      (int16(`vscrollbar_policy` shl bp_TGtkScrolledWindow_vscrollbar_policy) and
+      (uint16(`vscrollbar_policy` shl bp_TGtkScrolledWindow_vscrollbar_policy) and
       bm_TGtkScrolledWindow_vscrollbar_policy)
 
 proc hscrollbar_visible*(a: PScrolledWindow): guint =
@@ -14637,7 +14642,7 @@ proc hscrollbar_visible*(a: PScrolledWindow): guint =
 
 proc set_hscrollbar_visible*(a: PScrolledWindow, `hscrollbar_visible`: guint) =
   a.Scrolledwindow_flag0 = a.Scrolledwindow_flag0 or
-      (int16(`hscrollbar_visible` shl
+      (uint16(`hscrollbar_visible` shl
       bp_TGtkScrolledWindow_hscrollbar_visible) and
       bm_TGtkScrolledWindow_hscrollbar_visible)
 
@@ -14648,7 +14653,7 @@ proc vscrollbar_visible*(a: PScrolledWindow): guint =
 
 proc set_vscrollbar_visible*(a: PScrolledWindow, `vscrollbar_visible`: guint) =
   a.Scrolledwindow_flag0 = a.Scrolledwindow_flag0 or
-      int16((`vscrollbar_visible` shl
+      uint16((`vscrollbar_visible` shl
       bp_TGtkScrolledWindow_vscrollbar_visible) and
       bm_TGtkScrolledWindow_vscrollbar_visible)
 
@@ -14658,7 +14663,7 @@ proc window_placement*(a: PScrolledWindow): guint =
 
 proc set_window_placement*(a: PScrolledWindow, `window_placement`: guint) =
   a.Scrolledwindow_flag0 = a.Scrolledwindow_flag0 or
-      (int16(`window_placement` shl bp_TGtkScrolledWindow_window_placement) and
+      (uint16(`window_placement` shl bp_TGtkScrolledWindow_window_placement) and
       bm_TGtkScrolledWindow_window_placement)
 
 proc focus_out*(a: PScrolledWindow): guint =
@@ -14667,7 +14672,7 @@ proc focus_out*(a: PScrolledWindow): guint =
 
 proc set_focus_out*(a: PScrolledWindow, `focus_out`: guint) =
   a.Scrolledwindow_flag0 = a.Scrolledwindow_flag0 or
-      (int16(`focus_out` shl bp_TGtkScrolledWindow_focus_out) and
+      (uint16(`focus_out` shl bp_TGtkScrolledWindow_focus_out) and
       bm_TGtkScrolledWindow_focus_out)
 
 proc TYPE_SELECTION_DATA*(): GType =
@@ -14700,7 +14705,7 @@ proc signal_name*(signal_id: guint): cstring =
   result = g_signal_name(signal_id)
 
 proc signal_emit_stop*(instance: gpointer, signal_id: guint, detail: TGQuark) =
-  if detail != 0'i32: g_signal_stop_emission(instance, signal_id, 0)
+  if detail != 0'u32: g_signal_stop_emission(instance, signal_id, 0)
 
 proc signal_connect_full*(anObject: PObject, name: cstring, fun: TSignalFunc,
                           unknown1: pointer, func_data: gpointer,
@@ -14800,7 +14805,7 @@ proc have_width*(a: PSizeGroup): guint =
 
 proc set_have_width*(a: PSizeGroup, `have_width`: guint) =
   a.SizeGroupflag0 = a.SizeGroupflag0 or
-      (int16(`have_width` shl bp_TGtkSizeGroup_have_width) and
+      (uint16(`have_width` shl bp_TGtkSizeGroup_have_width) and
       bm_TGtkSizeGroup_have_width)
 
 proc have_height*(a: PSizeGroup): guint =
@@ -14809,7 +14814,7 @@ proc have_height*(a: PSizeGroup): guint =
 
 proc set_have_height*(a: PSizeGroup, `have_height`: guint) =
   a.SizeGroupflag0 = a.SizeGroupflag0 or
-      (int16(`have_height` shl bp_TGtkSizeGroup_have_height) and
+      (uint16(`have_height` shl bp_TGtkSizeGroup_have_height) and
       bm_TGtkSizeGroup_have_height)
 
 proc TYPE_SOCKET*(): GType =
@@ -14836,7 +14841,7 @@ proc same_app*(a: PSocket): guint =
 
 proc set_same_app*(a: PSocket, `same_app`: guint) =
   a.Socketflag0 = a.Socketflag0 or
-      (int16(`same_app` shl bp_TGtkSocket_same_app) and
+      (uint16(`same_app` shl bp_TGtkSocket_same_app) and
       bm_TGtkSocket_same_app)
 
 proc focus_in*(a: PSocket): guint =
@@ -14845,7 +14850,7 @@ proc focus_in*(a: PSocket): guint =
 
 proc set_focus_in*(a: PSocket, `focus_in`: guint) =
   a.Socketflag0 = a.Socketflag0 or
-      (int16(`focus_in` shl bp_TGtkSocket_focus_in) and
+      (uint16(`focus_in` shl bp_TGtkSocket_focus_in) and
       bm_TGtkSocket_focus_in)
 
 proc have_size*(a: PSocket): guint =
@@ -14854,7 +14859,7 @@ proc have_size*(a: PSocket): guint =
 
 proc set_have_size*(a: PSocket, `have_size`: guint) =
   a.Socketflag0 = a.Socketflag0 or
-      (int16(`have_size` shl bp_TGtkSocket_have_size) and
+      (uint16(`have_size` shl bp_TGtkSocket_have_size) and
       bm_TGtkSocket_have_size)
 
 proc need_map*(a: PSocket): guint =
@@ -14863,7 +14868,7 @@ proc need_map*(a: PSocket): guint =
 
 proc set_need_map*(a: PSocket, `need_map`: guint) =
   a.Socketflag0 = a.Socketflag0 or
-      (int16(`need_map` shl bp_TGtkSocket_need_map) and
+      (uint16(`need_map` shl bp_TGtkSocket_need_map) and
       bm_TGtkSocket_need_map)
 
 proc is_mapped*(a: PSocket): guint =
@@ -14872,7 +14877,7 @@ proc is_mapped*(a: PSocket): guint =
 
 proc set_is_mapped*(a: PSocket, `is_mapped`: guint) =
   a.Socketflag0 = a.Socketflag0 or
-      (int16(`is_mapped` shl bp_TGtkSocket_is_mapped) and
+      (uint16(`is_mapped` shl bp_TGtkSocket_is_mapped) and
       bm_TGtkSocket_is_mapped)
 
 proc TYPE_SPIN_BUTTON*(): GType =
@@ -14997,7 +15002,7 @@ proc has_resize_grip*(a: PStatusbar): guint =
 
 proc set_has_resize_grip*(a: PStatusbar, `has_resize_grip`: guint) =
   a.Statusbarflag0 = a.Statusbarflag0 or
-      (int16(`has_resize_grip` shl bp_TGtkStatusbar_has_resize_grip) and
+      (uint16(`has_resize_grip` shl bp_TGtkStatusbar_has_resize_grip) and
       bm_TGtkStatusbar_has_resize_grip)
 
 proc TYPE_TABLE*(): GType =
@@ -15024,7 +15029,7 @@ proc homogeneous*(a: PTable): guint =
 
 proc set_homogeneous*(a: PTable, `homogeneous`: guint) =
   a.Tableflag0 = a.Tableflag0 or
-      (int16(`homogeneous` shl bp_TGtkTable_homogeneous) and
+      (uint16(`homogeneous` shl bp_TGtkTable_homogeneous) and
       bm_TGtkTable_homogeneous)
 
 proc xexpand*(a: PTableChild): guint =
@@ -15033,7 +15038,7 @@ proc xexpand*(a: PTableChild): guint =
 
 proc set_xexpand*(a: PTableChild, `xexpand`: guint) =
   a.TableChildflag0 = a.TableChildflag0 or
-      (int16(`xexpand` shl bp_TGtkTableChild_xexpand) and
+      (uint16(`xexpand` shl bp_TGtkTableChild_xexpand) and
       bm_TGtkTableChild_xexpand)
 
 proc yexpand*(a: PTableChild): guint =
@@ -15042,7 +15047,7 @@ proc yexpand*(a: PTableChild): guint =
 
 proc set_yexpand*(a: PTableChild, `yexpand`: guint) =
   a.TableChildflag0 = a.TableChildflag0 or
-      (int16(`yexpand` shl bp_TGtkTableChild_yexpand) and
+      (uint16(`yexpand` shl bp_TGtkTableChild_yexpand) and
       bm_TGtkTableChild_yexpand)
 
 proc xshrink*(a: PTableChild): guint =
@@ -15051,7 +15056,7 @@ proc xshrink*(a: PTableChild): guint =
 
 proc set_xshrink*(a: PTableChild, `xshrink`: guint) =
   a.TableChildflag0 = a.TableChildflag0 or
-      (int16(`xshrink` shl bp_TGtkTableChild_xshrink) and
+      (uint16(`xshrink` shl bp_TGtkTableChild_xshrink) and
       bm_TGtkTableChild_xshrink)
 
 proc yshrink*(a: PTableChild): guint =
@@ -15060,7 +15065,7 @@ proc yshrink*(a: PTableChild): guint =
 
 proc set_yshrink*(a: PTableChild, `yshrink`: guint) =
   a.TableChildflag0 = a.TableChildflag0 or
-      (int16(`yshrink` shl bp_TGtkTableChild_yshrink) and
+      (uint16(`yshrink` shl bp_TGtkTableChild_yshrink) and
       bm_TGtkTableChild_yshrink)
 
 proc xfill*(a: PTableChild): guint =
@@ -15069,7 +15074,7 @@ proc xfill*(a: PTableChild): guint =
 
 proc set_xfill*(a: PTableChild, `xfill`: guint) =
   a.TableChildflag0 = a.TableChildflag0 or
-      (int16(`xfill` shl bp_TGtkTableChild_xfill) and bm_TGtkTableChild_xfill)
+      (uint16(`xfill` shl bp_TGtkTableChild_xfill) and bm_TGtkTableChild_xfill)
 
 proc yfill*(a: PTableChild): guint =
   result = (a.TableChildflag0 and bm_TGtkTableChild_yfill) shr
@@ -15077,7 +15082,7 @@ proc yfill*(a: PTableChild): guint =
 
 proc set_yfill*(a: PTableChild, `yfill`: guint) =
   a.TableChildflag0 = a.TableChildflag0 or
-      (int16(`yfill` shl bp_TGtkTableChild_yfill) and bm_TGtkTableChild_yfill)
+      (uint16(`yfill` shl bp_TGtkTableChild_yfill) and bm_TGtkTableChild_yfill)
 
 proc need_expand*(a: PTableRowCol): guint =
   result = (a.flag0 and bm_TGtkTableRowCol_need_expand) shr
@@ -15085,7 +15090,7 @@ proc need_expand*(a: PTableRowCol): guint =
 
 proc set_need_expand*(a: PTableRowCol, `need_expand`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`need_expand` shl bp_TGtkTableRowCol_need_expand) and
+      (uint16(`need_expand` shl bp_TGtkTableRowCol_need_expand) and
       bm_TGtkTableRowCol_need_expand)
 
 proc need_shrink*(a: PTableRowCol): guint =
@@ -15094,7 +15099,7 @@ proc need_shrink*(a: PTableRowCol): guint =
 
 proc set_need_shrink*(a: PTableRowCol, `need_shrink`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`need_shrink` shl bp_TGtkTableRowCol_need_shrink) and
+      (uint16(`need_shrink` shl bp_TGtkTableRowCol_need_shrink) and
       bm_TGtkTableRowCol_need_shrink)
 
 proc expand*(a: PTableRowCol): guint =
@@ -15103,7 +15108,7 @@ proc expand*(a: PTableRowCol): guint =
 
 proc set_expand*(a: PTableRowCol, `expand`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`expand` shl bp_TGtkTableRowCol_expand) and
+      (uint16(`expand` shl bp_TGtkTableRowCol_expand) and
       bm_TGtkTableRowCol_expand)
 
 proc shrink*(a: PTableRowCol): guint =
@@ -15112,7 +15117,7 @@ proc shrink*(a: PTableRowCol): guint =
 
 proc set_shrink*(a: PTableRowCol, `shrink`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`shrink` shl bp_TGtkTableRowCol_shrink) and
+      (uint16(`shrink` shl bp_TGtkTableRowCol_shrink) and
       bm_TGtkTableRowCol_shrink)
 
 proc empty*(a: PTableRowCol): guint =
@@ -15121,7 +15126,7 @@ proc empty*(a: PTableRowCol): guint =
 
 proc set_empty*(a: PTableRowCol, `empty`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`empty` shl bp_TGtkTableRowCol_empty) and
+      (uint16(`empty` shl bp_TGtkTableRowCol_empty) and
       bm_TGtkTableRowCol_empty)
 
 proc TYPE_TEAROFF_MENU_ITEM*(): GType =
@@ -15150,7 +15155,7 @@ proc torn_off*(a: PTearoffMenuItem): guint =
 
 proc set_torn_off*(a: PTearoffMenuItem, `torn_off`: guint) =
   a.TearoffMenuItemflag0 = a.TearoffMenuItemflag0 or
-      (int16(`torn_off` shl bp_TGtkTearoffMenuItem_torn_off) and
+      (uint16(`torn_off` shl bp_TGtkTearoffMenuItem_torn_off) and
       bm_TGtkTearoffMenuItem_torn_off)
 
 proc TYPE_TEXT*(): GType =
@@ -15176,18 +15181,18 @@ proc line_wrap*(a: PText): guint =
 
 proc set_line_wrap*(a: PText, `line_wrap`: guint) =
   a.Textflag0 = a.Textflag0 or
-      (int16(`line_wrap` shl bp_TGtkText_line_wrap) and bm_TGtkText_line_wrap)
+      (uint16(`line_wrap` shl bp_TGtkText_line_wrap) and bm_TGtkText_line_wrap)
 
 proc word_wrap*(a: PText): guint =
   result = (a.Textflag0 and bm_TGtkText_word_wrap) shr bp_TGtkText_word_wrap
 
 proc set_word_wrap*(a: PText, `word_wrap`: guint) =
   a.Textflag0 = a.Textflag0 or
-      (int16(`word_wrap` shl bp_TGtkText_word_wrap) and bm_TGtkText_word_wrap)
+      (uint16(`word_wrap` shl bp_TGtkText_word_wrap) and bm_TGtkText_word_wrap)
 
 proc use_wchar*(a: PText): gboolean =
   result = ((a.Textflag0 and bm_TGtkText_use_wchar) shr bp_TGtkText_use_wchar) >
-      0'i16
+      0'u16
 
 proc set_use_wchar*(a: PText, `use_wchar`: gboolean) =
   if `use_wchar`:
@@ -15442,7 +15447,7 @@ proc underline*(a: PTextAppearance): guint =
 
 proc set_underline*(a: PTextAppearance, `underline`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`underline` shl bp_TGtkTextAppearance_underline) and
+      (uint16(`underline` shl bp_TGtkTextAppearance_underline) and
       bm_TGtkTextAppearance_underline)
 
 proc strikethrough*(a: PTextAppearance): guint =
@@ -15451,7 +15456,7 @@ proc strikethrough*(a: PTextAppearance): guint =
 
 proc set_strikethrough*(a: PTextAppearance, `strikethrough`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`strikethrough` shl bp_TGtkTextAppearance_strikethrough) and
+      (uint16(`strikethrough` shl bp_TGtkTextAppearance_strikethrough) and
       bm_TGtkTextAppearance_strikethrough)
 
 proc draw_bg*(a: PTextAppearance): guint =
@@ -15460,7 +15465,7 @@ proc draw_bg*(a: PTextAppearance): guint =
 
 proc set_draw_bg*(a: PTextAppearance, `draw_bg`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`draw_bg` shl bp_TGtkTextAppearance_draw_bg) and
+      (uint16(`draw_bg` shl bp_TGtkTextAppearance_draw_bg) and
       bm_TGtkTextAppearance_draw_bg)
 
 proc inside_selection*(a: PTextAppearance): guint =
@@ -15469,7 +15474,7 @@ proc inside_selection*(a: PTextAppearance): guint =
 
 proc set_inside_selection*(a: PTextAppearance, `inside_selection`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`inside_selection` shl bp_TGtkTextAppearance_inside_selection) and
+      (uint16(`inside_selection` shl bp_TGtkTextAppearance_inside_selection) and
       bm_TGtkTextAppearance_inside_selection)
 
 proc is_text*(a: PTextAppearance): guint =
@@ -15478,7 +15483,7 @@ proc is_text*(a: PTextAppearance): guint =
 
 proc set_is_text*(a: PTextAppearance, `is_text`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`is_text` shl bp_TGtkTextAppearance_is_text) and
+      (uint16(`is_text` shl bp_TGtkTextAppearance_is_text) and
       bm_TGtkTextAppearance_is_text)
 
 proc pad1*(a: PTextAppearance): guint =
@@ -15487,7 +15492,7 @@ proc pad1*(a: PTextAppearance): guint =
 
 proc set_pad1*(a: PTextAppearance, `pad1`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`pad1` shl bp_TGtkTextAppearance_pad1) and
+      (uint16(`pad1` shl bp_TGtkTextAppearance_pad1) and
       bm_TGtkTextAppearance_pad1)
 
 proc pad2*(a: PTextAppearance): guint =
@@ -15496,7 +15501,7 @@ proc pad2*(a: PTextAppearance): guint =
 
 proc set_pad2*(a: PTextAppearance, `pad2`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`pad2` shl bp_TGtkTextAppearance_pad2) and
+      (uint16(`pad2` shl bp_TGtkTextAppearance_pad2) and
       bm_TGtkTextAppearance_pad2)
 
 proc pad3*(a: PTextAppearance): guint =
@@ -15505,7 +15510,7 @@ proc pad3*(a: PTextAppearance): guint =
 
 proc set_pad3*(a: PTextAppearance, `pad3`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`pad3` shl bp_TGtkTextAppearance_pad3) and
+      (uint16(`pad3` shl bp_TGtkTextAppearance_pad3) and
       bm_TGtkTextAppearance_pad3)
 
 proc pad4*(a: PTextAppearance): guint =
@@ -15514,7 +15519,7 @@ proc pad4*(a: PTextAppearance): guint =
 
 proc set_pad4*(a: PTextAppearance, `pad4`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`pad4` shl bp_TGtkTextAppearance_pad4) and
+      (uint16(`pad4` shl bp_TGtkTextAppearance_pad4) and
       bm_TGtkTextAppearance_pad4)
 
 proc invisible*(a: PTextAttributes): guint =
@@ -15523,7 +15528,7 @@ proc invisible*(a: PTextAttributes): guint =
 
 proc set_invisible*(a: PTextAttributes, `invisible`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`invisible` shl bp_TGtkTextAttributes_invisible) and
+      (uint16(`invisible` shl bp_TGtkTextAttributes_invisible) and
       bm_TGtkTextAttributes_invisible)
 
 proc bg_full_height*(a: PTextAttributes): guint =
@@ -15532,7 +15537,7 @@ proc bg_full_height*(a: PTextAttributes): guint =
 
 proc set_bg_full_height*(a: PTextAttributes, `bg_full_height`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`bg_full_height` shl bp_TGtkTextAttributes_bg_full_height) and
+      (uint16(`bg_full_height` shl bp_TGtkTextAttributes_bg_full_height) and
       bm_TGtkTextAttributes_bg_full_height)
 
 proc editable*(a: PTextAttributes): guint =
@@ -15541,7 +15546,7 @@ proc editable*(a: PTextAttributes): guint =
 
 proc set_editable*(a: PTextAttributes, `editable`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`editable` shl bp_TGtkTextAttributes_editable) and
+      (uint16(`editable` shl bp_TGtkTextAttributes_editable) and
       bm_TGtkTextAttributes_editable)
 
 proc realized*(a: PTextAttributes): guint =
@@ -15550,7 +15555,7 @@ proc realized*(a: PTextAttributes): guint =
 
 proc set_realized*(a: PTextAttributes, `realized`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`realized` shl bp_TGtkTextAttributes_realized) and
+      (uint16(`realized` shl bp_TGtkTextAttributes_realized) and
       bm_TGtkTextAttributes_realized)
 
 proc pad1*(a: PTextAttributes): guint =
@@ -15559,7 +15564,7 @@ proc pad1*(a: PTextAttributes): guint =
 
 proc set_pad1*(a: PTextAttributes, `pad1`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`pad1` shl bp_TGtkTextAttributes_pad1) and
+      (uint16(`pad1` shl bp_TGtkTextAttributes_pad1) and
       bm_TGtkTextAttributes_pad1)
 
 proc pad2*(a: PTextAttributes): guint =
@@ -15568,7 +15573,7 @@ proc pad2*(a: PTextAttributes): guint =
 
 proc set_pad2*(a: PTextAttributes, `pad2`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`pad2` shl bp_TGtkTextAttributes_pad2) and
+      (uint16(`pad2` shl bp_TGtkTextAttributes_pad2) and
       bm_TGtkTextAttributes_pad2)
 
 proc pad3*(a: PTextAttributes): guint =
@@ -15577,7 +15582,7 @@ proc pad3*(a: PTextAttributes): guint =
 
 proc set_pad3*(a: PTextAttributes, `pad3`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`pad3` shl bp_TGtkTextAttributes_pad3) and
+      (uint16(`pad3` shl bp_TGtkTextAttributes_pad3) and
       bm_TGtkTextAttributes_pad3)
 
 proc pad4*(a: PTextAttributes): guint =
@@ -15586,7 +15591,7 @@ proc pad4*(a: PTextAttributes): guint =
 
 proc set_pad4*(a: PTextAttributes, `pad4`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`pad4` shl bp_TGtkTextAttributes_pad4) and
+      (uint16(`pad4` shl bp_TGtkTextAttributes_pad4) and
       bm_TGtkTextAttributes_pad4)
 
 proc TYPE_TEXT_TAG_TABLE*(): GType =
@@ -15634,7 +15639,7 @@ proc visible*(a: PTextMarkBody): guint =
 
 proc set_visible*(a: PTextMarkBody, `visible`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`visible` shl bp_TGtkTextMarkBody_visible) and
+      (uint16(`visible` shl bp_TGtkTextMarkBody_visible) and
       bm_TGtkTextMarkBody_visible)
 
 proc not_deleteable*(a: PTextMarkBody): guint =
@@ -15643,7 +15648,7 @@ proc not_deleteable*(a: PTextMarkBody): guint =
 
 proc set_not_deleteable*(a: PTextMarkBody, `not_deleteable`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`not_deleteable` shl bp_TGtkTextMarkBody_not_deleteable) and
+      (uint16(`not_deleteable` shl bp_TGtkTextMarkBody_not_deleteable) and
       bm_TGtkTextMarkBody_not_deleteable)
 
 proc TYPE_TEXT_CHILD_ANCHOR*(): GType =
@@ -15667,17 +15672,17 @@ proc TEXT_CHILD_ANCHOR_GET_CLASS*(obj: pointer): PTextChildAnchorClass =
   result = cast[PTextChildAnchorClass](G_TYPE_INSTANCE_GET_CLASS(obj,
       TYPE_TEXT_CHILD_ANCHOR()))
 
-proc width*(a: PTextLineData): gint =
+proc width*(a: PTextLineData): guint =
   result = a.flag0 and bm_TGtkTextLineData_width
 
-proc set_width*(a: PTextLineData, NewWidth: gint) =
+proc set_width*(a: PTextLineData, NewWidth: guint) =
   a.flag0 = (bm_TGtkTextLineData_width and NewWidth) or a.flag0
 
-proc valid*(a: PTextLineData): gint =
+proc valid*(a: PTextLineData): guint =
   result = (a.flag0 and bm_TGtkTextLineData_valid) shr
       bp_TGtkTextLineData_valid
 
-proc set_valid*(a: PTextLineData, `valid`: gint) =
+proc set_valid*(a: PTextLineData, `valid`: guint) =
   a.flag0 = a.flag0 or
       ((`valid` shl bp_TGtkTextLineData_valid) and bm_TGtkTextLineData_valid)
 
@@ -15707,7 +15712,7 @@ proc modified*(a: PTextBuffer): guint =
 
 proc set_modified*(a: PTextBuffer, `modified`: guint) =
   a.TextBufferflag0 = a.TextBufferflag0 or
-      (int16(`modified` shl bp_TGtkTextBuffer_modified) and
+      (uint16(`modified` shl bp_TGtkTextBuffer_modified) and
       bm_TGtkTextBuffer_modified)
 
 proc TYPE_TEXT_LAYOUT*(): GType =
@@ -15736,17 +15741,17 @@ proc cursor_visible*(a: PTextLayout): guint =
 
 proc set_cursor_visible*(a: PTextLayout, `cursor_visible`: guint) =
   a.TextLayoutflag0 = a.TextLayoutflag0 or
-      (int16(`cursor_visible` shl bp_TGtkTextLayout_cursor_visible) and
+      (uint16(`cursor_visible` shl bp_TGtkTextLayout_cursor_visible) and
       bm_TGtkTextLayout_cursor_visible)
 
-proc cursor_direction*(a: PTextLayout): gint =
+proc cursor_direction*(a: PTextLayout): guint =
   result = (a.TextLayoutflag0 and bm_TGtkTextLayout_cursor_direction) shr
       bp_TGtkTextLayout_cursor_direction
 
 when false:
   proc set_cursor_direction*(a: PTextLayout, `cursor_direction`: gint) =
     a.TextLayoutflag0 = a.TextLayoutflag0 or
-        (int16(`cursor_direction` shl bp_TGtkTextLayout_cursor_direction) and
+        (uint16(`cursor_direction` shl bp_TGtkTextLayout_cursor_direction) and
         bm_TGtkTextLayout_cursor_direction)
 
 proc is_strong*(a: PTextCursorDisplay): guint =
@@ -15755,7 +15760,7 @@ proc is_strong*(a: PTextCursorDisplay): guint =
 
 proc set_is_strong*(a: PTextCursorDisplay, `is_strong`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`is_strong` shl bp_TGtkTextCursorDisplay_is_strong) and
+      (uint16(`is_strong` shl bp_TGtkTextCursorDisplay_is_strong) and
       bm_TGtkTextCursorDisplay_is_strong)
 
 proc is_weak*(a: PTextCursorDisplay): guint =
@@ -15764,7 +15769,7 @@ proc is_weak*(a: PTextCursorDisplay): guint =
 
 proc set_is_weak*(a: PTextCursorDisplay, `is_weak`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`is_weak` shl bp_TGtkTextCursorDisplay_is_weak) and
+      (uint16(`is_weak` shl bp_TGtkTextCursorDisplay_is_weak) and
       bm_TGtkTextCursorDisplay_is_weak)
 
 proc TYPE_TEXT_VIEW*(): GType =
@@ -15791,7 +15796,7 @@ proc editable*(a: PTextView): guint =
 
 proc set_editable*(a: PTextView, `editable`: guint) =
   a.TextViewflag0 = a.TextViewflag0 or
-      (int16(`editable` shl bp_TGtkTextView_editable) and
+      (uint16(`editable` shl bp_TGtkTextView_editable) and
       bm_TGtkTextView_editable)
 
 proc overwrite_mode*(a: PTextView): guint =
@@ -15800,7 +15805,7 @@ proc overwrite_mode*(a: PTextView): guint =
 
 proc set_overwrite_mode*(a: PTextView, `overwrite_mode`: guint) =
   a.TextViewflag0 = a.TextViewflag0 or
-      (int16(`overwrite_mode` shl bp_TGtkTextView_overwrite_mode) and
+      (uint16(`overwrite_mode` shl bp_TGtkTextView_overwrite_mode) and
       bm_TGtkTextView_overwrite_mode)
 
 proc cursor_visible*(a: PTextView): guint =
@@ -15809,7 +15814,7 @@ proc cursor_visible*(a: PTextView): guint =
 
 proc set_cursor_visible*(a: PTextView, `cursor_visible`: guint) =
   a.TextViewflag0 = a.TextViewflag0 or
-      (int16(`cursor_visible` shl bp_TGtkTextView_cursor_visible) and
+      (uint16(`cursor_visible` shl bp_TGtkTextView_cursor_visible) and
       bm_TGtkTextView_cursor_visible)
 
 proc need_im_reset*(a: PTextView): guint =
@@ -15818,7 +15823,7 @@ proc need_im_reset*(a: PTextView): guint =
 
 proc set_need_im_reset*(a: PTextView, `need_im_reset`: guint) =
   a.TextViewflag0 = a.TextViewflag0 or
-      (int16(`need_im_reset` shl bp_TGtkTextView_need_im_reset) and
+      (uint16(`need_im_reset` shl bp_TGtkTextView_need_im_reset) and
       bm_TGtkTextView_need_im_reset)
 
 proc just_selected_element*(a: PTextView): guint =
@@ -15827,7 +15832,7 @@ proc just_selected_element*(a: PTextView): guint =
 
 proc set_just_selected_element*(a: PTextView, `just_selected_element`: guint) =
   a.TextViewflag0 = a.TextViewflag0 or
-      (int16(`just_selected_element` shl
+      (uint16(`just_selected_element` shl
       bp_TGtkTextView_just_selected_element) and
       bm_TGtkTextView_just_selected_element)
 
@@ -15838,7 +15843,7 @@ proc disable_scroll_on_focus*(a: PTextView): guint =
 proc set_disable_scroll_on_focus*(a: PTextView,
                                   `disable_scroll_on_focus`: guint) =
   a.TextViewflag0 = a.TextViewflag0 or
-      (int16(`disable_scroll_on_focus` shl
+      (uint16(`disable_scroll_on_focus` shl
       bp_TGtkTextView_disable_scroll_on_focus) and
       bm_TGtkTextView_disable_scroll_on_focus)
 
@@ -15848,7 +15853,7 @@ proc onscreen_validated*(a: PTextView): guint =
 
 proc set_onscreen_validated*(a: PTextView, `onscreen_validated`: guint) =
   a.TextViewflag0 = a.TextViewflag0 or
-      (int16(`onscreen_validated` shl bp_TGtkTextView_onscreen_validated) and
+      (uint16(`onscreen_validated` shl bp_TGtkTextView_onscreen_validated) and
       bm_TGtkTextView_onscreen_validated)
 
 proc mouse_cursor_obscured*(a: PTextView): guint =
@@ -15857,7 +15862,7 @@ proc mouse_cursor_obscured*(a: PTextView): guint =
 
 proc set_mouse_cursor_obscured*(a: PTextView, `mouse_cursor_obscured`: guint) =
   a.TextViewflag0 = a.TextViewflag0 or
-      (int16(`mouse_cursor_obscured` shl
+      (uint16(`mouse_cursor_obscured` shl
       bp_TGtkTextView_mouse_cursor_obscured) and
       bm_TGtkTextView_mouse_cursor_obscured)
 
@@ -15885,7 +15890,7 @@ proc emit_always*(a: PTipsQuery): guint =
 
 proc set_emit_always*(a: PTipsQuery, `emit_always`: guint) =
   a.TipsQueryflag0 = a.TipsQueryflag0 or
-      (int16(`emit_always` shl bp_TGtkTipsQuery_emit_always) and
+      (uint16(`emit_always` shl bp_TGtkTipsQuery_emit_always) and
       bm_TGtkTipsQuery_emit_always)
 
 proc in_query*(a: PTipsQuery): guint =
@@ -15894,7 +15899,7 @@ proc in_query*(a: PTipsQuery): guint =
 
 proc set_in_query*(a: PTipsQuery, `in_query`: guint) =
   a.TipsQueryflag0 = a.TipsQueryflag0 or
-      (int16(`in_query` shl bp_TGtkTipsQuery_in_query) and
+      (uint16(`in_query` shl bp_TGtkTipsQuery_in_query) and
       bm_TGtkTipsQuery_in_query)
 
 proc TYPE_TOOLTIPS*(): GType =
@@ -15973,7 +15978,7 @@ proc style_set*(a: PToolbar): guint =
 
 proc set_style_set*(a: PToolbar, `style_set`: guint) =
   a.Toolbarflag0 = a.Toolbarflag0 or
-      (int16(`style_set` shl bp_TGtkToolbar_style_set) and
+      (uint16(`style_set` shl bp_TGtkToolbar_style_set) and
       bm_TGtkToolbar_style_set)
 
 proc icon_size_set*(a: PToolbar): guint =
@@ -15982,7 +15987,7 @@ proc icon_size_set*(a: PToolbar): guint =
 
 proc set_icon_size_set*(a: PToolbar, `icon_size_set`: guint) =
   a.Toolbarflag0 = a.Toolbarflag0 or
-      (int16(`icon_size_set` shl bp_TGtkToolbar_icon_size_set) and
+      (uint16(`icon_size_set` shl bp_TGtkToolbar_icon_size_set) and
       bm_TGtkToolbar_icon_size_set)
 
 proc TYPE_TREE*(): GType =
@@ -16019,7 +16024,7 @@ proc selection_mode*(a: PTree): guint =
 when false:
   proc set_selection_mode*(a: PTree, `selection_mode`: guint) =
     a.Treeflag0 = a.Treeflag0 or
-        (int16(`selection_mode` shl bp_TGtkTree_selection_mode) and
+        (uint16(`selection_mode` shl bp_TGtkTree_selection_mode) and
         bm_TGtkTree_selection_mode)
 
 proc view_mode*(a: PTree): guint =
@@ -16027,14 +16032,14 @@ proc view_mode*(a: PTree): guint =
 
 proc set_view_mode*(a: PTree, `view_mode`: guint) =
   a.Treeflag0 = a.Treeflag0 or
-      (int16(`view_mode` shl bp_TGtkTree_view_mode) and bm_TGtkTree_view_mode)
+      (uint16(`view_mode` shl bp_TGtkTree_view_mode) and bm_TGtkTree_view_mode)
 
 proc view_line*(a: PTree): guint =
   result = (a.Treeflag0 and bm_TGtkTree_view_line) shr bp_TGtkTree_view_line
 
 proc set_view_line*(a: PTree, `view_line`: guint) =
   a.Treeflag0 = a.Treeflag0 or
-      (int16(`view_line` shl bp_TGtkTree_view_line) and bm_TGtkTree_view_line)
+      (uint16(`view_line` shl bp_TGtkTree_view_line) and bm_TGtkTree_view_line)
 
 proc TYPE_TREE_DRAG_SOURCE*(): GType =
   result = tree_drag_source_get_type()
@@ -16091,7 +16096,7 @@ proc expanded*(a: PTreeItem): guint =
 
 proc set_expanded*(a: PTreeItem, `expanded`: guint) =
   a.TreeItemflag0 = a.TreeItemflag0 or
-      (int16(`expanded` shl bp_TGtkTreeItem_expanded) and
+      (uint16(`expanded` shl bp_TGtkTreeItem_expanded) and
       bm_TGtkTreeItem_expanded)
 
 proc TYPE_TREE_SELECTION*(): GType =
@@ -16137,7 +16142,7 @@ proc columns_dirty*(a: PTreeStore): guint =
 
 proc set_columns_dirty*(a: PTreeStore, `columns_dirty`: guint) =
   a.TreeStoreflag0 = a.TreeStoreflag0 or
-      (int16(`columns_dirty` shl bp_TGtkTreeStore_columns_dirty) and
+      (uint16(`columns_dirty` shl bp_TGtkTreeStore_columns_dirty) and
       bm_TGtkTreeStore_columns_dirty)
 
 proc TYPE_TREE_VIEW_COLUMN*(): GType =
@@ -16166,7 +16171,7 @@ proc visible*(a: PTreeViewColumn): guint =
 
 proc set_visible*(a: PTreeViewColumn, `visible`: guint) =
   a.TreeViewColumnflag0 = a.TreeViewColumnflag0 or
-      (int16(`visible` shl bp_TGtkTreeViewColumn_visible) and
+      (uint16(`visible` shl bp_TGtkTreeViewColumn_visible) and
       bm_TGtkTreeViewColumn_visible)
 
 proc resizable*(a: PTreeViewColumn): guint =
@@ -16175,7 +16180,7 @@ proc resizable*(a: PTreeViewColumn): guint =
 
 proc set_resizable*(a: PTreeViewColumn, `resizable`: guint) =
   a.TreeViewColumnflag0 = a.TreeViewColumnflag0 or
-      (int16(`resizable` shl bp_TGtkTreeViewColumn_resizable) and
+      (uint16(`resizable` shl bp_TGtkTreeViewColumn_resizable) and
       bm_TGtkTreeViewColumn_resizable)
 
 proc clickable*(a: PTreeViewColumn): guint =
@@ -16184,7 +16189,7 @@ proc clickable*(a: PTreeViewColumn): guint =
 
 proc set_clickable*(a: PTreeViewColumn, `clickable`: guint) =
   a.TreeViewColumnflag0 = a.TreeViewColumnflag0 or
-      (int16(`clickable` shl bp_TGtkTreeViewColumn_clickable) and
+      (uint16(`clickable` shl bp_TGtkTreeViewColumn_clickable) and
       bm_TGtkTreeViewColumn_clickable)
 
 proc dirty*(a: PTreeViewColumn): guint =
@@ -16193,7 +16198,7 @@ proc dirty*(a: PTreeViewColumn): guint =
 
 proc set_dirty*(a: PTreeViewColumn, `dirty`: guint) =
   a.TreeViewColumnflag0 = a.TreeViewColumnflag0 or
-      (int16(`dirty` shl bp_TGtkTreeViewColumn_dirty) and
+      (uint16(`dirty` shl bp_TGtkTreeViewColumn_dirty) and
       bm_TGtkTreeViewColumn_dirty)
 
 proc show_sort_indicator*(a: PTreeViewColumn): guint =
@@ -16204,7 +16209,7 @@ proc show_sort_indicator*(a: PTreeViewColumn): guint =
 proc set_show_sort_indicator*(a: PTreeViewColumn,
                               `show_sort_indicator`: guint) =
   a.TreeViewColumnflag0 = a.TreeViewColumnflag0 or
-      (int16(`show_sort_indicator` shl
+      (uint16(`show_sort_indicator` shl
       bp_TGtkTreeViewColumn_show_sort_indicator) and
       bm_TGtkTreeViewColumn_show_sort_indicator)
 
@@ -16214,7 +16219,7 @@ proc maybe_reordered*(a: PTreeViewColumn): guint =
 
 proc set_maybe_reordered*(a: PTreeViewColumn, `maybe_reordered`: guint) =
   a.TreeViewColumnflag0 = a.TreeViewColumnflag0 or
-      (int16(`maybe_reordered` shl bp_TGtkTreeViewColumn_maybe_reordered) and
+      (uint16(`maybe_reordered` shl bp_TGtkTreeViewColumn_maybe_reordered) and
       bm_TGtkTreeViewColumn_maybe_reordered)
 
 proc reorderable*(a: PTreeViewColumn): guint =
@@ -16223,7 +16228,7 @@ proc reorderable*(a: PTreeViewColumn): guint =
 
 proc set_reorderable*(a: PTreeViewColumn, `reorderable`: guint) =
   a.TreeViewColumnflag0 = a.TreeViewColumnflag0 or
-      (int16(`reorderable` shl bp_TGtkTreeViewColumn_reorderable) and
+      (uint16(`reorderable` shl bp_TGtkTreeViewColumn_reorderable) and
       bm_TGtkTreeViewColumn_reorderable)
 
 proc use_resized_width*(a: PTreeViewColumn): guint =
@@ -16232,7 +16237,7 @@ proc use_resized_width*(a: PTreeViewColumn): guint =
 
 proc set_use_resized_width*(a: PTreeViewColumn, `use_resized_width`: guint) =
   a.TreeViewColumnflag0 = a.TreeViewColumnflag0 or
-      (int16(`use_resized_width` shl bp_TGtkTreeViewColumn_use_resized_width) and
+      (uint16(`use_resized_width` shl bp_TGtkTreeViewColumn_use_resized_width) and
       bm_TGtkTreeViewColumn_use_resized_width)
 
 proc flags*(a: PRBNode): guint =
@@ -16240,14 +16245,14 @@ proc flags*(a: PRBNode): guint =
 
 proc set_flags*(a: PRBNode, `flags`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`flags` shl bp_TGtkRBNode_flags) and bm_TGtkRBNode_flags)
+      (uint16(`flags` shl bp_TGtkRBNode_flags) and bm_TGtkRBNode_flags)
 
 proc parity*(a: PRBNode): guint =
   result = (a.flag0 and bm_TGtkRBNode_parity) shr bp_TGtkRBNode_parity
 
 proc set_parity*(a: PRBNode, `parity`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`parity` shl bp_TGtkRBNode_parity) and bm_TGtkRBNode_parity)
+      (uint16(`parity` shl bp_TGtkRBNode_parity) and bm_TGtkRBNode_parity)
 
 proc GET_COLOR*(node: PRBNode): guint =
   if node == nil:
@@ -16261,7 +16266,7 @@ proc SET_COLOR*(node: PRBNode, color: guint) =
   if node == nil:
     return
   if ((flags(node) and (color)) != color):
-    set_flags(node, flags(node) xor cint(RBNODE_RED or RBNODE_BLACK))
+    set_flags(node, flags(node) xor uint32(RBNODE_RED or RBNODE_BLACK))
 
 proc GET_HEIGHT*(node: PRBNode): gint =
   var if_local1: gint
@@ -16276,10 +16281,10 @@ proc FLAG_SET*(node: PRBNode, flag: guint): bool =
   result = (node != nil) and ((flags(node) and (flag)) == flag)
 
 proc SET_FLAG*(node: PRBNode, flag: guint16) =
-  set_flags(node, (flag) or flags(node))
+  set_flags(node, (flag).uint32 or flags(node))
 
 proc UNSET_FLAG*(node: PRBNode, flag: guint16) =
-  set_flags(node, (not (flag)) and flags(node))
+  set_flags(node, (not (flag).uint32) and flags(node))
 
 proc FLAG_SET*(tree_view: PTreeView, flag: guint): bool =
   result = ((tree_view.priv.flags) and (flag)) == flag
@@ -16318,7 +16323,7 @@ proc scroll_to_use_align*(a: PTreeViewPrivate): guint =
 proc set_scroll_to_use_align*(a: PTreeViewPrivate,
                               `scroll_to_use_align`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`scroll_to_use_align` shl
+      (uint16(`scroll_to_use_align` shl
       bp_TGtkTreeViewPrivate_scroll_to_use_align) and
       bm_TGtkTreeViewPrivate_scroll_to_use_align)
 
@@ -16329,7 +16334,7 @@ proc fixed_height_check*(a: PTreeViewPrivate): guint =
 proc set_fixed_height_check*(a: PTreeViewPrivate,
                              `fixed_height_check`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`fixed_height_check` shl
+      (uint16(`fixed_height_check` shl
       bp_TGtkTreeViewPrivate_fixed_height_check) and
       bm_TGtkTreeViewPrivate_fixed_height_check)
 
@@ -16339,7 +16344,7 @@ proc reorderable*(a: PTreeViewPrivate): guint =
 
 proc set_reorderable*(a: PTreeViewPrivate, `reorderable`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`reorderable` shl bp_TGtkTreeViewPrivate_reorderable) and
+      (uint16(`reorderable` shl bp_TGtkTreeViewPrivate_reorderable) and
       bm_TGtkTreeViewPrivate_reorderable)
 
 proc header_has_focus*(a: PTreeViewPrivate): guint =
@@ -16348,7 +16353,7 @@ proc header_has_focus*(a: PTreeViewPrivate): guint =
 
 proc set_header_has_focus*(a: PTreeViewPrivate, `header_has_focus`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`header_has_focus` shl bp_TGtkTreeViewPrivate_header_has_focus) and
+      (uint16(`header_has_focus` shl bp_TGtkTreeViewPrivate_header_has_focus) and
       bm_TGtkTreeViewPrivate_header_has_focus)
 
 proc drag_column_window_state*(a: PTreeViewPrivate): guint =
@@ -16358,7 +16363,7 @@ proc drag_column_window_state*(a: PTreeViewPrivate): guint =
 proc set_drag_column_window_state*(a: PTreeViewPrivate,
                                    `drag_column_window_state`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`drag_column_window_state` shl
+      (uint16(`drag_column_window_state` shl
       bp_TGtkTreeViewPrivate_drag_column_window_state) and
       bm_TGtkTreeViewPrivate_drag_column_window_state)
 
@@ -16368,7 +16373,7 @@ proc has_rules*(a: PTreeViewPrivate): guint =
 
 proc set_has_rules*(a: PTreeViewPrivate, `has_rules`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`has_rules` shl bp_TGtkTreeViewPrivate_has_rules) and
+      (uint16(`has_rules` shl bp_TGtkTreeViewPrivate_has_rules) and
       bm_TGtkTreeViewPrivate_has_rules)
 
 proc mark_rows_col_dirty*(a: PTreeViewPrivate): guint =
@@ -16378,7 +16383,7 @@ proc mark_rows_col_dirty*(a: PTreeViewPrivate): guint =
 proc set_mark_rows_col_dirty*(a: PTreeViewPrivate,
                               `mark_rows_col_dirty`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`mark_rows_col_dirty` shl
+      (uint16(`mark_rows_col_dirty` shl
       bp_TGtkTreeViewPrivate_mark_rows_col_dirty) and
       bm_TGtkTreeViewPrivate_mark_rows_col_dirty)
 
@@ -16388,7 +16393,7 @@ proc enable_search*(a: PTreeViewPrivate): guint =
 
 proc set_enable_search*(a: PTreeViewPrivate, `enable_search`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`enable_search` shl bp_TGtkTreeViewPrivate_enable_search) and
+      (uint16(`enable_search` shl bp_TGtkTreeViewPrivate_enable_search) and
       bm_TGtkTreeViewPrivate_enable_search)
 
 proc disable_popdown*(a: PTreeViewPrivate): guint =
@@ -16397,7 +16402,7 @@ proc disable_popdown*(a: PTreeViewPrivate): guint =
 
 proc set_disable_popdown*(a: PTreeViewPrivate, `disable_popdown`: guint) =
   a.flag0 = a.flag0 or
-      (int16(`disable_popdown` shl bp_TGtkTreeViewPrivate_disable_popdown) and
+      (uint16(`disable_popdown` shl bp_TGtkTreeViewPrivate_disable_popdown) and
       bm_TGtkTreeViewPrivate_disable_popdown)
 
 proc SET_FLAG*(tree_view: PTreeView, flag: guint) =
