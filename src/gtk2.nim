@@ -6140,6 +6140,8 @@ proc get_width_chars*(entry: PLabel): gint{.cdecl, dynlib: lib,
     importc: "gtk_label_get_width_chars".}
 proc set_text*(entry: PEntry, text: cstring){.cdecl, dynlib: lib,
     importc: "gtk_entry_set_text".}
+proc append_text*(entry: PEntry, text: cstring){.cdecl, dynlib: lib,
+    importc: "gtk_entry_append_text".}
 proc get_text*(entry: PEntry): cstring{.cdecl, dynlib: lib,
     importc: "gtk_entry_get_text".}
 proc get_layout*(entry: PEntry): pango.PLayout{.cdecl, dynlib: lib,

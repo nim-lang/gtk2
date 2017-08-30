@@ -4529,7 +4529,7 @@ proc g_thread_init*(vtable: pointer) {.
 proc g_timeout_add*(interval: guint, function, data: gpointer): guint {.
   cdecl, dynlib: gliblib, importc: "g_timeout_add".}
 
-proc g_timeout_add_full*(priority: guint, interval: guint, function,
+proc g_timeout_add_full*(priority: gint, interval: guint, function,
   data, notify: gpointer): guint {.cdecl, dynlib: gliblib,
   importc: "g_timeout_add_full".}
 
