@@ -3489,7 +3489,7 @@ when false:
     result = g_array_insert_vals(a, i, addr(v), 1)
 
   proc g_ptr_array_index*(parray: PGPtrArray, index: guint): gpointer =
-    result = cast[Pgpointer](cast[int](parray []. pdata) +
+    result = cast[Pgpointer](cast[int](parray[].pdata) +
         index * sizeof(gpointer))[]
 
   proc G_THREAD_ERROR*(): TGQuark =
