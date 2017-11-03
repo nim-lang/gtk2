@@ -12416,7 +12416,7 @@ proc UNSET_FLAG*(clist: PCList, flag: guint16) =
   clist.flags = CLIST(clist).flags and not (flag)
 
 proc CLIST_IN_DRAG_get*(clist: pointer): bool =
-  result = ((CLIST_FLAGS(clist)) and uint16(CLIST_IN_DRAG)) != 0'u32
+  result = ((CLIST_FLAGS(clist)) and uint16(CLIST_IN_DRAG)) != 0'u16
 
 proc CLIST_ROW_HEIGHT_SET_get*(clist: pointer): bool =
   result = ((CLIST_FLAGS(clist)) and uint16(CLIST_ROW_HEIGHT_SET)) != 0'u16
