@@ -1,6 +1,6 @@
 [Package]
 name: "gtk2"
-version: "1.2"
+version: "1.3"
 author: "Nim developers"
 description: "Wrapper for gtk2, a feature rich toolkit for creating graphical user interfaces."
 license: "MIT"
