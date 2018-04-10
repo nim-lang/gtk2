@@ -15,11 +15,6 @@ else:
   const
     lib = "libgdk-x11-2.0.so(|.0)"
 
-when (not defined(DISABLE_DEPRECATED) and not defined(MULTIHEAD_SAFE)) or
-    defined(COMPILATION):
-  var display*: gdk2.PDisplay
-
-
 proc x11_drawable_get_xdisplay*(drawable: gdk2.PDrawable): xlib.PDisplay  {.cdecl,
  dynlib: lib, importc: "gdk_x11_drawable_get_xdisplay".}
 proc x11_drawable_get_xid*(drawable: gdk2.PDrawable): TXID  {.cdecl,
@@ -44,11 +39,6 @@ proc x11_display_get_xdisplay*(display: gdk2.PDisplay): xlib.PDisplay {.cdecl,
  dynlib: lib, importc: "gdk_x11_display_get_xdisplay".}
 proc x11_visual_get_xvisual*(visual: gdk2.PVisual): xlib.PVisual {.cdecl,
  dynlib: lib, importc: "gdk_x11_visual_get_xvisual".}
-when not defined(DISABLE_DEPRECATED) or defined(COMPILATION):
-  proc x11_gc_get_xdisplay*(gc: gdk2.PGC): xlib.PDisplay {.cdecl,
-    dynlib: lib, importc: "gdk_x11_gc_get_xdisplay".}
-  proc x11_gc_get_xgc*(gc: gdk2.PGC): xlib.PGC {.cdecl,
-    dynlib: lib, importc: "gdk_x11_gc_get_xgc".}
 proc x11_screen_get_xscreen*(screen: gdk2.PScreen): xlib.PScreen {.cdecl,
     dynlib: lib, importc: "gdk_x11_screen_get_xscreen".}
 proc x11_screen_get_screen_number*(screen: gdk2.PScreen): cint {.cdecl,
@@ -60,14 +50,14 @@ proc x11_window_move_to_current_desktop*(window: gdk2.PWindow) {.cdecl,
 proc x11_screen_get_window_manager_name*(screen: gdk2.PScreen): cstring {.cdecl,
     dynlib: lib, importc: "gdk_x11_screen_get_window_manager_name".}
 
-when not defined(MULTIHEAD_SAFE):
-  proc x11_get_default_root_xwindow*(): x.PWindow {.cdecl,
+# NOT Multihead safe
+proc x11_get_default_root_xwindow*(): x.PWindow {.cdecl,
     dynlib: lib, importc: "gdk_x11_get_default_root_xwindow".}
-  proc x11_get_default_xdisplay*(): xlib.PDisplay {.cdecl,
-    dynlib: lib, importc: "gdk_x11_get_default_xdisplay".}
-  proc x11_get_default_screen*(): gint {.cdecl,
-    dynlib: lib, importc: "gdk_x11_get_default_screen".}
-
+proc x11_get_default_xdisplay*(): xlib.PDisplay {.cdecl,
+  dynlib: lib, importc: "gdk_x11_get_default_xdisplay".}
+proc x11_get_default_screen*(): gint {.cdecl,
+  dynlib: lib, importc: "gdk_x11_get_default_screen".}
+# -- not multihead safe
 proc COLORMAP_XDISPLAY*(cmap: gdk2.PColormap): xlib.PDisplay =
   result = x11_colormap_get_xdisplay(cmap)
 proc COLORMAP_XCOLORMAP*(cmap: gdk2.PColormap): x.PColormap =
@@ -81,67 +71,41 @@ proc IMAGE_XDISPLAY*(image: PImage): xlib.PDisplay =
 proc IMAGE_XIMAGE*(image: PImage): PXImage =
   result = x11_image_get_ximage(image)
 
-when (not defined(DISABLE_DEPRECATED) and not defined(MULTIHEAD_SAFE)) or
-    defined(COMPILATION):
-  proc DISPLAY*(): gdk2.PDisplay =
-    result = gdk2x.display
-
-
-when not defined(COMPILATION):
-  when not defined(MULTIHEAD_SAFE):
-    proc ROOT_WINDOW*(): x.PWindow =
-      result = x11_get_default_root_xwindow()
-
-  proc DISPLAY_XDISPLAY*(display: gdk2.PDisplay): xlib.PDisplay =
-    result = x11_display_get_xdisplay(display)
-  proc WINDOW_XDISPLAY*(win: gdk2.PWindow): xlib.PDisplay  =
-    result = x11_drawable_get_xdisplay(x11_window_get_drawable_impl(win))
-  proc WINDOW_XID*(win: gdk2.PWindow): TXID =
-    result = x11_drawable_get_xid(win)
-  proc WINDOW_XWINDOW*(win: gdk2.PWindow): TXID =
-    result = x11_drawable_get_xid(win)
-  proc PIXMAP_XDISPLAY*(win: gdk2.PPixmap): xlib.PDisplay =
-    result = x11_drawable_get_xdisplay(x11_pixmap_get_drawable_impl(win))
-  proc PIXMAP_XID*(win: gdk2.PDrawable): TXID =
-    result = x11_drawable_get_xid(win)
-  proc DRAWABLE_XDISPLAY*(win: gdk2.PDrawable): xlib.PDisplay =
-    result = x11_drawable_get_xdisplay(win)
-  proc DRAWABLE_XID*(win: gdk2.PDrawable): TXID =
-    result = x11_drawable_get_xid(win)
-  proc GC_XDISPLAY*(gc: gdk2.PGC): xlib.PDisplay =
-    result = x11_gc_get_xdisplay(gc)
-  proc GC_XGC*(gc: gdk2.PGC): xlib.PGC =
-    result = x11_gc_get_xgc(gc)
-  proc SCREEN_XDISPLAY*(screen: gdk2.PScreen): xlib.PDisplay =
-    result = x11_display_get_xdisplay(gdk2.get_display(screen))
-  proc SCREEN_XSCREEN*(screen: gdk2.PScreen): xlib.PScreen =
-    result = x11_screen_get_xscreen(screen)
-  proc SCREEN_XNUMBER*(screen: gdk2.PScreen): cint =
-    result = x11_screen_get_screen_number(screen)
-  proc VISUAL_XVISUAL*(visual: gdk2.PVisual): xlib.PVisual =
-    result = x11_visual_get_xvisual(visual)
-  
+# NOT Multihead safe
+proc ROOT_WINDOW*(): x.PWindow =
+  result = x11_get_default_root_xwindow()
+# -- not multihead safe
+proc DISPLAY_XDISPLAY*(display: gdk2.PDisplay): xlib.PDisplay =
+  result = x11_display_get_xdisplay(display)
+proc WINDOW_XDISPLAY*(win: gdk2.PWindow): xlib.PDisplay  =
+  result = x11_drawable_get_xdisplay(x11_window_get_drawable_impl(win))
+proc WINDOW_XID*(win: gdk2.PWindow): TXID =
+  result = x11_drawable_get_xid(win)
+proc WINDOW_XWINDOW*(win: gdk2.PWindow): TXID =
+  result = x11_drawable_get_xid(win)
+proc PIXMAP_XDISPLAY*(win: gdk2.PPixmap): xlib.PDisplay =
+  result = x11_drawable_get_xdisplay(x11_pixmap_get_drawable_impl(win))
+proc PIXMAP_XID*(win: gdk2.PDrawable): TXID =
+  result = x11_drawable_get_xid(win)
+proc DRAWABLE_XDISPLAY*(win: gdk2.PDrawable): xlib.PDisplay =
+  result = x11_drawable_get_xdisplay(win)
+proc DRAWABLE_XID*(win: gdk2.PDrawable): TXID =
+  result = x11_drawable_get_xid(win)
+proc SCREEN_XDISPLAY*(screen: gdk2.PScreen): xlib.PDisplay =
+  result = x11_display_get_xdisplay(gdk2.get_display(screen))
+proc SCREEN_XSCREEN*(screen: gdk2.PScreen): xlib.PScreen =
+  result = x11_screen_get_xscreen(screen)
+proc SCREEN_XNUMBER*(screen: gdk2.PScreen): cint =
+  result = x11_screen_get_screen_number(screen)
+proc VISUAL_XVISUAL*(visual: gdk2.PVisual): xlib.PVisual =
+  result = x11_visual_get_xvisual(visual)
 
 proc x11_screen_lookup_visual*(screen: gdk2.PScreen,
    xvisualid: x.PVisualID): gdk2.PVisual {.cdecl,
     dynlib: lib, importc: "gdk_x11_screen_lookup_visual".}
-
-when not defined(DISABLE_DEPRECATED):
-  when not defined(MULTIHEAD_SAFE):
-    proc gdkx_visual_get*(xvisualid: x.PVisualID): gdk2.PVisual {.cdecl,
-      dynlib: lib, importc: "gdkx_visual_get".}
-
-when defined(ENABLE_BROKEN):
-  proc gdkx_colormap_get*(xcolormap: x.PColormap): gdk2.PColormap {.cdecl,
-    dynlib: lib, importc: "gdkx_colormap_get".}
-
 proc x11_colormap_foreign_new*(visual: gdk2.PVisual,
  xcolormap: x.PColormap): gdk2.PColormap {.cdecl,
     dynlib: lib, importc: "gdk_x11_colormap_foreign_new".}
-when not defined(DISABLE_DEPRECATED) or defined(COMPILATION):
-  proc xid_table_lookup_for_display*(display: gdk2.PDisplay; xid: PXID): gpointer {.cdecl,
-    dynlib: lib, importc: "gdk_xid_table_lookup_for_display".}
-
 proc x11_get_server_time*(window: gdk2.PWindow): guint32 {.cdecl,
     dynlib: lib, importc: "gdk_x11_get_server_time".}
 proc x11_display_get_user_time*(display: gdk2.PDisplay): guint32 {.cdecl,
@@ -158,17 +122,12 @@ proc x11_screen_supports_net_wm_hint*(screen: gdk2.PScreen, property: gdk2.PAtom
 proc x11_screen_get_monitor_output*(screen: gdk2.PScreen; monitor_num: gint): PXID {.cdecl,
     dynlib: lib, importc: "gdk_x11_screen_get_monitor_output".}
 
-when not defined(MULTIHEAD_SAFE):
-  when not defined(DISABLE_DEPRECATED):
-    proc xid_table_lookup*(xid: PXID): gpointer {.cdecl,
-      dynlib: lib, importc: "gdk_xid_table_lookup".}
-    proc net_wm_supports*(property: gdk2.PAtom): gboolean {.cdecl,
-      dynlib: lib, importc: "gdk_net_wm_supports".}
-  proc x11_grab_server*() {.cdecl,
-    dynlib: lib, importc: "gdk_x11_grab_server".}
-  proc x11_ungrab_server*() {.cdecl,
-    dynlib: lib, importc: "gdk_x11_ungrab_server".}
-
+# NOT Multihead safe
+proc x11_grab_server*() {.cdecl,
+  dynlib: lib, importc: "gdk_x11_grab_server".}
+proc x11_ungrab_server*() {.cdecl,
+  dynlib: lib, importc: "gdk_x11_ungrab_server".}
+# -- not multihead safe
 proc x11_lookup_xdisplay*(xdisplay: xlib.PDisplay): gdk2.PDisplay {.cdecl,
     dynlib: lib, importc: "gdk_x11_lookup_xdisplay".}
 proc x11_atom_to_xatom_for_display*(display: gdk2.PDisplay,
@@ -184,17 +143,14 @@ proc x11_get_xatom_name_for_display*(display: gdk2.PDisplay,
     xatom: x.PAtom): PPgchar {.cdecl,
       dynlib: lib, importc: "gdk_x11_get_xatom_name_for_display".}
 
-when not defined(MULTIHEAD_SAFE):
-  proc x11_atom_to_xatom*(atom: gdk2.PAtom): x.PAtom {.cdecl,
-    dynlib: lib, importc: "gdk_x11_atom_to_xatom".}
-  proc x11_xatom_to_atom*(xatom: x.PAtom): gdk2.PAtom {.cdecl,
-    dynlib: lib, importc: "gdk_x11_xatom_to_atom".}
-  proc x11_get_xatom_by_name*(atom_name: PPgchar): x.PAtom {.cdecl,
-    dynlib: lib, importc: "gdk_x11_get_xatom_by_name".}
-  proc x11_get_xatom_name*(xatom: x.PAtom): PPgchar {.cdecl,
-    dynlib: lib, importc: "gdk_x11_get_xatom_name".}
-
-
+proc x11_atom_to_xatom*(atom: gdk2.PAtom): x.PAtom {.cdecl,
+  dynlib: lib, importc: "gdk_x11_atom_to_xatom".}
+proc x11_xatom_to_atom*(xatom: x.PAtom): gdk2.PAtom {.cdecl,
+  dynlib: lib, importc: "gdk_x11_xatom_to_atom".}
+proc x11_get_xatom_by_name*(atom_name: PPgchar): x.PAtom {.cdecl,
+  dynlib: lib, importc: "gdk_x11_get_xatom_by_name".}
+proc x11_get_xatom_name*(xatom: x.PAtom): PPgchar {.cdecl,
+  dynlib: lib, importc: "gdk_x11_get_xatom_name".}
 proc x11_display_grab*(display: gdk2.PDisplay) {.cdecl,
     dynlib: lib, importc: "gdk_x11_display_grab".}
 proc x11_display_ungrab*(display: gdk2.PDisplay) {.cdecl,
@@ -202,27 +158,6 @@ proc x11_display_ungrab*(display: gdk2.PDisplay) {.cdecl,
 proc x11_register_standard_event_type*(display: gdk2.PDisplay,
     event_base: gint, n_events: gint) {.cdecl,
       dynlib: lib, importc: "gdk_x11_register_standard_event_type".}
-
-when not defined(DISABLE_DEPRECATED) or defined(COMPILATION):
-  proc x11_font_get_xfont*(font: gdk2.PFont): gpointer {.cdecl,
-    dynlib: lib, importc: "gdk_x11_font_get_xfont".}
-  proc FONT_XFONT*(font: gdk2.PFont): gpointer =
-    result = x11_font_get_xfont(font)
-  proc font_lookup_for_display*(display: gdk2.PDisplay, id: PXID): gdk2.PFont =
-    result = cast[gdk2.PFont](xid_table_lookup_for_display(display,id))
-
-when not defined(DISABLE_DEPRECATED):
-  proc x11_font_get_xdisplay*(font: gdk2.PFont): xlib.PDisplay {.cdecl,
-    dynlib: lib, importc: "gdk_x11_font_get_xdisplay".}
-  proc x11_font_get_name*(font: gdk2.PFont): cstring {.cdecl,
-    dynlib: lib, importc: "gdk_x11_font_get_name".}
-  proc FONT_XDISPLAY*(font: gdk2.PFont): xlib.PDisplay =
-    result = x11_font_get_xdisplay(font)
-
-  when not defined(MULTIHEAD_SAFE):
-    proc font_lookup*(xid: PXID): gdk2.PFont =
-      result = cast[gdk2.PFont](xid_table_lookup(xid))
-
 proc x11_set_sm_client_id*(sm_client_id: glib2.PPgchar) {.cdecl,
     dynlib: lib, importc: "gdk_x11_set_sm_client_id".}
 proc x11_window_foreign_new_for_display*(display: gdk2.PDisplay,
