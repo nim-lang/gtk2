@@ -1368,6 +1368,21 @@ proc get_entries_for_keycode*(keymap: PKeymap, hardware_keycode: guint,
     dynlib: lib, importc: "gdk_keymap_get_entries_for_keycode".}
 proc get_direction*(keymap: PKeymap): TDirection{.cdecl,
     dynlib: lib, importc: "gdk_keymap_get_direction".}
+proc keymap_get_default* ():PKeyMap{.cdecl, dynlib: lib,
+    importc: "gdk_keymap_get_default".}
+proc keymap_have_bidi_layouts* (keymap: PKeyMap):gboolean{.cdecl, dynlib: lib,
+    importc: "gdk_keymap_have_bidi_layouts".}
+proc keymap_translate_keyboard_state* (keymap: gdk2.PKeyMap, hardware_keycode: cuint,
+      state: gdk2.TModifierType, group: gint, keyval: Pguint, effective_group: Pgint,
+      level: Pgint,consumed_modifiers: gdk2.PModifierType): gboolean{.cdecl, dynlib: lib,
+    importc: "gdk_keymap_translate_keyboard_state".}
+proc keymap_add_virtual_modifiers* (keymap: gdk2.PKeyMap, state: gdk2.PModifierType){.cdecl, dynlib: lib,
+    importc: "gdk_keymap_add_virtual_modifiers".}
+proc keymap_map_virtual_modifiers* (keymap: gdk2.PKeyMap, state: gdk2.PModifierType){.cdecl, dynlib: lib,
+    importc: "gdk_keymap_map_virtual_modifiers".}
+proc keymap_get_entries_for_keyval* (keymap: PKeymap, keyval: guint,
+    s: ptr array[20,PKeymapKey], n_keys: Pgint): gboolean{.cdecl, dynlib: lib,
+    importc: "gdk_keymap_get_entries_for_keyval".}
 proc keyval_name*(keyval: guint): cstring{.cdecl, dynlib: lib,
     importc: "gdk_keyval_name".}
 proc keyval_from_name*(keyval_name: cstring): guint{.cdecl, dynlib: lib,
@@ -3243,6 +3258,10 @@ proc set_user_data*(window: PWindow, user_data: gpointer){.cdecl,
     dynlib: lib, importc: "gdk_window_set_user_data".}
 proc set_override_redirect*(window: PWindow, override_redirect: gboolean){.
     cdecl, dynlib: lib, importc: "gdk_window_set_override_redirect".}
+proc get_display*(win: gdk2.PWindow): gdk2.PDisplay{.cdecl, dynlib: lib,
+  importc: "gdk_window_get_display".}
+proc TFILTER_CALLBACK*(f: pointer): TFilterFunc =
+  result = cast[TFilterFunc](f)
 proc add_filter*(window: PWindow, `function`: TFilterFunc, data: gpointer){.
     cdecl, dynlib: lib, importc: "gdk_window_add_filter".}
 proc remove_filter*(window: PWindow, `function`: TFilterFunc,
