@@ -17184,7 +17184,7 @@ proc get_state*(widget: PWidget): TStateType {.importc: "gtk_widget_get_state",
     dynlib: lib, cdecl.}
 
 type
-  TImageData* = object {.union.}
+  TImageData* {.union.} = object
      pixbuf*: PPixbuf
      stock_id*: cstring
      icon_name*: cstring
