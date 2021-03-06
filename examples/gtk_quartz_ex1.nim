@@ -10,7 +10,7 @@ proc destroy(widget: PWidget, data: Pgpointer) {.cdecl.} =
 var
   application: POSXApplication
   window: PWidget
-nimrod_init()
+nim_init()
 
 # OSX application initialization
 application = POSXApplication(g_object_new(get_type(), nil))

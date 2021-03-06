@@ -9,7 +9,7 @@ proc destroy(widget: PWidget, data: Pgpointer){.cdecl.} =
 proc widgetDestroy(w: PWidget) {.cdecl.} = 
   destroy(w)
 
-nimrod_init()
+nim_init()
 var window = window_new(WINDOW_TOPLEVEL)
 var button = button_new("Click me")
 set_border_width(window, 5)

@@ -12,7 +12,7 @@ const
 var 
   overLabel: bool
 
-nimrod_init()
+nim_init()
 var window = window_new(gtk2.WINDOW_TOPLEVEL)
 var stackbox = vbox_new(true, 10)
 var box1 = event_box_new()

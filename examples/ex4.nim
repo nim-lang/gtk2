@@ -9,7 +9,7 @@ proc newbutton(ALabel: cstring): PWidget =
 proc destroy(widget: PWidget, data: Pgpointer){.cdecl.} = 
   main_quit()
 
-nimrod_init()
+nim_init()
 var window = window_new(WINDOW_TOPLEVEL)
 var maintable = table_new(6, 6, true)
 
