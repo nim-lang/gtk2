@@ -9,7 +9,7 @@ var
   window: PWidget
   button: PWidget
 
-nimrod_init()
+nim_init()
 window = window_new(WINDOW_TOPLEVEL)
 button = button_new("Click me")
 set_border_width(PContainer(window), 5)

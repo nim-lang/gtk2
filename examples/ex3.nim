@@ -9,7 +9,7 @@ proc newbutton(ALabel: cstring): PWidget =
 proc destroy(widget: PWidget, data: Pgpointer){.cdecl.} = 
   main_quit()
 
-nimrod_init()
+nim_init()
 ### This is where the settings are happening for the boxes within the window ###
 
 var window = window_new(WINDOW_TOPLEVEL) # Box to divide window in 2 halves:

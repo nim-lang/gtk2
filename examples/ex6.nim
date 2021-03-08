@@ -19,15 +19,15 @@ proc widgetDestroy(w: PWidget) {.cdecl.} = destroy(w)
 proc disablesignal(widget: PWidget, data: Pgpointer){.cdecl.} = 
   var s = cast[PButtonSignalState](data)
   if s.disable: 
-    signal_handler_block(s.obj, s.signalID)
+    signal_handler_block(s.obj, s.signalID.culong)
   else: 
-    signal_handler_unblock(s.obj, s.signalID)
+    signal_handler_unblock(s.obj, s.signalID.gulong)
   s.disable = not s.disable
 
 var 
   quitState: TButtonSignalState
 
-nimrod_init()
+nim_init()
 var window = window_new(WINDOW_TOPLEVEL)
 var quitbutton = button_new("Quit program")
 var disablebutton = button_new("Disable button")

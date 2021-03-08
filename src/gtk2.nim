@@ -7630,7 +7630,11 @@ proc get_default_language*(): pango.PLanguage{.cdecl, dynlib: lib,
 proc events_pending*(): gint{.cdecl, dynlib: lib, importc: "gtk_events_pending".}
 proc main_do_event*(event: gdk2.PEvent){.cdecl, dynlib: lib,
                                        importc: "gtk_main_do_event".}
-proc main*(){.cdecl, dynlib: lib, importc: "gtk_main".}
+
+when defined(gtk2DisableMain):
+  proc main*() = discard
+else:
+  proc main*(){.cdecl, dynlib: lib, importc: "gtk_main".}
 proc init*(argc, argv: pointer){.cdecl, dynlib: lib, importc: "gtk_init".}
 proc main_level*(): guint{.cdecl, dynlib: lib, importc: "gtk_main_level".}
 proc main_quit*(){.cdecl, dynlib: lib, importc: "gtk_main_quit".}

@@ -12,16 +12,16 @@ const
 var 
   overButton: bool
 
-nimrod_init()
+nim_init()
 var window = window_new(gtk2.WINDOW_TOPLEVEL)
 var stackbox = vbox_new(true, 10)
 var button1 = button_new("Move mouse over button")
 var buttonStyle = copy(get_style(button1))
 buttonStyle.bg[STATE_PRELIGHT].pixel = 0
-buttonStyle.bg[STATE_PRELIGHT].red = -1'i16
-buttonStyle.bg[STATE_PRELIGHT].blue = 0'i16
-buttonStyle.bg[STATE_PRELIGHT].green = 0'i16
-set_style(button1, buttonstyle)
+buttonStyle.bg[STATE_PRELIGHT].red = uint16.high
+buttonStyle.bg[STATE_PRELIGHT].blue = 0
+buttonStyle.bg[STATE_PRELIGHT].green = 0
+set_style(button1, buttonstyle) # TODO: BUG doesn't work
 var button2 = button_new()
 var aLabel = label_new(outside)
 

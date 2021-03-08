@@ -6,7 +6,7 @@ proc destroy(widget: PWidget, data: Pgpointer) {.cdecl.} =
 
 var
   window: PWidget
-nimrod_init()
+nim_init()
 window = window_new(WINDOW_TOPLEVEL)
 discard signal_connect(window, "destroy",
                        SIGNAL_FUNC(ex1.destroy), nil)
